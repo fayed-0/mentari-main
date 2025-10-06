@@ -8,27 +8,6 @@ import Asuransi from "./source/asuransi.png";
 import PMI from "./source/PMI.png";
 
 const PageCover = () => {
-
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
-
-  const openModal = (img: string) => {
-    setSelectedImage(img);
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedImage(null);
-  };
-  React.useEffect(() => {
-    if (!isModalOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeModal();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [isModalOpen]);
-
   const slides = React.useMemo(
     () => [
       typeof DonorDarah === 'string' ? DonorDarah : DonorDarah.src,
@@ -37,6 +16,50 @@ const PageCover = () => {
     ],
     []
   );
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+
+  const openModal = (index: number) => {
+    setSelectedIndex(index);
+    setIsModalOpen(true);
+    if (typeof document !== 'undefined') document.body.style.overflow = 'hidden';
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedIndex(null);
+    if (typeof document !== 'undefined') document.body.style.overflow = '';
+  };
+  const prevModal = React.useCallback(() => {
+    setSelectedIndex((i) => {
+      if (i === null) return 0;
+      const total = slides.length;
+      return (i - 1 + total) % total;
+    });
+  }, [slides.length]);
+  const nextModal = React.useCallback(() => {
+    setSelectedIndex((i) => {
+      if (i === null) return 0;
+      const total = slides.length;
+      return (i + 1) % total;
+    });
+  }, [slides.length]);
+
+  React.useEffect(() => {
+    if (!isModalOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') prevModal();
+      if (e.key === 'ArrowRight') nextModal();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isModalOpen, prevModal, nextModal]);
+
+  
+  // For mobile infinite loop: use triple track to avoid edge jumps entirely
+  const repeatedSlides = React.useMemo(() => {
+    return [...slides, ...slides, ...slides];
+  }, [slides]);
   const [slideIndex, setSlideIndex] = React.useState(0);
   const nextSlide = React.useCallback(() => setSlideIndex((i) => (i + 1) % slides.length), [slides.length]);
   const prevSlide = React.useCallback(() => setSlideIndex((i) => (i - 1 + slides.length) % slides.length), [slides.length]);
@@ -49,7 +72,18 @@ const PageCover = () => {
 
   // mobile swipeable row state/refs
   const mobileRowRef = React.useRef<HTMLDivElement | null>(null);
-  const [activeIdx, setActiveIdx] = React.useState(0);
+  const [activeIdx, setActiveIdx] = React.useState(0); // real index 0..slides.length-1
+  const [rawIdx, setRawIdx] = React.useState(slides.length); // index in repeatedSlides, start from middle group
+
+  // Ensure initial position is first real slide
+  React.useEffect(() => {
+    const el = mobileRowRef.current;
+    if (!el) return;
+    const to = el.children[slides.length] as HTMLElement | undefined; // first slide of middle group
+    if (to) el.scrollTo({ left: to.offsetLeft, behavior: 'auto' });
+    setRawIdx(slides.length);
+    setActiveIdx(0);
+  }, []);
 
   const onMobileScroll = React.useCallback(() => {
     const el = mobileRowRef.current;
@@ -65,7 +99,10 @@ const PageCover = () => {
         nearestIdx = idx;
       }
     });
-    setActiveIdx(nearestIdx);
+    setRawIdx(nearestIdx);
+    // map to real index using modulo of slides.length
+    const real = ((nearestIdx % slides.length) + slides.length) % slides.length;
+    setActiveIdx(real);
   }, []);
 
   const scrollToIndex = React.useCallback((i: number) => {
@@ -74,24 +111,71 @@ const PageCover = () => {
     const child = el.children[i] as HTMLElement | undefined;
     if (!child) return;
     el.scrollTo({ left: child.offsetLeft, behavior: 'smooth' });
-    setActiveIdx(i);
+    // Update state accordingly
+    setRawIdx(i);
+    const real = ((i % slides.length) + slides.length) % slides.length;
+    setActiveIdx(real);
   }, []);
 
+  const scrollToRawIndex = React.useCallback((i: number, behavior: ScrollBehavior = 'smooth') => {
+    const el = mobileRowRef.current;
+    if (!el) return;
+    const max = repeatedSlides.length - 1;
+    const target = Math.max(0, Math.min(i, max));
+    const child = el.children[target] as HTMLElement | undefined;
+    if (!child) return;
+    el.scrollTo({ left: child.offsetLeft, behavior });
+    setRawIdx(target);
+    const real = ((target % slides.length) + slides.length) % slides.length;
+    setActiveIdx(real);
+  }, [repeatedSlides.length, slides.length]);
+
   // Auto-swipe every 30s on mobile row
+  // Auto-advance every 30s on mobile using looped index
   React.useEffect(() => {
     const id = setInterval(() => {
-      setActiveIdx((prev) => {
-        const next = (prev + 1) % slides.length;
-        const el = mobileRowRef.current;
-        if (el) {
-          const child = el.children[next] as HTMLElement | undefined;
-          if (child) el.scrollTo({ left: child.offsetLeft, behavior: 'smooth' });
-        }
-        return next;
-      });
+      scrollToRawIndex(rawIdx + 1, 'smooth');
     }, 30000);
     return () => clearInterval(id);
-  }, [slides.length]);
+  }, [rawIdx, scrollToRawIndex]);
+
+  // When hitting clones, jump to the equivalent real slide without animation to keep loop seamless
+  // Keep index within middle group to ensure seamless infinite scrolling without visible backward jumps
+  React.useEffect(() => {
+    const total = slides.length;
+    if (total === 0) return;
+    if (rawIdx < total) {
+      // jumped too far to the left group, rebase to middle
+      const t = setTimeout(() => scrollToRawIndex(rawIdx + total, 'auto'), 10);
+      return () => clearTimeout(t);
+    }
+    if (rawIdx >= total * 2) {
+      // jumped too far to the right group, rebase to middle
+      const t = setTimeout(() => scrollToRawIndex(rawIdx - total, 'auto'), 10);
+      return () => clearTimeout(t);
+    }
+  }, [rawIdx, slides.length, scrollToRawIndex]);
+
+  // Touch controls for modal viewer (mobile swipe)
+  const touchStartX = React.useRef<number | null>(null);
+  const touchEndX = React.useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.changedTouches[0].clientX;
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+  };
+  const onTouchEnd = () => {
+    if (!isModalOpen) return;
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const dx = touchStartX.current - touchEndX.current;
+    const threshold = 40;
+    if (dx > threshold) nextModal();
+    else if (dx < -threshold) prevModal();
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
   return (
     <section className="relative w-full lg:min-h-screen bg-white lg:bg-stone-50 overflow-hidden font-sans">
@@ -111,20 +195,39 @@ const PageCover = () => {
             <div className="w-full max-w-[700px] mx-auto mt-4 relative">
               {/* Swipeable row: 3 kartu berderet dan bisa di-swipe */}
               <div className="-mx-4 px-4">
-                <div
-                  className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth"
-                  ref={mobileRowRef}
-                  onScroll={onMobileScroll}
-                >
-                  {slides.map((src, idx) => (
-                    <div key={idx} className="snap-start shrink-0 w-[60vw] sm:w-36 aspect-[4/3] rounded-[8px] overflow-hidden border border-zinc-300 bg-white">
-                      <img
-                        className="w-full h-full object-cover object-center bg-white"
-                        src={src}
-                        alt={idx === 0 ? 'donor darah' : idx === 1 ? 'asuransi' : 'PMI'}
-                      />
-                    </div>
-                  ))}
+                <div className="relative">
+                  <div
+                    className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth"
+                    ref={mobileRowRef}
+                    onScroll={onMobileScroll}
+                  >
+                    {repeatedSlides.map((src, idx) => {
+                      const originalIdx = ((idx % slides.length) + slides.length) % slides.length;
+                      return (
+                        <div
+                          key={idx}
+                          className="snap-start shrink-0 w-[60vw] sm:w-36 aspect-[4/3] rounded-[8px] overflow-hidden border border-zinc-300 bg-white cursor-pointer"
+                          onClick={() => openModal(originalIdx)}
+                        >
+                          <img
+                            className="w-full h-full object-cover object-center bg-white"
+                            src={src}
+                            alt={originalIdx === 0 ? 'donor darah' : originalIdx === 1 ? 'asuransi' : 'PMI'}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Next button overlay in front of images (mobile only) */}
+                  <button
+                    type="button"
+                    aria-label="Berikutnya"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/40 text-white grid place-items-center md:hidden"
+                    onClick={() => scrollToRawIndex(rawIdx + 1)}
+                  >
+                    ›
+                  </button>
                 </div>
               </div>
 
@@ -134,7 +237,7 @@ const PageCover = () => {
                   <button
                     key={idx}
                     aria-label={`Ke slide ${idx + 1}`}
-                    onClick={() => scrollToIndex(idx)}
+                    onClick={() => scrollToRawIndex(idx + slides.length)}
                     className={`${idx === activeIdx ? 'w-4 bg-orange-500' : 'w-2 bg-neutral-300'} h-2 rounded-full transition-all duration-300`}
                   />
                 ))}
@@ -249,7 +352,7 @@ const PageCover = () => {
         </div>
       </div>
 
-      {isModalOpen && (
+      {isModalOpen && selectedIndex !== null && (
         <div
           className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4"
           onClick={(e) => {
@@ -258,21 +361,54 @@ const PageCover = () => {
           role="dialog"
           aria-modal="true"
         >
-          <div className="relative max-w-[92vw] max-h-[86vh]">
+          <div className="relative max-w-[92vw] max-h-[86vh] w-full h-full flex items-center justify-center">
             <button
               aria-label="Close"
-              className="absolute -top-10 right-0 text-white/80 hover:text-white text-3xl"
+              className="absolute top-3 right-3 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-full px-3 py-1 text-2xl"
               onClick={closeModal}
             >
               ×
             </button>
-            {selectedImage && (
+
+            {/* Prev/Next overlay buttons in front of image */}
+            <button
+              aria-label="Sebelumnya"
+              onClick={prevModal}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/20 rounded-full p-3 md:p-4"
+            >
+              ‹
+            </button>
+            <button
+              aria-label="Berikutnya"
+              onClick={nextModal}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/20 rounded-full p-3 md:p-4"
+            >
+              ›
+            </button>
+
+            <div
+              className="relative w-[92vw] h-[70vh] md:w-[80vw] md:h-[80vh]"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               <img
-                src={selectedImage}
-                alt="promo detail"
+                src={slides[selectedIndex]}
+                alt={selectedIndex === 0 ? 'donor darah' : selectedIndex === 1 ? 'asuransi' : 'PMI'}
                 className="w-auto h-auto max-w-[92vw] max-h-[86vh] object-contain rounded-md shadow-2xl"
               />
-            )}
+            </div>
+
+            <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  aria-label={`Ke gambar ${i + 1}`}
+                  onClick={() => setSelectedIndex(i)}
+                  className={`${i === selectedIndex ? 'w-3.5' : 'w-2.5'} h-2.5 rounded-full ${i === selectedIndex ? 'bg-orange-500' : 'bg-white/70'}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
