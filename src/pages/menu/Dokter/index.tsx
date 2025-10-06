@@ -146,33 +146,40 @@ function DoctorCard({ doctorId }: DoctorCardProps) {
 		<div className="relative bg-white rounded-[5px] outline outline-1 outline-offset-[-1px] outline-zinc-300 overflow-hidden w-full h-48 flex">
 			{/* Photo */}
 			<div className="p-6 pr-0 flex flex-col justify-start">
-				<img
-					src={doctor.photo || "https://placehold.co/128x133"}
-					alt={doctor.name}
-					className="w-32 h-[133px] object-cover rounded-[5px] border border-zinc-300"
-				/>
+				<div className="relative">
+					<img
+						src={doctor.photo || "https://placehold.co/128x133"}
+						alt={doctor.name}
+						className="w-32 h-[133px] object-cover rounded-[5px] border border-zinc-300"
+					/>
+					{spec && (
+						<span className="sm:hidden absolute left-1 bottom-1 w-3 h-3 bg-orange-500 rounded-sm border border-white/80" />
+					)}
+				</div>
 			</div>
 			{/* Content */}
 			<div className="flex-1 p-6 pl-4 flex flex-col">
 				<div className="flex items-start gap-2">
-					<h3 className="text-black text-xl font-semibold leading-snug flex-1">{doctor.name}</h3>
+					<h3 className="text-black text-base sm:text-xl font-semibold leading-snug flex-1">{doctor.name}</h3>
 					{spec && (
-						<span className="inline-flex items-center gap-1 text-orange-500 text-[10px] font-bold">
+						<span className="hidden sm:inline-flex items-center gap-1 text-orange-500 text-[10px] font-bold">
 							<span className="w-3 h-3 bg-orange-500 rounded-sm" />
 							{spec.title}
 						</span>
 					)}
 				</div>
-				<p className="mt-2 text-neutral-600 text-base font-medium line-clamp-2">{doctor.summary}</p>
-				<div className="mt-auto flex items-center gap-4 pt-4">
+				<p className="mt-2 text-neutral-600 text-sm sm:text-base font-medium line-clamp-2">{doctor.summary}</p>
+				<div className="mt-auto flex items-center gap-3 sm:gap-4 pt-4">
 					<Link
 						href={`#/dokter/${doctor.id}`}
-						className="inline-flex items-center gap-2 text-orange-500 text-sm font-semibold"
+						className="inline-flex items-center gap-1 sm:gap-2 text-orange-500 text-xs sm:text-sm font-semibold"
 					>
-						<span className="w-3 h-3 bg-orange-500 rounded-sm" /> Lihat Profile
+						<span className="hidden sm:inline-block w-3 h-3 bg-orange-500 rounded-sm" />
+						<span className="sm:hidden">Profile</span>
+						<span className="hidden sm:inline">Lihat Profile</span>
 					</Link>
-					<button className="relative inline-flex items-center gap-2 bg-white border border-zinc-300 rounded-md px-5 py-2 text-neutral-600 text-sm font-semibold hover:border-orange-500 hover:text-orange-500 transition">
-						<span className="w-3 h-3 bg-orange-500 rounded-sm" /> Appointment
+					<button className="relative inline-flex items-center gap-1 sm:gap-2 bg-white border border-zinc-300 rounded-md px-4 py-1.5 sm:px-5 sm:py-2 text-neutral-600 text-xs sm:text-sm font-semibold hover:border-orange-500 hover:text-orange-500 transition">
+						<span className="hidden sm:inline-block w-3 h-3 bg-orange-500 rounded-sm" /> Appointment
 					</button>
 				</div>
 			</div>
