@@ -2,8 +2,11 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/menu/Dokter": "pages/menu/Dokter.js",
   "/": "pages/index.js",
+  "/menu/Dokter": "pages/menu/Dokter.js",
+  "/menu/layanan": "pages/menu/layanan.js",
+  "/menu/Paket": "pages/menu/Paket.js",
+  "/menu/Fasilitas": "pages/menu/Fasilitas.js",
   "/healthcare": "pages/healthcare.js",
-  "/menu/layanan": "pages/menu/layanan.js"
+  "/healthcare/[slug]": "pages/healthcare/[slug].js"
 }
