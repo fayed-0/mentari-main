@@ -97,10 +97,10 @@ export default function FasilitasJaya() {
 						{fasilitasList.map((item, idx) => (
 							<div
 								key={idx}
-								className="group relative w-full aspect-square bg-neutral-600 rounded-md overflow-hidden border border-zinc-300 bg-white transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+								className="group relative w-full aspect-square bg-neutral-600 rounded-md overflow-hidden border border-zinc-300 bg-white transition-all duration-0 hover:duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
 								onClick={() => openLightbox(idx)}
 							>
-								<Image src={item.img} alt={item.label} fill className="object-cover transition-transform duration-500 group-hover:scale-105" placeholder="empty" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px" />
+								<Image src={item.img} alt={item.label} fill className="object-cover transition-transform duration-0 group-hover:duration-500 group-hover:scale-105" placeholder="empty" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px" />
 								<div className="absolute left-3 top-3 md:left-4 md:top-4">
 									<div className="relative inline-block">
 										{/* Layer depan (putih) dibalik radius */}

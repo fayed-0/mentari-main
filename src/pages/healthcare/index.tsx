@@ -115,13 +115,13 @@ function HealthCareSearch() {
                 </span>
               </button>
               <AnimatedCollapse isOpen={isOpen}>
-                <div className="pl-2 sm:pl-4 pb-6 flex flex-wrap gap-4">
+                <div className="pl-2 sm:pl-4 pb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
                   {catSpecs.map((s, i) => {
                     return (
                       <Link
                         key={s.id}
                         href={`/healthcare/${toSlug(s.title)}`}
-                        className="stagger-item opacity-0 translate-y-3 group w-40 sm:w-52 rounded-xl border p-4 flex flex-col items-center text-center transition shadow-sm hover:shadow-md focus:outline-none bg-white border-zinc-200 text-neutral-700 hover:bg-orange-500 hover:border-orange-500 hover:text-white"
+                        className="stagger-item opacity-0 translate-y-3 group w-full rounded-xl border p-3 sm:p-4 flex flex-col items-center text-center transition shadow-sm hover:shadow-md focus:outline-none bg-white border-zinc-200 text-neutral-700 hover:bg-orange-500 hover:border-orange-500 hover:text-white"
                         style={{ transition: 'opacity 500ms ease, transform 500ms ease' }}
                       >
                         {s.icon ? (

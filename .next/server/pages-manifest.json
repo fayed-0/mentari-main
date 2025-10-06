@@ -3,10 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/menu/Dokter": "pages/menu/Dokter.js",
-  "/menu/layanan": "pages/menu/layanan.js",
-  "/menu/Paket": "pages/menu/Paket.js",
-  "/menu/Fasilitas": "pages/menu/Fasilitas.js",
   "/healthcare": "pages/healthcare.js",
-  "/healthcare/[slug]": "pages/healthcare/[slug].js"
+  "/menu/Fasilitas": "pages/menu/Fasilitas.js"
 }
