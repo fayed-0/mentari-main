@@ -60,20 +60,40 @@ const PageCover = () => {
   const repeatedSlides = React.useMemo(() => {
     return [...slides, ...slides, ...slides];
   }, [slides]);
-  const [slideIndex, setSlideIndex] = React.useState(0);
-  const nextSlide = React.useCallback(() => setSlideIndex((i) => (i + 1) % slides.length), [slides.length]);
-  const prevSlide = React.useCallback(() => setSlideIndex((i) => (i - 1 + slides.length) % slides.length), [slides.length]);
-  React.useEffect(() => {
-    const id = setInterval(() => {
-      setSlideIndex((i) => (i + 1) % slides.length);
-    }, 10000);
-    return () => clearInterval(id);
-  }, [slides.length]);
+  // Desktop: seamless infinite with clones [last, ...slides, first]
+  const desktopSlides = React.useMemo(() => {
+    const total = slides.length;
+    if (total === 0) return [] as string[];
+    if (total === 1) return [slides[0], slides[0], slides[0]]; // minimal structure
+    return [slides[total - 1], ...slides, slides[0]];
+  }, [slides]);
+  const [desktopIndex, setDesktopIndex] = React.useState(1); // start at first real slide
+  const [desktopTransition, setDesktopTransition] = React.useState(true);
+  const goNextDesktop = React.useCallback(() => setDesktopIndex((i) => i + 1), []);
+  const goPrevDesktop = React.useCallback(() => setDesktopIndex((i) => i - 1), []);
+  const onDesktopTransitionEnd = React.useCallback(() => {
+    const last = desktopSlides.length - 1;
+    if (desktopSlides.length <= 1) return;
+    if (desktopIndex === last) {
+      // moved to left clone (first); jump to first real
+      setDesktopTransition(false);
+      setDesktopIndex(1);
+      requestAnimationFrame(() => setDesktopTransition(true));
+    } else if (desktopIndex === 0) {
+      // moved to right clone (last); jump to last real
+      setDesktopTransition(false);
+      setDesktopIndex(last - 1);
+      requestAnimationFrame(() => setDesktopTransition(true));
+    }
+  }, [desktopIndex, desktopSlides.length]);
 
   // mobile swipeable row state/refs
   const mobileRowRef = React.useRef<HTMLDivElement | null>(null);
   const [activeIdx, setActiveIdx] = React.useState(0); // real index 0..slides.length-1
   const [rawIdx, setRawIdx] = React.useState(slides.length); // index in repeatedSlides, start from middle group
+  const [snapEnabled, setSnapEnabled] = React.useState(true); // control scroll-snap to avoid visible jump
+  const isRebasingRef = React.useRef(false);
+  const dragStartX = React.useRef<number | null>(null); // desktop carousel drag
 
   // Ensure initial position is first real slide
   React.useEffect(() => {
@@ -86,6 +106,7 @@ const PageCover = () => {
   }, []);
 
   const onMobileScroll = React.useCallback(() => {
+    if (isRebasingRef.current) return; // ignore scroll events during silent rebase
     const el = mobileRowRef.current;
     if (!el) return;
     const scrollLeft = el.scrollLeft;
@@ -139,21 +160,31 @@ const PageCover = () => {
     return () => clearInterval(id);
   }, [rawIdx, scrollToRawIndex]);
 
-  // When hitting clones, jump to the equivalent real slide without animation to keep loop seamless
-  // Keep index within middle group to ensure seamless infinite scrolling without visible backward jumps
+  // When hitting clones, jump to the equivalent real slide without animation to keep loop seamless.
+  // Disable scroll-snap temporarily during the silent jump to avoid any visible "jump".
   React.useEffect(() => {
     const total = slides.length;
     if (total === 0) return;
-    if (rawIdx < total) {
-      // jumped too far to the left group, rebase to middle
-      const t = setTimeout(() => scrollToRawIndex(rawIdx + total, 'auto'), 10);
-      return () => clearTimeout(t);
+    let raf1: number | null = null;
+    let raf2: number | null = null;
+    if (rawIdx < total || rawIdx >= total * 2) {
+      const target = rawIdx < total ? rawIdx + total : rawIdx - total;
+      isRebasingRef.current = true;
+      setSnapEnabled(false);
+      // perform instant jump without smooth and without snap
+      scrollToRawIndex(target, 'auto');
+      // restore snap in the next frame to ensure no visual shift
+      raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => {
+          setSnapEnabled(true);
+          isRebasingRef.current = false;
+        });
+      });
     }
-    if (rawIdx >= total * 2) {
-      // jumped too far to the right group, rebase to middle
-      const t = setTimeout(() => scrollToRawIndex(rawIdx - total, 'auto'), 10);
-      return () => clearTimeout(t);
-    }
+    return () => {
+      if (raf1) cancelAnimationFrame(raf1);
+      if (raf2) cancelAnimationFrame(raf2);
+    };
   }, [rawIdx, slides.length, scrollToRawIndex]);
 
   // Touch controls for modal viewer (mobile swipe)
@@ -177,6 +208,20 @@ const PageCover = () => {
     touchEndX.current = null;
   };
 
+  // Pointer drag for modal (desktop support)
+  const modalPointerStartX = React.useRef<number | null>(null);
+  const onModalPointerDown = (e: React.PointerEvent) => {
+    modalPointerStartX.current = e.clientX;
+  };
+  const onModalPointerUp = (e: React.PointerEvent) => {
+    if (modalPointerStartX.current === null) return;
+    const dx = e.clientX - modalPointerStartX.current;
+    modalPointerStartX.current = null;
+    const threshold = 50;
+    if (dx > threshold) prevModal();
+    else if (dx < -threshold) nextModal();
+  };
+
   return (
     <section className="relative w-full lg:min-h-screen bg-white lg:bg-stone-50 overflow-hidden font-sans">
   <div className="absolute inset-0 z-0 pointer-events-none select-none block md:hidden">
@@ -197,7 +242,7 @@ const PageCover = () => {
               <div className="-mx-4 px-4">
                 <div className="relative">
                   <div
-                    className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth"
+                    className={`flex gap-4 overflow-x-auto no-scrollbar ${snapEnabled ? 'snap-x snap-mandatory' : 'snap-none'} scroll-smooth`}
                     ref={mobileRowRef}
                     onScroll={onMobileScroll}
                   >
@@ -307,10 +352,13 @@ const PageCover = () => {
 
             <div className="group w-[700px] h-[700px] left-[677px] top-[120px] absolute rounded-[5px] overflow-hidden bg-white/0 transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl box-border">
               <div
-                className="absolute inset-0 flex will-change-transform transition-transform duration-700 ease-in-out"
-                style={{ width: `${slides.length * 700}px`, transform: `translateX(-${slideIndex * 700}px)` }}
+                className={`absolute inset-0 flex will-change-transform ${desktopTransition ? 'transition-transform duration-700 ease-in-out' : ''}`}
+                style={{ width: `${desktopSlides.length * 700}px`, transform: `translateX(-${desktopIndex * 700}px)` }}
+                onTransitionEnd={onDesktopTransitionEnd}
+                onPointerDown={(e) => { (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId); dragStartX.current = e.clientX; }}
+                onPointerUp={(e) => { if (dragStartX.current !== null) { const dx = e.clientX - dragStartX.current; const threshold = 60; if (dx > threshold) goPrevDesktop(); else if (dx < -threshold) goNextDesktop(); } dragStartX.current = null; }}
               >
-                {slides.map((src, idx) => (
+                {desktopSlides.map((src, idx) => (
                   <div
                     key={idx}
                     className="w-[700px] h-[700px] flex-shrink-0 overflow-hidden p-2"
@@ -318,7 +366,12 @@ const PageCover = () => {
                     <img
                       className="w-full h-full object-contain object-center transform-gpu scale-100 transition-none"
                       src={src}
-                      alt={idx === 0 ? 'donor darah' : idx === 1 ? 'asuransi' : 'PMI'}
+                      alt={(() => {
+                        if (slides.length === 0) return 'slide';
+                        const last = desktopSlides.length - 1;
+                        const realIdx = idx === 0 ? slides.length - 1 : idx === last ? 0 : idx - 1;
+                        return realIdx === 0 ? 'donor darah' : realIdx === 1 ? 'asuransi' : 'PMI';
+                      })()}
                     />
                   </div>
                 ))}
@@ -326,7 +379,7 @@ const PageCover = () => {
               <button
                 aria-label="Sebelumnya"
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/40 text-white grid place-items-center select-none"
-                onClick={prevSlide}
+                onClick={goPrevDesktop}
                 type="button"
               >
                 ‹
@@ -334,7 +387,7 @@ const PageCover = () => {
               <button
                 aria-label="Berikutnya"
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/40 text-white grid place-items-center select-none"
-                onClick={nextSlide}
+                onClick={goNextDesktop}
                 type="button"
               >
                 ›
@@ -383,6 +436,8 @@ const PageCover = () => {
               onTouchStart={onTouchStart}
               onTouchMove={onTouchMove}
               onTouchEnd={onTouchEnd}
+              onPointerDown={onModalPointerDown}
+              onPointerUp={onModalPointerUp}
             >
               <img
                 src={slides[selectedIndex]}
