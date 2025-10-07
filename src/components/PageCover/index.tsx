@@ -134,7 +134,7 @@ const PageCover = () => {
   // Auto-advance every 30s on mobile using looped index
   React.useEffect(() => {
     const id = setInterval(() => {
-      scrollToRawIndex(rawIdx + 1, 'smooth');
+      scrollToRawIndex(rawIdx - 1, 'smooth');
     }, 30000);
     return () => clearInterval(id);
   }, [rawIdx, scrollToRawIndex]);
@@ -219,15 +219,7 @@ const PageCover = () => {
                     })}
                   </div>
 
-                  {/* Next button overlay in front of images (mobile only) */}
-                  <button
-                    type="button"
-                    aria-label="Berikutnya"
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/40 text-white grid place-items-center md:hidden"
-                    onClick={() => scrollToRawIndex(rawIdx + 1)}
-                  >
-                    ›
-                  </button>
+                  {/* next button removed as requested */}
                 </div>
               </div>
 
