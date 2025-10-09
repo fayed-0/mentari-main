@@ -23,20 +23,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/menu/Dokter": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/menu/Dokter.js"
-    ],
     "/menu/layanan": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/menu/layanan.js"
     ],
-    "/menu/layanan/ivf": [
+    "/menu/layanan/trauma-center": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/menu/layanan/ivf.js"
+      "static/chunks/pages/menu/layanan/trauma-center.js"
     ]
   },
   "ampFirstPages": []

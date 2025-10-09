@@ -21,11 +21,13 @@ const Navbar = () => {
   return (
   <nav className="fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-10 py-4 bg-white/70 backdrop-blur-md shadow-sm z-50">
       <div className="flex items-center gap-3">
-        <img
-          src={typeof Logo === 'string' ? Logo : (Logo as any).src}
-          alt="logo"
-          className="h-9 w-auto"
-        />
+        <Link href="/" aria-label="Beranda">
+          <img
+            src={typeof Logo === 'string' ? Logo : (Logo as any).src}
+            alt="RS Mentari"
+            className="h-9 w-auto cursor-pointer select-none"
+          />
+        </Link>
       </div>
 
       {/* Menu desktop */}

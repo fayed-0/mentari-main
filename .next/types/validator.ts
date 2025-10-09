@@ -167,6 +167,15 @@ type ApiRouteConfig = {
   type __Unused = __Check
 }
 
+// Validate ../../src/pages/menu/layanan/trauma-center/index.tsx
+{
+  type __IsExpected<Specific extends PagesPageConfig> = Specific
+  const handler = {} as typeof import("../../src/pages/menu/layanan/trauma-center/index.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/pages/menu/rawat-inap/index.tsx
 {
   type __IsExpected<Specific extends PagesPageConfig> = Specific
