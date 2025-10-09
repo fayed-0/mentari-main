@@ -28,12 +28,15 @@ const SERVICES: Service[] = [
 
 export default function LayananPage() {
 	const router = useRouter();
-	const toSlug = (title: string) =>
-		title
+	const toSlug = (title: string) => {
+		// Special case: route IVF Morulla to canonical /ivf path
+		if (title.toLowerCase().startsWith('ivf')) return 'ivf';
+		return title
 			.toLowerCase()
 			.replace(/[^a-z0-9\s-]/g, "")
 			.trim()
 			.replace(/\s+/g, "-");
+	};
 
 	return (
 		<div className="min-h-screen w-full bg-stone-50">
