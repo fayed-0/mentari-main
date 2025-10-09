@@ -1,8 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import ArrowIcon from '../OurDoctor/source/arrow.svg';
 import suiteImg from './source/suite.png';
 import vipImg from './source/VIP.png';
 import vvipImg from './source/VVIP.png';
-import { PropsWithChildren } from 'react';
 
 interface CardProps {
 	variant?: 'large' | 'small';
@@ -32,18 +33,51 @@ const Card = ({ variant = 'small', title, description, image, imageOffset }: Car
 	);
 };
 
+type ViewMoreProps = {
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
+    boxed?: boolean;
+};
+
+const ViewMore = ({ size = 'md', className = '', boxed = false }: ViewMoreProps) => {
+    const sizeClass = size === 'sm' ? 'text-xs' : size === 'md' ? 'text-sm' : 'text-base';
+    return (
+        <Link
+            href="/menu/rawat-inap"
+            className={`inline-flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white transition ${sizeClass} ${className} ${
+                boxed ? 'bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2' : ''
+            }`}
+            aria-label="Lihat lebih banyak kamar rawat inap"
+        >
+            <span className={`font-semibold ${boxed ? 'text-orange-500' : 'text-orange-500 hover:underline'}`}>View More</span>
+			<img src={ArrowIcon.src} alt="arrow" className={size === 'sm' ? 'w-3 h-3' : 'w-4 h-4'} />
+        </Link>
+    );
+};
+
 export default function RawatInapSection() {
 	return (
 		<section className="w-full pt-8 pb-6 sm:pt-20 sm:pb-12 px-4 sm:px-6 md:px-16">
 			<div className="mx-auto w-full max-w-[1272px]">
-				{/* Heading */}
-				<div className="inline-flex flex-col items-start gap-1 mb-6">
-					<span className="text-black font-semibold tracking-wide text-xs sm:text-sm">RAWAT INAP</span>
-					<span className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500" />
+				{/* Section Label + Mobile View More */}
+				<div className="flex flex-row items-center justify-between mb-6 md:mb-6">
+					<div className="inline-flex flex-col items-start gap-1">
+						<span className="text-black font-semibold tracking-wide text-xs sm:text-sm">RAWAT INAP</span>
+						<span className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500" />
+					</div>
+					<div className="block md:hidden ml-2">
+						<ViewMore size="md" boxed />
+					</div>
 				</div>
-				<h1 className="max-w-[1052px] text-black text-2xl sm:text-2xl md:text-4xl font-semibold leading-snug mb-10 sm:mb-14">
-					Ruang rawat inap modern dengan pilihan suite hingga kamar standar yang nyaman
-				</h1>
+				{/* Heading + Desktop View More */}
+				<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 sm:mb-14">
+					<h1 className="max-w-[1052px] text-black text-2xl sm:text-2xl md:text-4xl font-semibold leading-snug">
+						Ruang rawat inap modern dengan pilihan suite hingga kamar standar yang nyaman
+					</h1>
+					<div className="hidden md:flex items-center gap-2 mt-4 md:mt-0 ml-auto cursor-pointer">
+						<ViewMore size="md" boxed />
+					</div>
+				</div>
 
 				{/* Mobile Full-Width Layout */}
 				<div className="sm:hidden mb-5 flex w-full gap-[10px]">
