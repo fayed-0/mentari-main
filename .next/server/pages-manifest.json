@@ -3,6 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/healthcare": "pages/healthcare.js",
-  "/healthcare/[slug]": "pages/healthcare/[slug].js"
+  "/healthcare/[slug]": "pages/healthcare/[slug].js",
+  "/healthcare": "pages/healthcare.js"
 }

@@ -96,7 +96,7 @@ const OurDoctor = () => {
                 <img
                   src={imageSrc.src}
                   alt={doc.name}
-                  className="w-full h-50 object-top object-cover border-b border-zinc-300"
+                  className="w-full h-44 object-top object-cover border-b border-zinc-390"
                 />
                 <div className="px-3 py-2">
                   <div className="text-black text-xs font-semibold leading-snug line-clamp-2">{doc.name}</div>
