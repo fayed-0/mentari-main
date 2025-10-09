@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import DoctorImage from "./source/doctor.png";
 import ArrowIcon from "./source/arrow.svg";
 
 import Doc1 from "./source/doc1.jpg";
@@ -85,42 +84,42 @@ const OurDoctor = () => {
         </div>
 
         {/* Doctor Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {doctors.slice(0, 3).map((doc) => {
+        {/* Mobile 2x2 grid (4 cards) */}
+        <div className="grid grid-cols-2 gap-4 sm:hidden">
+          {doctors.map((doc) => {
             const imageSrc = doc.image;
             return (
               <div
-                key={doc.id}
-                className="block sm:hidden bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-zinc-300 overflow-hidden max-w-[220px] mx-auto"
+                key={doc.id + '-mobile'}
+                className="bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-zinc-300 overflow-hidden"
               >
                 <img
                   src={imageSrc.src}
                   alt={doc.name}
-                  className="w-full h-[200px] object-top object-cover rounded-t-lg border-b border-zinc-300"
+                  className="w-full h-50 object-top object-cover border-b border-zinc-300"
                 />
-                <div className="px-4 py-3">
-                  <div className="text-black text-sm font-semibold">
-                    {doc.name}
-                  </div>
-                  <div className="text-neutral-600 text-xs font-medium mt-1">
-                    {doc.role}
-                  </div>
+                <div className="px-3 py-2">
+                  <div className="text-black text-xs font-semibold leading-snug line-clamp-2">{doc.name}</div>
+                  <div className="text-neutral-600 text-[10px] font-medium mt-1 leading-tight line-clamp-2">{doc.role}</div>
                 </div>
               </div>
             );
           })}
-          {/* Desktop: show all 4 cards */}
+        </div>
+
+        {/* Desktop / Tablet layout */}
+        <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-4 gap-6">
           {doctors.map((doc) => {
             const imageSrc = doc.image;
             return (
               <div
                 key={doc.id + '-desktop'}
-                className="hidden sm:block bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-zinc-300 overflow-hidden sm:max-w-full"
+                className="bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-zinc-300 overflow-hidden"
               >
                 <img
                   src={imageSrc.src}
                   alt={doc.name}
-                  className="w-full object-top sm:h-72 md:h-80 object-cover rounded-t-lg border-b border-zinc-300"
+                  className="w-full object-top sm:h-72 md:h-80 object-cover border-b border-zinc-300"
                 />
                 <div className="px-4 py-3">
                   <div className="text-black sm:text-xl font-semibold">

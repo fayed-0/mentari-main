@@ -156,10 +156,7 @@ export default function Testimonial() {
 							<p className="text-neutral-600 text-sm font-medium">
 								{testimonials[active].message}
 							</p>
-							{/* View More in content */}
-							<div className="mt-4">
-								<ViewMore size="sm" boxed />
-							</div>
+
 						</div>
 					</div>
 					{/* Navigation Arrows */}
