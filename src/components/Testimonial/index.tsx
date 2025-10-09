@@ -14,7 +14,7 @@ type ViewMoreProps = {
 };
 
 const ViewMore = ({ size = "md", boxed = false, className = "" }: ViewMoreProps) => {
-	const sizeCls = size === "sm" ? "text-[10px]" : size === "md" ? "text-[14px]" : "text-base";
+	const sizeCls = size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base";
 	const base = "inline-flex items-center gap-2 font-semibold cursor-pointer";
 	const color = "text-orange-500";
 	const boxedCls = "bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2";
@@ -90,7 +90,7 @@ export default function Testimonial() {
 				{/* Header + View More (Mobile) */}
 				<div className="flex flex-row items-center justify-between mb-4">
 					<div className="inline-flex flex-col items-start gap-1">
-						<h3 className="text-[14px] sm:text-base font-semibold text-black">
+						<h3 className="text-xs sm:text-base font-semibold text-black">
 							TESTIMONIAL
 						</h3>
 						<div className="w-20 h-0.5 bg-orange-500"></div>
@@ -102,7 +102,7 @@ export default function Testimonial() {
 
 				{/* Heading + View More (Desktop) */}
 				<div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10">
-					<h2 className="text-[14px] sm:text-[16px] md:text-[32px] font-semibold text-black max-w-4xl">
+					<h2 className="text-2xl sm:text-[16px] md:text-[32px] font-semibold text-black max-w-4xl">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit
 					</h2>
 					<div className="hidden md:inline-flex ml-6 mt-2 md:mt-0">
@@ -138,7 +138,7 @@ export default function Testimonial() {
 									/>
 								</div>
 								<div className="flex flex-col">
-									<div className="text-[14px] font-semibold text-black mb-1">
+									<div className="text-sm font-semibold text-black mb-1">
 										{testimonials[active].name}
 									</div>
 									<div className="flex gap-2 mb-1">
@@ -153,7 +153,7 @@ export default function Testimonial() {
 									</div>
 								</div>
 							</div>
-							<p className="text-neutral-600 text-[10px] font-medium">
+							<p className="text-neutral-600 text-sm font-medium">
 								{testimonials[active].message}
 							</p>
 							{/* View More in content */}

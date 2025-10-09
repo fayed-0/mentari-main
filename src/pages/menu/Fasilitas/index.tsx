@@ -87,7 +87,7 @@ export default function FasilitasJaya() {
 			<main className="flex-1 flex flex-col items-center px-4 pt-24 pb-16">
 				<div className="w-full max-w-[1271px] mx-auto flex flex-col items-center pt-12 px-2 md:px-0">
 					<div className="inline-flex flex-col justify-start items-center gap-[5px] mb-4 font-be-vietnam">
-						<div className="text-center text-black text-base md:text-lg font-semibold">Fasilitas</div>
+						<div className="text-center text-black text-xs sm:text-sm md:text-lg font-semibold">Fasilitas</div>
 						<div className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500"></div>
 					</div>
 					<div className="w-full text-center text-black text-2xl md:text-4xl font-semibold font-be-vietnam mb-8 md:mb-10 px-2">

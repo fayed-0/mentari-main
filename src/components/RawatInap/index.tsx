@@ -25,8 +25,8 @@ const Card = ({ variant = 'small', title, description, image, imageOffset }: Car
 			</div>
 			<div className="absolute inset-0 bg-neutral-600/20" />
 			<div className="absolute bottom-5 left-5 right-5 sm:left-7 sm:right-7 text-white space-y-2">
-				<h3 className={`font-semibold text-[14px] sm:text-xl`}>{title}</h3>
-				<p className="font-medium leading-snug text-[10px] sm:text-base">{description}</p>
+				<h3 className={`font-semibold text-sm sm:text-xl`}>{title}</h3>
+				<p className="font-medium leading-snug text-xs sm:text-base">{description}</p>
 			</div>
 		</div>
 	);
@@ -38,10 +38,10 @@ export default function RawatInapSection() {
 			<div className="mx-auto w-full max-w-[1272px]">
 				{/* Heading */}
 				<div className="inline-flex flex-col items-start gap-1 mb-6">
-					<span className="text-black font-semibold tracking-wide text-[14px] sm:text-sm">RAWAT INAP</span>
+					<span className="text-black font-semibold tracking-wide text-xs sm:text-sm">RAWAT INAP</span>
 					<span className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500" />
 				</div>
-				<h1 className="max-w-[1052px] text-black text-[16px] sm:text-2xl md:text-4xl font-semibold leading-snug mb-10 sm:mb-14">
+				<h1 className="max-w-[1052px] text-black text-2xl sm:text-2xl md:text-4xl font-semibold leading-snug mb-10 sm:mb-14">
 					Ruang rawat inap modern dengan pilihan suite hingga kamar standar yang nyaman
 				</h1>
 
@@ -51,20 +51,20 @@ export default function RawatInapSection() {
 						<div className="absolute inset-0 -top-[18px]">
 							<Image src={suiteImg} alt="Suite" fill className="object-cover" />
 						</div>
-						<div className="absolute left-3 bottom-3 text-white text-[15px] font-semibold">Suite</div>
+						<div className="absolute left-3 bottom-3 text-white text-sm font-semibold">Suite</div>
 					</div>
 					<div className="relative h-52 flex-[3] bg-neutral-600 rounded-[10px] overflow-hidden">
 						<div className="absolute inset-0 -left-[35px]">
 							<Image src={vvipImg} alt="VVIP" fill className="object-cover" />
 						</div>
-						<div className="absolute left-2 bottom-3 text-white text-[15px] font-semibold">VVIP</div>
+						<div className="absolute left-2 bottom-3 text-white text-sm font-semibold">VVIP</div>
 					</div>
 
 					<div className="relative h-52 flex-[3] bg-neutral-600 rounded-[10px] overflow-hidden">
 						<div className="absolute inset-0 -left-[29px]">
 							<Image src={vipImg} alt="VIP" fill className="object-cover" />
 						</div>
-						<div className="absolute left-2 bottom-3 text-white text-[15px] font-semibold">VIP</div>
+						<div className="absolute left-2 bottom-3 text-white text-sm font-semibold">VIP</div>
 					</div>
 				</div>
 

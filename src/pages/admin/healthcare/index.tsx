@@ -185,7 +185,7 @@ export default function AdminHealthcarePage() {
                       <div className="overflow-x-auto rounded-lg border border-zinc-200">
                         <table className="w-full text-left border-separate border-spacing-0 text-sm">
                           <thead className="bg-zinc-50">
-                            <tr className="text-slate-500 text-[10px] font-bold tracking-wide select-none">
+                            <tr className="text-slate-500 text-xs font-bold tracking-wide select-none">
                               <th className="py-3 pl-4 pr-4 w-56">
                                 <button onClick={() => toggleSort('name')} className="group inline-flex items-center gap-1 uppercase tracking-wide">
                                   <span>NAME</span>
@@ -207,23 +207,23 @@ export default function AdminHealthcarePage() {
                             {paginated.map(it => (
                               <tr key={it.id} className="text-slate-700 hover:bg-slate-50 transition-colors">
                                 <td className="py-3 pl-4 pr-4 align-top font-medium">{it.name}</td>
-                                <td className="py-3 pr-4 align-top text-[11px] leading-snug text-slate-500 max-w-xs">{it.description?.slice(0,120) || '-'}{(it.description||'').length>120 && '…'}</td>
+                                <td className="py-3 pr-4 align-top text-xs leading-snug text-slate-500 max-w-xs">{it.description?.slice(0,120) || '-'}{(it.description||'').length>120 && '…'}</td>
                                 <td className="py-3 pr-4 align-top">
-                                  <span className={`inline-block px-2 py-1 rounded-md text-[10px] font-semibold border ${it.is_hidden ? 'bg-red-2ç00 text-gray-600 border-red-300' : 'bg-green-50 text-green-700 border-green-200'}`}>{it.is_hidden ? 'YA' : 'TIDAK'}</span>
+                                  <span className={`inline-block px-2 py-1 rounded-md text-xs font-semibold border ${it.is_hidden ? 'bg-red-2ç00 text-gray-600 border-red-300' : 'bg-green-50 text-green-700 border-green-200'}`}>{it.is_hidden ? 'YA' : 'TIDAK'}</span>
                                 </td>
                                 <td className="py-3 pr-4 align-top">
                                   <div className="flex flex-wrap gap-2">
                                     <button
                                       onClick={() => openEdit(it)}
-                                      className="inline-flex items-center rounded-md border border-indigo-300 bg-white px-2.5 py-1 text-[11px] font-medium text-indigo-600 shadow-sm hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                      className="inline-flex items-center rounded-md border border-indigo-300 bg-white px-2.5 py-1 text-xs font-medium text-indigo-600 shadow-sm hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     >Edit</button>
                                     <button
                                       onClick={() => toggleHide(it.id)}
-                                      className="inline-flex items-center rounded-md border border-orange-300 bg-white px-2.5 py-1 text-[11px] font-medium text-orange-600 shadow-sm hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                      className="inline-flex items-center rounded-md border border-orange-300 bg-white px-2.5 py-1 text-xs font-medium text-orange-600 shadow-sm hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500"
                                     >{it.is_hidden ? 'Unhide' : 'Hide'}</button>
                                     <button
                                       onClick={() => remove(it.id)}
-                                      className="inline-flex items-center rounded-md border border-red-300 bg-white px-2.5 py-1 text-[11px] font-medium text-red-600 shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                      className="inline-flex items-center rounded-md border border-red-300 bg-white px-2.5 py-1 text-xs font-medium text-red-600 shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500"
                                     >Delete</button>
                                   </div>
                                 </td>
@@ -237,11 +237,11 @@ export default function AdminHealthcarePage() {
                           </tbody>
                         </table>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-4 text-[11px] text-slate-500">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-4 text-xs text-slate-500">
                         <div className="flex items-center gap-2">
                           <label className="text-slate-600">Show</label>
                           <select
-                            className="rounded-md border px-2 py-1 bg-white text-[11px] focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="rounded-md border px-2 py-1 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             value={pageSize}
                             onChange={e=>{setPageSize(Number(e.target.value)); setPage(1);}}
                           >
@@ -271,7 +271,7 @@ export default function AdminHealthcarePage() {
                           <div>
                             <label className="block text-xs font-semibold mb-1">Icon (nama file)</label>
                             <input value={form.icon} onChange={e=>setForm(f=>({...f,icon:e.target.value}))} className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="contoh: cardiology.svg" />
-                            <p className="text-[10px] text-slate-400 mt-1">Pastikan file icon ada di folder publik / assets anda.</p>
+                            <p className="text-xs text-slate-400 mt-1">Pastikan file icon ada di folder publik / assets anda.</p>
                           </div>
                           <div className="flex items-center justify-end gap-3 pt-2">
                             <button type="button" onClick={()=>setFormOpen(false)} className="px-4 py-2 rounded-md text-sm border">Batal</button>
@@ -309,7 +309,7 @@ function Pagination({ page, totalPages, onChange }: PaginationProps) {
     return res;
   }, [page, totalPages]);
 
-  const btn = (active?: boolean) => `inline-flex items-center justify-center rounded-full border text-[11px] w-7 h-7 ${active ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'} transition-colors disabled:opacity-40 disabled:cursor-not-allowed`;
+  const btn = (active?: boolean) => `inline-flex items-center justify-center rounded-full border text-xs w-7 h-7 ${active ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'} transition-colors disabled:opacity-40 disabled:cursor-not-allowed`;
   return (
     <div className="flex items-center gap-2 self-end">
       <button className={btn()} disabled={page===1} onClick={()=>onChange(page-1)} aria-label="Previous">‹</button>

@@ -75,7 +75,7 @@ const AdminDashboard: React.FC = () => {
             <div className="flex items-center gap-2 mb-4">
               <div className="flex items-center gap-1 px-3 py-1.5 rounded-sm border border-gray-200">
                 <span className="text-slate-400 text-sm">10</span>
-                <span className="w-2.5 h-5 flex items-center justify-center text-[10px] text-slate-400">▼</span>
+                <span className="w-2.5 h-5 flex items-center justify-center text-xs text-slate-400">▼</span>
               </div>
               <span className="text-slate-400 text-xs">entries per page</span>
             </div>
@@ -84,7 +84,7 @@ const AdminDashboard: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-separate border-spacing-0">
                 <thead>
-                  <tr className="text-slate-400 text-[10px] font-bold tracking-wide">
+                  <tr className="text-slate-400 text-xs font-bold tracking-wide">
                     <th className="py-3 pr-6">NAME</th>
                     <th className="py-3 pr-6 w-48">POSITION</th>
                     <th className="py-3 pr-6 w-40">OFFICE</th>

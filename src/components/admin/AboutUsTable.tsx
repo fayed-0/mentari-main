@@ -168,18 +168,18 @@ const AboutUsTable: React.FC = () => {
                     <div className="font-medium flex items-center gap-2">
                       {item.title}
                       {item.isHidden && (
-                        <span className="inline-block text-[10px] bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">Hidden</span>
+                        <span className="inline-block text-xs bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">Hidden</span>
                       )}
                     </div>
-                    <div className="text-[10px] text-gray-400 mt-1">
+                    <div className="text-xs text-gray-400 mt-1">
                       Dibuat: {new Date(item.createdAt).toLocaleString('id-ID')}
                     </div>
                   </td>
                   <td className="px-4 py-3 text-gray-700 align-top whitespace-pre-wrap">{item.description || '-'}
-                    <div className="text-[10px] text-gray-400 mt-2">Update: {new Date(item.updatedAt).toLocaleString('id-ID')}</div>
+                    <div className="text-xs text-gray-400 mt-2">Update: {new Date(item.updatedAt).toLocaleString('id-ID')}</div>
                   </td>
                   <td className="px-4 py-3 align-top">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${item.isHidden ? 'bg-gray-200 text-gray-600' : 'bg-green-100 text-green-700'}`}>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${item.isHidden ? 'bg-gray-200 text-gray-600' : 'bg-green-100 text-green-700'}`}> 
                       {item.isHidden ? 'Disembunyikan' : 'Aktif'}
                     </span>
                   </td>

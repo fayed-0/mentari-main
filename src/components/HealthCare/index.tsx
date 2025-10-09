@@ -57,7 +57,7 @@ type ViewMoreProps = {
 };
 
 const ViewMore = ({ size = "md", className = "", boxed = false }: ViewMoreProps) => {
-	const sizeCls = size === "sm" ? "text-[10px]" : size === "md" ? "text-[14px]" : "text-base";
+	const sizeCls = size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base";
 	const base = "inline-flex items-center gap-2 font-semibold cursor-pointer";
 	const color = "text-orange-500";
 	const boxedCls = "bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2";
@@ -76,7 +76,7 @@ const HealthCare = () => {
 			<div className="max-w-[1272px] mx-auto mb-8 sm:mb-12">
 				<div className="flex flex-row items-center justify-between mb-4 sm:mb-6">
 					<div className="inline-flex flex-col items-start gap-[5px]">
-						<div className="text-black font-semibold tracking-wide text-[14px] sm:text-sm">
+						<div className="text-black font-semibold tracking-wide text-xs sm:text-sm">
 							HEALTH CARE
 						</div>
 						<div className="w-20 h-0.5 bg-orange-500"></div>
@@ -90,7 +90,7 @@ const HealthCare = () => {
 
 				{/* Heading + View More (Desktop) */}
 				<div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
-					<h2 className="text-[16px] sm:text-2xl md:text-4xl font-semibold text-black leading-snug max-w-6xl">
+					<h2 className="text-2xl sm:text-2xl md:text-4xl font-semibold text-black leading-snug max-w-6xl">
 						Layanan Kesehatan untuk Anda dan Keluarga
 					</h2>
 					<div className="hidden sm:inline-flex ml-6 mt-1 shrink-0">
@@ -120,12 +120,12 @@ const HealthCare = () => {
 						</div>
 
 						{/* Title */}
-						<h3 className="text-[14px] sm:text-xl font-semibold text-black group-hover:text-white mb-2 sm:mb-3">
+						<h3 className="text-sm sm:text-xl font-semibold text-black group-hover:text-white mb-2 sm:mb-3">
 							{service.title}
 						</h3>
 
 						{/* Description */}
-						<p className="text-[10px] sm:text-base font-medium text-neutral-600 group-hover:text-white flex-grow">
+						<p className="text-xs sm:text-base font-medium text-neutral-600 group-hover:text-white flex-grow">
 							{service.desc}
 						</p>
 

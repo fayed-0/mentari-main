@@ -41,18 +41,21 @@ type ViewMoreProps = {
   boxed?: boolean;
 };
 
-const ViewMore = ({ size = "md", className = "", boxed = false }: ViewMoreProps) => (
-  <Link
-    href="/menu/Dokter"
-    className={`inline-flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-2  focus:ring-offset-2 focus:ring-offset-white transition ${className} ${
-      size === "sm" ? "text-[10px]" : size === "md" ? "text-[14px]" : "text-base"
-    } ${boxed ? "bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2" : ""}`}
-    aria-label="Lihat lebih banyak dokter"
-  >
-    <span className={`font-semibold ${boxed ? "text-orange-500" : "text-orange-500 hover:underline"}`}>View More</span>
-    <img src={ArrowIcon.src} alt="arrow" className={size === "sm" ? "w-3 h-3" : "w-4 h-4"} />
-  </Link>
-);
+const ViewMore = ({ size = "md", className = "", boxed = false }: ViewMoreProps) => {
+  const sizeClass = size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base";
+  return (
+    <Link
+      href="/menu/Dokter"
+      className={`inline-flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white transition ${sizeClass} ${className} ${
+        boxed ? "bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2" : ""
+      }`}
+      aria-label="Lihat lebih banyak dokter"
+    >
+      <span className={`font-semibold ${boxed ? "text-orange-500" : "text-orange-500 hover:underline"}`}>View More</span>
+      <img src={ArrowIcon.src} alt="arrow" className={size === "sm" ? "w-3 h-3" : "w-4 h-4"} />
+    </Link>
+  );
+};
 
 const OurDoctor = () => {
   return (
@@ -61,7 +64,7 @@ const OurDoctor = () => {
         {/* Section Title + View More (Mobile) */}
         <div className="flex flex-row items-center justify-between mb-6 md:mb-6">
           <div className="inline-flex flex-col items-start gap-1">
-            <div className="text-black text-[16px] sm:text-sm font-semibold tracking-wide">
+            <div className="text-black text-xs sm:text-sm font-semibold tracking-wide">
               OUR DOCTOR
             </div>
             <div className="w-20 h-0.5 bg-orange-500"></div>
@@ -73,7 +76,7 @@ const OurDoctor = () => {
 
         {/* Heading + View More (Desktop) */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
-          <div className="text-black text-[14px] sm:text-2xl md:text-[32px] leading-snug font-semibold w-full md:w-[900px]">
+          <div className="text-black text-2xl sm:text-2xl md:text-[32px] leading-snug font-semibold w-full md:w-[900px]">
             Dokter profesional yang siap memberikan pelayanan terbaik untuk kesehatan Anda.
           </div>
           <div className="hidden md:flex items-center gap-2 mt-4 md:mt-0 ml-auto cursor-pointer">
@@ -96,10 +99,10 @@ const OurDoctor = () => {
                   className="w-full h-[200px] object-top object-cover rounded-t-lg border-b border-zinc-300"
                 />
                 <div className="px-4 py-3">
-                  <div className="text-black text-[14px] font-semibold">
+                  <div className="text-black text-sm font-semibold">
                     {doc.name}
                   </div>
-                  <div className="text-neutral-600 text-[10px] font-medium mt-1">
+                  <div className="text-neutral-600 text-xs font-medium mt-1">
                     {doc.role}
                   </div>
                 </div>

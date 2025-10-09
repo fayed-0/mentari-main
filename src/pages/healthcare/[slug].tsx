@@ -27,7 +27,7 @@ function PillTag({ icon, text }: { icon?: any; text: string }) {
         </span>
       </span>
       <span className="relative inline-flex items-center h-12 -ml-2 px-3 rounded-[5px] bg-white/70 shadow-sm z-0">
-        <span className="text-orange-500 font-bold text-1xl sm:text-1xl leading-none">{text}</span>
+  <span className="text-orange-500 font-bold text-xl sm:text-xl leading-none">{text}</span>
       </span>
     </div>
   );

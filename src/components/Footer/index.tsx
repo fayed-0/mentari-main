@@ -95,7 +95,7 @@ const Footer = () => {
           <div className="flex flex-col gap-4">
             <Image src={LogoImg} alt="Mentari Hospital Logo" width={140} height={140} className="object-contain" />
             <div>
-              <div className="text-neutral-50 text-[14px] font-semibold mb-2">Social Profiles</div>
+              <div className="text-neutral-50 text-sm font-semibold mb-2">Social Profiles</div>
               <div className="flex gap-2.5">
                 <a href="#" className="p-2 bg-neutral-100 rounded-md outline outline-1 outline-zinc-100 flex items-center justify-center"><Image src={FbIcon} alt="Facebook" width={18} height={18} /></a>
                 <a href="#" className="p-2 bg-neutral-100 rounded-md outline outline-1 outline-zinc-100 flex items-center justify-center"><Image src={IgIcon} alt="Instagram" width={18} height={18} /></a>
@@ -107,8 +107,8 @@ const Footer = () => {
           {/* Home, Menu, Work Hours side by side */}
           <div className="grid grid-cols-3 gap-4">
             <div className="flex flex-col gap-2 min-w-0">
-              <div className="text-neutral-50 text-[14px] font-semibold">Home</div>
-              <ul className="text-neutral-50 text-[10px] flex flex-col gap-1 leading-snug">
+              <div className="text-neutral-50 text-sm font-semibold">Home</div>
+              <ul className="text-neutral-50 text-xs flex flex-col gap-1 leading-snug">
                 <li>About Us</li>
                 <li>Health Care</li>
                 <li>Our Doctor</li>
@@ -116,8 +116,8 @@ const Footer = () => {
               </ul>
             </div>
             <div className="flex flex-col gap-2 min-w-0">
-              <div className="text-neutral-50 text-[14px] font-semibold">Menu</div>
-              <ul className="text-neutral-50 text-[10px] flex flex-col gap-1 leading-snug">
+              <div className="text-neutral-50 text-sm font-semibold">Menu</div>
+              <ul className="text-neutral-50 text-xs flex flex-col gap-1 leading-snug">
                 <li>Jadwal Dokter</li>
                 <li>Fasilitas</li>
                 <li>Paket Kesehatan</li>
@@ -126,21 +126,21 @@ const Footer = () => {
               </ul>
             </div>
             <div className="flex flex-col gap-2 min-w-0">
-              <div className="text-neutral-50 text-[14px] font-semibold">Work Hours</div>
+              <div className="text-neutral-50 text-sm font-semibold">Work Hours</div>
               <div className="flex items-center gap-1.5">
                 <Image src={ClockIcon} alt="Clock" width={16} height={16} />
-                <span className="text-neutral-50 text-[10px]">24/7</span>
+                <span className="text-neutral-50 text-xs">24/7</span>
               </div>
-              <p className="text-neutral-50 text-[10px] leading-snug">Rumah sakit kami beroperasi 24 jam setiap hari untuk memberikan pelayanan.</p>
+              <p className="text-neutral-50 text-xs leading-snug">Rumah sakit kami beroperasi 24 jam setiap hari untuk memberikan pelayanan.</p>
               <div className="flex items-center gap-1.5">
                 <Image src={CallIcon} alt="Call" width={16} height={16} />
-                <span className="text-neutral-50 text-[10px]">+91 91813 23 2309</span>
+                <span className="text-neutral-50 text-xs">+91 91813 23 2309</span>
               </div>
             </div>
           </div>
         </div>
         <div className="w-full h-0 outline outline-1 outline-zinc-100"></div>
-  <div className="w-full text-center text-neutral-50 text-[10px] md:text-lg font-normal leading-relaxed">© 2025 Mentari Hospital. All rights reserved.</div>
+  <div className="w-full text-center text-neutral-50 text-xs md:text-lg font-normal leading-relaxed">© 2025 Mentari Hospital. All rights reserved.</div>
       </div>
     </footer>
   );

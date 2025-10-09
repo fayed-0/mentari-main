@@ -56,7 +56,7 @@ const Calendar: React.FC<CalendarProps> = ({ value, onChange, availableWeekdays 
 				<div className="font-semibold text-lg text-neutral-800">{monthNames[cursor.getMonth()]} {cursor.getFullYear()}</div>
 				<button aria-label="Next month" onClick={() => canGoNext && goMonth(1)} className="p-2 rounded hover:bg-zinc-100 disabled:opacity-30" disabled={!canGoNext}>›</button>
 			</div>
-			<div className="grid grid-cols-7 text-center text-[11px] font-medium text-neutral-500 mb-2">
+			<div className="grid grid-cols-7 text-center text-xs font-medium text-neutral-500 mb-2">
 				{weekdayShort.map(h=> <div key={h}>{h}</div>)}
 			</div>
       <div className="grid grid-cols-7 gap-1 mb-5">
@@ -221,7 +221,7 @@ export default function JadwalDokterAppointment() {
 										<button className="px-4 py-2 rounded bg-orange-500 text-white text-xs font-semibold hover:bg-orange-500">Konfirmasi</button>
 									</div>
 								)}
-								<p className="text-[13px] text-neutral-600 leading-relaxed">Jadwal Janji Temu Dokter dapat dipilih hingga <strong>14 hari</strong> ke depan dan paling lambat <strong>1 jam</strong> sebelum jadwal dokter berakhir.</p>
+								<p className="text-sm text-neutral-600 leading-relaxed">Jadwal Janji Temu Dokter dapat dipilih hingga <strong>14 hari</strong> ke depan dan paling lambat <strong>1 jam</strong> sebelum jadwal dokter berakhir.</p>
 							</div>
 						</div>
 					</div>

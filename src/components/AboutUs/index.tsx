@@ -9,18 +9,18 @@ import DocImg from "./source/doc.jpg";
 import RS from "./source/rs.jpg";
 import ArrowIcon from "../HealthCare/source/arrow.svg";
 // Reusable ViewMore button
-const ViewMore = ({ size = "sm", className = "" }) => (
-  <div
-    className={`inline-flex items-center gap-2 text-orange-500 font-semibold hover:underline cursor-pointer ${className} ${
-      size === "sm"
-        ? "text-[10px]"
-        : size === "md"
-        ? "text-[14px]"
-        : "text-base"
-    }`}
-  >
-  </div>
-);
+const ViewMore = ({ size = "sm", className = "" }) => {
+  // Normalisasi: gunakan skala Tailwind standar untuk mobile.
+  // sm variant pada komponen ini jarang dipakai; fokus mobile: text-xs (12px) atau text-sm (14px)
+  const sizeClass =
+    size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base";
+  return (
+    <div
+      className={`inline-flex items-center gap-2 text-orange-500 font-semibold hover:underline cursor-pointer ${sizeClass} ${className}`}
+    >
+    </div>
+  );
+};
 
 const AboutUs = () => {
   return (
@@ -42,7 +42,7 @@ const AboutUs = () => {
           {/* Title */}
           <div className="mb-6 flex items-center justify-between">
             <div className="inline-flex flex-col items-start gap-[5px]">
-              <div className="text-black font-semibold tracking-wide text-[14px] sm:text-sm">
+              <div className="text-black font-semibold tracking-wide text-xs sm:text-sm">
                 ABOUT US
               </div>
               <div className="w-20 h-0.5 bg-orange-500"></div>
@@ -50,13 +50,14 @@ const AboutUs = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="text-[14px] sm:text-3xl md:text-4xl font-semibold text-black leading-snug mb-6">
+          {/* Mobile heading dinaikkan ke text-2xl untuk hierarchy lebih jelas */}
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-black leading-snug mb-6">
             Mengutamakan kenyamanan dan kualitas layanan pasien
           </h2>
 
           {/* Description */}
           <div className="flex items-center justify-between mb-10">
-            <p className="text-neutral-600 text-[10px] sm:text-lg font-medium">
+            <p className="text-neutral-600 text-sm sm:text-lg font-medium">
               Pelayanan bermutu didukung tenaga profesional. Kami terus meningkatkan mutu dengan teknologi modern.
             </p>
           </div>
@@ -81,8 +82,8 @@ const AboutUs = () => {
                 <div className="w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center rounded-md border border-zinc-300 bg-white mb-4 sm:mb-6">
                   <Image src={Img24Hour} alt="24 Hour Service" width={24} height={24} />
                 </div>
-                <h3 className="text-[14px] sm:text-xl font-semibold text-white mb-2 sm:mb-3">24/7</h3>
-                <p className="text-[10px] sm:text-base font-medium text-white flex-grow">
+                <h3 className="text-sm sm:text-xl font-semibold text-white mb-2 sm:mb-3">24/7</h3>
+                <p className="text-xs sm:text-base font-medium text-white flex-grow">
                   Pelayanan kesehatan tersedia setiap saat dengan tim medis yang siap mendengar, melayani, dan mengasihi pasien.
                 </p>
               </div>
@@ -97,8 +98,8 @@ const AboutUs = () => {
                 <div className="w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center rounded-md border border-zinc-300 bg-white mb-4 sm:mb-6">
                   <Image src={ImgLocation} alt="Location" width={24} height={24} />
                 </div>
-                <h3 className="text-[14px] sm:text-xl font-semibold text-white mb-2 sm:mb-3">Location</h3>
-                <p className="text-[10px] sm:text-base font-medium text-white flex-grow">
+                <h3 className="text-sm sm:text-xl font-semibold text-white mb-2 sm:mb-3">Location</h3>
+                <p className="text-xs sm:text-base font-medium text-white flex-grow">
                   Jl. Raya Legok - Karawaci No.KM.04, Bojong Nangka, Kec. Klp.
                   Dua, Kabupaten Tangerang, Banten 15810
                 </p>

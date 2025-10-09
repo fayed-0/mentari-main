@@ -43,7 +43,7 @@ export default function LayananPage() {
 			<section className="max-w-[1512px] mx-auto px-4 sm:px-6 md:px-10 pt-24 pb-10">
 				<div className="max-w-[1272px] mx-auto">
 					<div className="flex flex-col items-center gap-[5px] w-full">
-						<div className="text-black text-lg font-semibold text-center">Layanan</div>
+						<div className="text-black text-xs sm:text-sm font-semibold text-center">Layanan</div>
 						<div className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500" />
 					</div>
 					<div className="mt-3 relative flex items-center justify-center w-full">

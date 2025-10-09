@@ -57,7 +57,7 @@ const Navbar = () => {
             <input
               type="text"
               placeholder="Cari..."
-              className="w-full h-8 px-2 bg-transparent text-stone-400 text-[10px] font-normal border border-stone-400 rounded-l-[5px] focus:outline-none"
+              className="w-full h-8 px-2 bg-transparent text-stone-400 text-xs font-normal border border-stone-400 rounded-l-[5px] focus:outline-none"
             />
             <button className="w-10 h-8 bg-orange-500 rounded-r-[5px] flex items-center justify-center">
               <img src={typeof SearchIcon === 'string' ? SearchIcon : (SearchIcon as any).src} alt="search" className="w-5 h-5" />

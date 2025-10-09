@@ -30,11 +30,11 @@ export default function FullHealthCare() {
       <Navbar />
       <main className="flex-1 pt-24 pb-24 px-4 sm:px-6 md:px-16">
         <div className="max-w-[1272px] mx-auto">
-          <div className="inline-flex flex-col items-start gap-[5px] mb-6">
-            <div className="text-black font-semibold tracking-wide text-[14px] sm:text-sm">HEALTH CARE</div>
+            <div className="inline-flex flex-col items-start gap-[5px] mb-6">
+            <div className="text-black font-semibold tracking-wide text-xs sm:text-sm">HEALTH CARE</div>
             <div className="w-24 h-0.5 bg-orange-500" />
           </div>
-          <h1 className="text-[20px] sm:text-3xl md:text-5xl font-semibold text-black leading-snug max-w-5xl mb-10">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold text-black leading-snug max-w-5xl mb-10">
             Layanan Spesialis Lengkap untuk Kebutuhan Medis Anda
           </h1>
 
@@ -133,10 +133,10 @@ function HealthCareSearch() {
                             <PlaceholderIcon label={s.title} size={40} />
                           </div>
                         )}
-                        <p className="text-[11px] sm:text-xs font-semibold leading-snug mb-1 transition-colors group-hover:text-white">
+                        <p className="text-xs sm:text-sm font-semibold leading-snug mb-1 transition-colors group-hover:text-white">
                           {s.title}
                         </p>
-                        <span className="block text-[9px] sm:text-[11px] leading-snug font-medium transition-colors text-neutral-500 group-hover:text-white/90">
+                        <span className="block text-xs sm:text-sm leading-snug font-medium transition-colors text-neutral-500 group-hover:text-white/90">
                           {s.desc}
                         </span>
                       </Link>
@@ -168,10 +168,10 @@ function HealthCareSearch() {
                 <PlaceholderIcon label={s.title} size={40} />
               </div>
             )}
-            <h3 className="text-[12px] sm:text-lg font-semibold mb-2 text-black group-hover:text-white">
+            <h3 className="text-sm sm:text-lg font-semibold mb-2 text-black group-hover:text-white">
               {s.title}
             </h3>
-            <p className="text-[9px] sm:text-sm font-medium flex-grow text-neutral-600 group-hover:text-white/90">
+            <p className="text-xs sm:text-sm font-medium flex-grow text-neutral-600 group-hover:text-white/90">
               {s.desc}
             </p>
           </Link>
