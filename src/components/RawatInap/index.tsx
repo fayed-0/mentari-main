@@ -62,8 +62,10 @@ export default function RawatInapSection() {
 				{/* Section Label + Mobile View More */}
 				<div className="flex flex-row items-center justify-between mb-6 md:mb-6">
 					<div className="inline-flex flex-col items-start gap-1">
-						<span className="text-black font-semibold tracking-wide text-xs sm:text-sm">RAWAT INAP</span>
-						<span className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500" />
+						<div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
+						RAWAT INAP
+						</div>
+						<div className="h-0.5 bg-orange-500 w-full"></div>
 					</div>
 					<div className="block md:hidden ml-2">
 						<ViewMore size="md" boxed />
@@ -71,8 +73,8 @@ export default function RawatInapSection() {
 				</div>
 				{/* Heading + Desktop View More */}
 				<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 sm:mb-14">
-					<h1 className="max-w-[1052px] text-black text-2xl sm:text-2xl md:text-4xl font-semibold leading-snug">
-						Ruang rawat inap modern dengan pilihan suite hingga kamar standar yang nyaman
+					<h1 className="max-w-[1052px] text-black text-xl sm:text-2xl md:text-4xl font-semibold leading-snug">
+						Ruang rawat inap modern, dari suite hingga kamar standar yang nyaman
 					</h1>
 					<div className="hidden md:flex items-center gap-2 mt-4 md:mt-0 ml-auto cursor-pointer">
 						<ViewMore size="md" boxed />

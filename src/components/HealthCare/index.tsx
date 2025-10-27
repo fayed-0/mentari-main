@@ -75,11 +75,11 @@ const HealthCare = () => {
 			{/* Title + View More (Mobile) */}
 			<div className="max-w-[1272px] mx-auto mb-8 sm:mb-12">
 				<div className="flex flex-row items-center justify-between mb-4 sm:mb-6">
-					<div className="inline-flex flex-col items-start gap-[5px]">
-						<div className="text-black font-semibold tracking-wide text-xs sm:text-sm">
-							HEALTH CARE
+					<div className="inline-flex flex-col items-start gap-1">
+						<div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
+						HEALTH CARE
 						</div>
-						<div className="w-20 h-0.5 bg-orange-500"></div>
+						<div className="h-0.5 bg-orange-500 w-full"></div>
 					</div>
 					<div className="block sm:hidden ml-2">
 						<Link href="/healthcare" aria-label="Lihat semua layanan kesehatan">
@@ -90,7 +90,7 @@ const HealthCare = () => {
 
 				{/* Heading + View More (Desktop) */}
 				<div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
-					<h2 className="text-2xl sm:text-2xl md:text-4xl font-semibold text-black leading-snug max-w-6xl">
+					<h2 className="text-xl sm:text-2xl md:text-4xl font-semibold text-black leading-snug max-w-6xl">
 						Layanan Kesehatan untuk Anda dan Keluarga
 					</h2>
 					<div className="hidden sm:inline-flex ml-6 mt-1 shrink-0">

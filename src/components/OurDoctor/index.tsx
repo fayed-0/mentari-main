@@ -62,11 +62,11 @@ const OurDoctor = () => {
       <div className="max-w-[1272px] mx-auto px-4">
         {/* Section Title + View More (Mobile) */}
         <div className="flex flex-row items-center justify-between mb-6 md:mb-6">
-          <div className="inline-flex flex-col items-start gap-1">
-            <div className="text-black text-xs sm:text-sm font-semibold tracking-wide">
+         <div className="inline-flex flex-col items-start gap-1">
+            <div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
               OUR DOCTOR
             </div>
-            <div className="w-20 h-0.5 bg-orange-500"></div>
+            <div className="h-0.5 bg-orange-500 w-full"></div>
           </div>
           <div className="block md:hidden ml-2">
             <ViewMore size="md" boxed />
@@ -75,8 +75,8 @@ const OurDoctor = () => {
 
         {/* Heading + View More (Desktop) */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
-          <div className="text-black text-2xl sm:text-2xl md:text-[32px] leading-snug font-semibold w-full md:w-[900px]">
-            Dokter profesional yang siap memberikan pelayanan terbaik untuk kesehatan Anda.
+          <div className="text-black text-xl sm:text-2xl md:text-[32px] leading-snug font-semibold w-full md:w-[900px]">
+            Dokter profesional dengan pelayanan terbaik untuk kesehatan Anda
           </div>
           <div className="hidden md:flex items-center gap-2 mt-4 md:mt-0 ml-auto cursor-pointer">
             <ViewMore size="md" boxed />

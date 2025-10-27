@@ -41,17 +41,17 @@ const AboutUs = () => {
         <div className="flex-1 flex flex-col justify-start">
           {/* Title */}
           <div className="mb-6 flex items-center justify-between">
-            <div className="inline-flex flex-col items-start gap-[5px]">
-              <div className="text-black font-semibold tracking-wide text-xs sm:text-sm">
-                ABOUT US
+            <div className="inline-flex flex-col items-start gap-1">
+                <div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
+                  ABOUT US
+                </div>
+                <div className="h-0.5 bg-orange-500 w-full"></div>
               </div>
-              <div className="w-20 h-0.5 bg-orange-500"></div>
-            </div>
           </div>
 
           {/* Heading */}
           {/* Mobile heading dinaikkan ke text-2xl untuk hierarchy lebih jelas */}
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-black leading-snug mb-6">
+          <h2 className="text-xl sm:text-3xl md:text-4xl font-semibold text-black leading-snug mb-6">
             Mengutamakan kenyamanan dan kualitas layanan pasien
           </h2>
 

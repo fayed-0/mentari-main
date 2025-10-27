@@ -90,10 +90,10 @@ export default function Testimonial() {
 				{/* Header + View More (Mobile) */}
 				<div className="flex flex-row items-center justify-between mb-4">
 					<div className="inline-flex flex-col items-start gap-1">
-						<h3 className="text-xs sm:text-base font-semibold text-black">
-							TESTIMONIAL
-						</h3>
-						<div className="w-20 h-0.5 bg-orange-500"></div>
+						<div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
+						TESTIMONIAL
+						</div>
+						<div className="h-0.5 bg-orange-500 w-full"></div>
 					</div>
 					<div className="block md:hidden ml-2">
 						<ViewMore size="md" boxed />
@@ -102,7 +102,7 @@ export default function Testimonial() {
 
 				{/* Heading + View More (Desktop) */}
 				<div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10">
-					<h2 className="text-2xl sm:text-[16px] md:text-[32px] font-semibold text-black max-w-4xl">
+					<h2 className="text-xl sm:text-[16px] md:text-[32px] font-semibold text-black max-w-4xl">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit
 					</h2>
 					<div className="hidden md:inline-flex ml-6 mt-2 md:mt-0">

@@ -85,22 +85,22 @@ const PageCover = () => {
 
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-4 pt-24 pb-16">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-left justify-between gap-8 lg:gap-16">
           
           {/* Left Content - Text & Search */}
           <div className="flex-1 max-w-2xl">
             <div className="space-y-8">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-orange-100">
+              <div className="inline-flex items-center gap-5 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-orange-100">
                 <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium text-orange-600">Layanan Kesehatan Terpercaya</span>
+                <span className="text-1xl font-reguler text-orange-600">Layanan Kesehatan Terpercaya</span>
               </div>
 
-              {/* Main Title */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Kesehatan Anda
-                <span className="block text-orange-600 mt-2">Prioritas Utama Kami</span>
-              </h1>
+                <h1 className="text-left text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                  Kesehatan Anda
+                  <span className="block text-orange-600 mt-2">Prioritas Utama Kami</span>
+                </h1>
+
 
               {/* Description - Hidden on mobile */}
               <p className="hidden md:block text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl">
