@@ -14,99 +14,76 @@ export function AnimatedCollapse({
   className?: string;
 }) {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
-  const [height, setHeight] = React.useState<string>(isOpen ? 'auto' : '0px');
-  const [isTransitioning, setIsTransitioning] = React.useState(false);
-  const latestIsOpen = React.useRef(isOpen);
-  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const [maxHeight, setMaxHeight] = React.useState<number>(0);
 
+  // Update max-height tiap buka/tutup
   React.useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    // Clear any existing timeouts
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    if (isOpen && !latestIsOpen.current) {
-      // Opening animation
-      const scrollHeight = el.scrollHeight;
-      
-      // Start from 0
-      setHeight('0px');
-      setIsTransitioning(true);
-      
-      // Small delay to ensure render then animate to full height
-      timeoutRef.current = setTimeout(() => {
-        setHeight(`${scrollHeight}px`);
-      }, 10);
-    }
-    
-    if (!isOpen && latestIsOpen.current) {
-      // Closing animation
-      const scrollHeight = el.scrollHeight;
-      
-      // Set to current height first
-      setHeight(`${scrollHeight}px`);
-      setIsTransitioning(true);
-      
-      // Small delay to ensure render then animate to 0
-      timeoutRef.current = setTimeout(() => {
-        setHeight('0px');
-      }, 10);
-    }
-    
-    latestIsOpen.current = isOpen;
-  }, [isOpen]);
-
-  const onTransitionEnd = React.useCallback((e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.propertyName === 'height') {
-      setIsTransitioning(false);
-      if (isOpen) {
-        setHeight('auto');
-      }
+    // Set max-height = tinggi konten
+    if (isOpen) {
+      setMaxHeight(el.scrollHeight);
+    } else {
+      setMaxHeight(0);
     }
   }, [isOpen]);
 
-  // Cleanup timeout on unmount
+  // Jika isi di dalam berubah saat sedang open → update otomatis
   React.useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
+    const el = containerRef.current;
+    if (!el || !isOpen) return;
 
-  // Trigger stagger for children with class 'stagger-item'
+    const resizeObserver = new ResizeObserver(() => {
+      setMaxHeight(el.scrollHeight);
+    });
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
+  }, [isOpen]);
+
+  // Animasi stagger untuk item di dalam
   React.useEffect(() => {
     if (isOpen) {
       const el = containerRef.current;
       if (!el) return;
-      const timer = setTimeout(() => {
-        const items = el.querySelectorAll<HTMLElement>('.stagger-item');
-        items.forEach((item, idx) => {
-          item.style.transitionDelay = `${idx * 60}ms`;
-          item.classList.add('opacity-100', 'translate-y-0');
-          item.classList.remove('opacity-0', 'translate-y-3');
-          item.style.transition = 'opacity 500ms ease, transform 500ms ease';
-        });
-      }, 30);
-      return () => clearTimeout(timer);
+      const items = el.querySelectorAll<HTMLElement>('.stagger-item');
+      items.forEach((item, idx) => {
+        item.style.transition = 'opacity 500ms ease, transform 500ms ease';
+        item.style.transitionDelay = `${idx * 60}ms`;
+        item.classList.add('opacity-100', 'translate-y-0');
+        item.classList.remove('opacity-0', 'translate-y-3');
+      });
+    } else {
+      const el = containerRef.current;
+      if (!el) return;
+      const items = el.querySelectorAll<HTMLElement>('.stagger-item');
+      items.forEach((item) => {
+        item.classList.remove('opacity-100', 'translate-y-0');
+        item.classList.add('opacity-0', 'translate-y-3');
+      });
     }
   }, [isOpen]);
 
   return (
     <div
       ref={containerRef}
-      style={{ 
-        height, 
-        transition: isTransitioning ? `height ${duration}ms ease` : 'none'
+      style={{
+        maxHeight: `${maxHeight}px`,
+        transition: `max-height ${duration}ms ease`,
       }}
-      onTransitionEnd={onTransitionEnd}
       className={`overflow-hidden ${className}`}
       aria-hidden={!isOpen}
     >
-      <div className={disableInnerFade ? '' : `transition-all duration-500 ease-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
+      <div
+        className={
+          disableInnerFade
+            ? ''
+            : `transition-all duration-500 ease-out ${
+                isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+              }`
+        }
+      >
         {children}
       </div>
     </div>

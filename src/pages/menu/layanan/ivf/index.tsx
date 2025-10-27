@@ -5,10 +5,7 @@ import Footer from '../../../../components/Footer';
 import AnimatedCollapse from '../../../../components/AnimatedCollapse';
 import DownIcon from '../../../../components/HealthCare/source/down.svg';
 
-// IVF (Morula) service page hero
-// Adapted from provided fixed-size layout into responsive section.
-// Original sizes: container 1512x853, heading width 1270 @ top 90px, gray box 1270x481 @ top 282.
-// We map to: full-width section with max-w, vertical spacing, responsive typography.
+
 
 export default function IVFPage() {
 	return (
