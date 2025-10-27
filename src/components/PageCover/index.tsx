@@ -85,25 +85,29 @@ const PageCover = () => {
 
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-4 pt-24 pb-16">
-        <div className="flex flex-col lg:flex-row items-left justify-between gap-8 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-16">
           
           {/* Left Content - Text & Search */}
-          <div className="flex-1 max-w-2xl">
+          <div className="flex-1 w-full max-w-2xl">
             <div className="space-y-8">
               {/* Badge */}
-              <div className="inline-flex items-center gap-5 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-orange-100">
-                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                <span className="text-1xl font-reguler text-orange-600">Layanan Kesehatan Terpercaya</span>
+              <div className="inline-flex items-center gap-3 sm:gap-4 md:gap-5 bg-white/80 backdrop-blur-sm px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full shadow-lg border border-orange-100">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                <span className="text-[12px] sm:text-base md:text-sm font-medium text-orange-600">
+                  Layanan Kesehatan Terpercaya
+                </span>
               </div>
 
-                <h1 className="text-left text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              {/* Title - Centered for desktop and tablet, left for mobile */}
+              <div className="text-left  w-full">
+                <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                   Kesehatan Anda
                   <span className="block text-orange-600 mt-2">Prioritas Utama Kami</span>
                 </h1>
-
+              </div>
 
               {/* Description - Hidden on mobile */}
-              <p className="hidden md:block text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl ">
                 Layanan kesehatan terpadu dengan dokter profesional & fasilitas modern 
                 untuk memberikan yang terbaik bagi Anda dan keluarga
               </p>
