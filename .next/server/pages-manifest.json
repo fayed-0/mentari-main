@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/menu/layanan": "pages/menu/layanan.js",
-  "/menu/layanan/radiologi": "pages/menu/layanan/radiologi.js",
   "/menu/layanan/ivf": "pages/menu/layanan/ivf.js",
-  "/menu/Dokter": "pages/menu/Dokter.js"
+  "/menu/layanan": "pages/menu/layanan.js",
+  "/": "pages/index.js"
 }
