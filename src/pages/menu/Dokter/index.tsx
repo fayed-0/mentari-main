@@ -23,33 +23,41 @@ const categories: { id: string; title: string; specializationIds: number[] }[] =
 ];
 
 export default function DoctorsPage() {
-	return (
-		<div className="bg-stone-50 min-h-screen flex flex-col">
-			<Navbar />
-			<main className="flex-1 pt-24 pb-24 px-4 sm:px-6 md:px-16">
-				<div className="max-w-[1272px] mx-auto">
-					<SectionHeader />
-					<DoctorsSearch />
-				</div>
-			</main>
-			<Footer />
-		</div>
-	);
+return (
+	<div className="bg-stone-50 min-h-screen flex flex-col">
+		<Navbar />
+		<main className="flex-1 flex flex-col items-center px-4 pt-12 md:pt-15 pb-16">
+			<SectionHeader />
+			<DoctorsSearch />
+		</main>
+		<Footer />
+	</div>
+);
 }
 
 function SectionHeader() {
 	return (
-		<>
-				<div className="inline-flex flex-col items-start gap-[5px] mb-6">
-					<div className="text-black font-semibold tracking-wide text-xs sm:text-sm">DOKTER KAMI</div>
-				<div className="h-0.5 bg-orange-500 w-full"></div>
+		<section className="w-full max-w-[1271px] mx-auto flex flex-col items-center px-5 md:px-0 pt-10 md:pt-24">
+			
+			{/* Sub-title */}
+			<div className="inline-flex flex-col justify-start items-center gap-[5px] mb-4 font-be-vietnam w-full">
+				<div className="text-black text-xs sm:text-sm font-semibold text-center">
+					DOKTER KAMI
+				</div>
+				<div className="h-0.5 w-full max-w-[96px] bg-orange-500 rounded-md"></div>
 			</div>
-				<h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold text-black leading-snug max-w-5xl mb-10">
+
+			{/* Title */}
+			<div className="w-full text-center text-black text-2xl md:text-4xl font-semibold font-be-vietnam mb-8 md:mb-10 px-2">
 				Temukan Dokter Spesialis Sesuai Kebutuhan Anda
-			</h1>
-		</>
+			</div>
+
+		</section>
 	);
 }
+
+
+
 
 function DoctorsSearch() {
 	const [query, setQuery] = React.useState("");

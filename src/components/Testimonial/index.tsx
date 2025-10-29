@@ -1,5 +1,4 @@
-// Testimonial.tsx
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Img1 from "./source/img1.png";
 import Img2 from "./source/img2.png";
 import LArrow from "./source/L_arrow.svg";
@@ -7,230 +6,235 @@ import RArrow from "./source/r_arrow.svg";
 import Star from "./source/si_star.svg";
 import Arrow from "./source/arrow.svg";
 
-type ViewMoreProps = {
-	size?: "sm" | "md" | "lg";
-	boxed?: boolean;
-	className?: string;
+/**
+ * Testimonial carousel with:
+ * - smooth slide (translateX)
+ * - infinite loop using clones (head & tail)
+ * - dots + arrow controls
+ * - swipe support
+ *
+ * Transition duration = 400ms (used consistently)
+ */
+
+const TRANSITION_MS = 400;
+
+const srcOf = (img: any): string => (typeof img === "string" ? img : img?.src ?? "");
+
+type TestimonialItem = {
+  id: number;
+  name: string;
+  message: string;
+  img: any;
+  rating: number;
 };
 
-const ViewMore = ({ size = "md", boxed = false, className = "" }: ViewMoreProps) => {
-	const sizeCls = size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base";
-	const base = "inline-flex items-center gap-2 font-semibold cursor-pointer";
-	const color = "text-orange-500";
-	const boxedCls = "bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2";
-	const arrowSize = size === "sm" ? "w-3 h-3" : "w-4 h-4";
-	return (
-		<div className={`${base} ${color} ${boxed ? boxedCls : "hover:underline"} ${sizeCls} ${className}`}>
-			<span>View More</span>
-			<img src={(Arrow as any).src ? (Arrow as any).src : (Arrow as any)} alt="arrow" className={arrowSize} />
-		</div>
-	);
-};
-
-
-const testimonials = [
-	{
-		id: 1,
-		name: "Lorem Ipsum",
-		message:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-		img: Img1,
-		rating: 5,
-	},
-	{
-		id: 2,
-		name: "Lorem Ipsum",
-		message:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-		img: Img2,
-		rating: 5,
-	},
+const testimonials: TestimonialItem[] = [
+  {
+    id: 1,
+    name: "Lorem Ipsum",
+    message:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    img: Img1,
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Lorem Ipsum",
+    message:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    img: Img2,
+    rating: 5,
+  },
+  // you can add more testimonials here
 ];
 
-export default function Testimonial() {
-	const [active, setActive] = React.useState(0);
-	const [slideDirection, setSlideDirection] = React.useState<'left' | 'right' | null>(null);
-	const [isSliding, setIsSliding] = React.useState(false);
-	const maxIdx = testimonials.length - 1;
+export default function Testimonial(): JSX.Element {
+  // we build slides = [last, ...items, first] so visible index starts at 1
+  const slides = [testimonials[testimonials.length - 1], ...testimonials, testimonials[0]];
+  const [index, setIndex] = useState<number>(1); // current translated slide index (in slides array)
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(true); // whether transform has transition
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-	const next = () => {
-		if (isSliding) return; 
-		setSlideDirection('left'); 
-		setIsSliding(true); 
-		setTimeout(() => { 
-			setActive((prev) => (prev < maxIdx ? prev + 1 : 0)); 
-			setIsSliding(false); 
-		}, 300); 
-	};
-	const prev = () => {
-		if (isSliding) return; 
-		setSlideDirection('right'); 
-		setIsSliding(true); 
-		setTimeout(() => { 
-			setActive((prev) => (prev > 0 ? prev - 1 : maxIdx)); 
-			setIsSliding(false); 
-		}, 300); 
-	};
+  // Swipe handling
+  const startX = useRef<number | null>(null);
 
-	// Touch events for swipe
-	const touchStartX = React.useRef(0);
-	const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-		touchStartX.current = e.touches[0].clientX;
-	};
-	const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-		const deltaX = e.changedTouches[0].clientX - touchStartX.current;
-		if (deltaX > 50) prev();
-		if (deltaX < -50) next();
-	};
+  useEffect(() => {
+    // when index reaches clones, snap without animation after transition completes
+    if (!containerRef.current) return;
 
-	return (
-		<div className="w-full bg-white overflow-hidden py-12">
-			<div className="max-w-[1272px] mx-auto px-4">
+    if (index === slides.length - 1) {
+      // moved to cloned-first -> snap to real first (index 1)
+      const t = setTimeout(() => {
+        if (!containerRef.current) return;
+        setIsTransitioning(false); // disable transition to snap
+        setIndex(1);
+        // re-enable transition in next tick
+        setTimeout(() => setIsTransitioning(true), 20);
+      }, TRANSITION_MS);
+      return () => clearTimeout(t);
+    }
 
-				{/* Header + View More (Mobile) */}
-				<div className="flex flex-row items-center justify-between mb-4">
-					<div className="inline-flex flex-col items-start gap-1">
-						<div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
-						TESTIMONIAL
-						</div>
-						<div className="h-0.5 bg-orange-500 w-full"></div>
-					</div>
-					<div className="block md:hidden ml-2">
-						<ViewMore size="md" boxed />
-					</div>
-				</div>
+    if (index === 0) {
+      // moved to cloned-last -> snap to real last (index slides.length - 2)
+      const t = setTimeout(() => {
+        if (!containerRef.current) return;
+        setIsTransitioning(false);
+        setIndex(slides.length - 2);
+        setTimeout(() => setIsTransitioning(true), 20);
+      }, TRANSITION_MS);
+      return () => clearTimeout(t);
+    }
+    // no cleanup required otherwise
+  }, [index, slides.length]);
 
-				{/* Heading + View More (Desktop) */}
-				<div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10">
-					<h2 className="text-xl sm:text-[16px] md:text-[32px] font-semibold text-black max-w-4xl">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit
-					</h2>
-					<div className="hidden md:inline-flex ml-6 mt-2 md:mt-0">
-						<ViewMore size="md" boxed />
-					</div>
-				</div>
+  // Touch handlers for swipe
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
 
-				{/* Mobile: single testimonial, swipe & button next/prev, with sliding effect */}
-				<div className="block md:hidden relative mb-8">
-					<div
-						className="overflow-hidden w-full"
-						onTouchStart={handleTouchStart}
-						onTouchEnd={handleTouchEnd}
-						style={{ position: 'relative', height: '100%' }}
-					>
-						<div
-							className="min-w-full bg-white rounded-lg outline outline-1 outline-zinc-300 p-6 flex flex-col items-start gap-6"
-							style={{
-								transform: isSliding
-									? slideDirection === 'left'
-										? 'translateX(-100%)'
-										: 'translateX(100%)'
-									: 'translateX(0)',
-								transition: 'transform 0.3s linear',
-							}}
-						>
-							<div className="flex flex-row items-center gap-4 mb-4">
-								<div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-300 flex-shrink-0">
-									<img
-										src={testimonials[active].img.src ? testimonials[active].img.src : (testimonials[active].img as any)}
-										alt={testimonials[active].name}
-										className="w-full h-full object-cover"
-									/>
-								</div>
-								<div className="flex flex-col">
-									<div className="text-sm font-semibold text-black mb-1">
-										{testimonials[active].name}
-									</div>
-									<div className="flex gap-2 mb-1">
-										{Array.from({ length: testimonials[active].rating }).map((_, idx) => (
-											<img
-												key={idx}
-												src={Star.src ? Star.src : Star}
-												alt="star"
-												className="w-5 h-5"
-											/>
-										))}
-									</div>
-								</div>
-							</div>
-							<p className="text-neutral-600 text-sm font-medium">
-								{testimonials[active].message}
-							</p>
+    const onTouchStart = (e: TouchEvent) => {
+      startX.current = e.touches[0].clientX;
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (startX.current === null) return;
+      const endX = e.changedTouches[0].clientX;
+      const delta = endX - startX.current;
+      // threshold 50px
+      if (delta < -50) {
+        // swipe left -> next
+        setIndex((prev) => prev + 1);
+      } else if (delta > 50) {
+        // swipe right -> prev
+        setIndex((prev) => prev - 1);
+      }
+      startX.current = null;
+    };
 
-						</div>
-					</div>
-					{/* Navigation Arrows */}
-					<div className="flex justify-center items-center gap-6 mt-6">
-						<img
-							src={LArrow.src ? LArrow.src : LArrow}
-							alt="left"
-							className={`w-8 h-8 cursor-pointer ${active === 0 ? 'opacity-50 pointer-events-none' : ''}`}
-							onClick={prev}
-						/>
-						<img
-							src={RArrow.src ? RArrow.src : RArrow}
-							alt="right"
-							className={`w-8 h-8 cursor-pointer ${active === maxIdx ? 'opacity-50 pointer-events-none' : ''}`}
-							onClick={next}
-						/>
-					</div>
-				</div>
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchend", onTouchEnd);
 
-				{/* Desktop: grid or carousel as before */}
-				<div className="hidden md:grid grid-cols-2 gap-6 justify-center mb-8">
-					{testimonials.map((t) => (
-						<div
-							key={t.id}
-							className="bg-white rounded-lg outline outline-1 outline-zinc-300 p-6 flex flex-col md:flex-row items-start gap-6"
-						>
-							<div className="flex flex-row items-center gap-4 mb-4 md:mb-0">
-									<div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-300 flex-shrink-0">
-									<img
-										src={t.img.src ? t.img.src : (t.img as any)}
-										alt={t.name}
-										className="w-full h-full object-cover"
-									/>
-								</div>
-								<div className="flex flex-col md:hidden">
-									<div className="text-lg font-semibold text-black mb-1">
-										{t.name}
-									</div>
-									<div className="flex gap-2 mb-1">
-										{Array.from({ length: t.rating }).map((_, idx) => (
-											<img
-												key={idx}
-												src={Star.src ? Star.src : Star}
-												alt="star"
-												className="w-5 h-5"
-											/>
-										))}
-									</div>
-								</div>
-							</div>
-							<div className="flex flex-col">
-								<div className="hidden md:block">
-									<div className="text-xl font-semibold text-black mb-2">
-										{t.name}
-									</div>
-									<div className="flex gap-2 mb-2">
-										{Array.from({ length: t.rating }).map((_, idx) => (
-											<img
-												key={idx}
-												src={Star.src ? Star.src : Star}
-												alt="star"
-												className="w-5 h-5"
-											/>
-										))}
-									</div>
-								</div>
-								<p className="text-neutral-600 text-base sm:text-lg font-medium">
-									{t.message}
-								</p>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		</div>
-	);
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, []);
+
+  // Basic controls
+  const next = () => setIndex((prev) => prev + 1);
+  const prev = () => setIndex((prev) => prev - 1);
+  const goTo = (i: number) => {
+    // i: logical slide index in testimonials (0..n-1)
+    // slides index would be i + 1
+    setIndex(i + 1);
+    // ensure transition enabled
+    setIsTransitioning(true);
+  };
+
+  // compute transform
+  const transformStyle = { transform: `translateX(-${index * 100}%)` };
+  const transitionStyle = isTransitioning ? `transform ${TRANSITION_MS}ms cubic-bezier(.22,.9,.31,1)` : "none";
+
+  return (
+    <div className="w-full bg-white overflow-hidden py-12">
+      <div className="max-w-[1272px] mx-auto px-4">
+        {/* Header */}
+        <div className="flex flex-row items-center justify-between mb-4">
+          <div className="inline-flex flex-col items-start gap-1">
+            <div className="text-black text-xs sm:text-sm font-semibold tracking-wide">TESTIMONIAL</div>
+            <div className="h-0.5 bg-orange-500 w-full" />
+          </div>
+          <div className="block md:hidden ml-2">
+            <button className="inline-flex items-center gap-2 font-semibold text-orange-500 bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm">
+              <span>View More</span>
+              <img src={srcOf(Arrow)} alt="arrow" className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10">
+          <h2 className="text-xl sm:text-[16px] md:text-[32px] font-semibold text-black max-w-4xl">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit
+          </h2>
+          <div className="hidden md:inline-flex ml-6 mt-2 md:mt-0">
+            <button className="inline-flex items-center gap-2 font-semibold text-orange-500 bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm">
+              <span>View More</span>
+              <img src={srcOf(Arrow)} alt="arrow" className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* MOBILE / TABLET SLIDER */}
+        <div className="block md:hidden select-none">
+          <div className="overflow-hidden w-full">
+            <div
+              ref={containerRef}
+              className="flex"
+              style={{ ...transformStyle, transition: transitionStyle }}
+            >
+              {slides.map((s, i) => (
+                <div key={i} className="min-w-full px-1">
+                  <div className="bg-white border border-zinc-200 shadow-sm rounded-2xl p-6 flex flex-col gap-6 max-w-[600px] mx-auto">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-200 flex-shrink-0">
+                        <img src={srcOf(s.img)} alt={s.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-black">{s.name}</div>
+                        <div className="flex gap-1">
+                          {Array.from({ length: s.rating }).map((_, x) => (
+                            <img key={x} src={srcOf(Star)} className="w-4 h-4" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-neutral-600 text-sm leading-relaxed">{s.message}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+
+          {/* Dots */}
+          <div className="flex justify-center gap-2 mt-6">
+            {testimonials.map((_, i) => {
+              const active = index === i + 1; // because slides have clone at start
+              return (
+                <button
+                  key={i}
+                  onClick={() => goTo(i)}
+                  aria-label={`go to ${i}`}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${active ? "bg-orange-500 scale-110" : "bg-zinc-300"}`}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        {/* DESKTOP GRID (kept simple) */}
+        <div className="hidden md:grid grid-cols-2 gap-6 mt-10">
+          {testimonials.map((t) => (
+            <div
+              key={t.id}
+              className="bg-white border border-zinc-200 shadow-sm rounded-2xl p-6 flex gap-6 hover:-translate-y-[3px] hover:shadow-md transition-all duration-300"
+            >
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-200 flex-shrink-0">
+                <img src={srcOf(t.img)} alt={t.name} className="w-full h-full object-cover" />
+              </div>
+
+              <div className="flex flex-col">
+                <div className="text-lg font-semibold text-black mb-1">{t.name}</div>
+                <div className="flex gap-1 mb-3">
+                  {Array.from({ length: t.rating }).map((_, x) => (
+                    <img key={x} src={srcOf(Star)} className="w-5 h-5" />
+                  ))}
+                </div>
+                <p className="text-neutral-600 text-base leading-relaxed">{t.message}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
