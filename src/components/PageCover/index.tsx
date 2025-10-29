@@ -31,11 +31,11 @@ const PageCover = () => {
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
-  // Auto slide change
+  // Auto slide change - DIUBAH MENJADI 20 DETIK
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 4000);
+    }, 10000); // Diubah dari 4000 menjadi 10000 (10 detik)
     return () => clearInterval(interval);
   }, [slides.length]);
 
