@@ -74,7 +74,7 @@ const PageCover = () => {
   }, [isModalOpen]);
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-orange-50">
+  <section className="relative w-full min-h-0 md:min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-orange-50">
       {/* Background Decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-orange-200 rounded-full blur-3xl opacity-30 animate-pulse"></div>
@@ -83,9 +83,9 @@ const PageCover = () => {
 
       <Navbar />
 
-      {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 pt-24 pb-16">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-16">
+  {/* Main Content */}
+<div className="relative z-10 container mx-auto px-4 pt-20 md:pt-24 pb-8 md:pb-16">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-16">
           
           {/* Left Content - Text & Search */}
           <div className="hidden md:block flex-1 w-full max-w-2xl">
@@ -185,7 +185,7 @@ const PageCover = () => {
                 </button>
 
                 {/* Dots Indicator */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                <div className="absolute bottom-3 md:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
                   {slides.map((_, index) => (
                     <button
                       key={index}
@@ -202,7 +202,7 @@ const PageCover = () => {
               </div>
 
               {/* Thumbnail Gallery - Rounded 10px */}
-              <div className="flex gap-4 mt-6 justify-center">
+              <div className="flex gap-4 mt-4 md:mt-6 justify-center">
                 {slides.map((slide, index) => (
                   <button
                     key={index}
