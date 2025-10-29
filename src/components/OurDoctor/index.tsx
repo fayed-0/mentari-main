@@ -64,7 +64,7 @@ const OurDoctor = () => {
         <div className="flex flex-row items-center justify-between mb-6 md:mb-6">
          <div className="inline-flex flex-col items-start gap-1">
             <div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
-              OUR DOCTOR
+              DOKTER KAMI
             </div>
             <div className="h-0.5 bg-orange-500 w-full"></div>
           </div>

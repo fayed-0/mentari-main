@@ -41,8 +41,8 @@ function SectionHeader() {
 	return (
 		<>
 				<div className="inline-flex flex-col items-start gap-[5px] mb-6">
-					<div className="text-black font-semibold tracking-wide text-xs sm:text-sm">DOKTER</div>
-				<div className="w-24 h-0.5 bg-orange-500" />
+					<div className="text-black font-semibold tracking-wide text-xs sm:text-sm">DOKTER KAMI</div>
+				<div className="h-0.5 bg-orange-500 w-full"></div>
 			</div>
 				<h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold text-black leading-snug max-w-5xl mb-10">
 				Temukan Dokter Spesialis Sesuai Kebutuhan Anda

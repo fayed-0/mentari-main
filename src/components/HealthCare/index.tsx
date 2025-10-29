@@ -77,7 +77,7 @@ const HealthCare = () => {
 				<div className="flex flex-row items-center justify-between mb-4 sm:mb-6">
 					<div className="inline-flex flex-col items-start gap-1">
 						<div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
-						HEALTH CARE
+						LAYANAN MEDIS
 						</div>
 						<div className="h-0.5 bg-orange-500 w-full"></div>
 					</div>

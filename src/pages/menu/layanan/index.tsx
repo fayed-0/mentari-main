@@ -43,11 +43,11 @@ export default function LayananPage() {
 			<Navbar />
 
 			{/* Header */}
-			<section className="max-w-[1512px] mx-auto px-4 sm:px-6 md:px-10 pt-24 pb-10">
+			<section className="max-w-[1512px] mx-auto px-4 sm:px-6 md:px-10 pt-10 md:pt-24 pb-10">
 				<div className="max-w-[1272px] mx-auto items-center pt-12 px-2">
 					<div className="flex flex-col items-center gap-[5px] w-full">
 						<div className="text-black text-xs sm:text-sm font-semibold text-center">LAYANAN</div>
-						<div className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500" />
+						<div className="w-24 h-0.5 outline outline-1 outline-offset-[-1px] outline-orange-500"></div>
 					</div>
 					<div className="mt-3 relative flex items-center justify-center w-full">
 						<h1 className="text-center text-black text-2xl md:text-4xl font-semibold max-w-[1127px]">

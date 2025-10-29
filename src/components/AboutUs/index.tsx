@@ -43,7 +43,7 @@ const AboutUs = () => {
           <div className="mb-6 flex items-center justify-between">
             <div className="inline-flex flex-col items-start gap-1">
                 <div className="inline-block text-black text-xs sm:text-sm font-semibold tracking-wide">
-                  ABOUT US
+                  TENTANG KAMI
                 </div>
                 <div className="h-0.5 bg-orange-500 w-full"></div>
               </div>
