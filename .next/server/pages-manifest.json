@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/menu/jadwal-dokter": "pages/menu/jadwal-dokter.js",
-  "/healthcare/[slug]": "pages/healthcare/[slug].js",
-  "/menu/jadwal-dokter/profiledokter": "pages/menu/jadwal-dokter/profiledokter.js"
+  "/": "pages/index.js",
+  "/menu/layanan": "pages/menu/layanan.js"
 }

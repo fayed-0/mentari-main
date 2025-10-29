@@ -88,7 +88,7 @@ const PageCover = () => {
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-16">
           
           {/* Left Content - Text & Search */}
-          <div className="flex-1 w-full max-w-2xl">
+          <div className="hidden md:block flex-1 w-full max-w-2xl">
             <div className="space-y-8">
               {/* Badge */}
               <div className="inline-flex items-center gap-3 sm:gap-4 md:gap-5 bg-white/80 backdrop-blur-sm px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full shadow-lg border border-orange-100">
