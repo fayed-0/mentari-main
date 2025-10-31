@@ -185,20 +185,21 @@ const PageCover = () => {
                 </button>
 
                 {/* Dots Indicator */}
-                <div className="absolute bottom-3 md:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                  {slides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        index === currentSlide 
-                          ? 'bg-orange-500 scale-125' 
-                          : 'bg-white/70 hover:bg-white'
-                      }`}
-                      aria-label={`Pergi ke slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
+<div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+  {slides.map((_, index) => (
+    <button
+      key={index}
+      onClick={() => setCurrentSlide(index)}
+      className={`rounded-full transition-all duration-300 ${
+        index === currentSlide 
+          ? 'w-3 h-3 bg-orange-500'   // ukuran aktif
+          : 'w-2 h-2 bg-white/70 hover:bg-white' // ukuran non aktif
+      }`}
+      aria-label={`Pergi ke slide ${index + 1}`}
+    />
+  ))}
+</div>
+
               </div>
 
               {/* Thumbnail Gallery - Rounded 10px */}

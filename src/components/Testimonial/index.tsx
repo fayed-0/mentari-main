@@ -49,33 +49,27 @@ const testimonials: TestimonialItem[] = [
 ];
 
 export default function Testimonial(): JSX.Element {
-  // we build slides = [last, ...items, first] so visible index starts at 1
   const slides = [testimonials[testimonials.length - 1], ...testimonials, testimonials[0]];
   const [index, setIndex] = useState<number>(1); // current translated slide index (in slides array)
   const [isTransitioning, setIsTransitioning] = useState<boolean>(true); // whether transform has transition
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Swipe handling
   const startX = useRef<number | null>(null);
 
   useEffect(() => {
-    // when index reaches clones, snap without animation after transition completes
     if (!containerRef.current) return;
 
     if (index === slides.length - 1) {
-      // moved to cloned-first -> snap to real first (index 1)
       const t = setTimeout(() => {
         if (!containerRef.current) return;
-        setIsTransitioning(false); // disable transition to snap
+        setIsTransitioning(false); 
         setIndex(1);
-        // re-enable transition in next tick
         setTimeout(() => setIsTransitioning(true), 20);
       }, TRANSITION_MS);
       return () => clearTimeout(t);
     }
 
     if (index === 0) {
-      // moved to cloned-last -> snap to real last (index slides.length - 2)
       const t = setTimeout(() => {
         if (!containerRef.current) return;
         setIsTransitioning(false);
@@ -84,10 +78,9 @@ export default function Testimonial(): JSX.Element {
       }, TRANSITION_MS);
       return () => clearTimeout(t);
     }
-    // no cleanup required otherwise
+
   }, [index, slides.length]);
 
-  // Touch handlers for swipe
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -99,12 +92,9 @@ export default function Testimonial(): JSX.Element {
       if (startX.current === null) return;
       const endX = e.changedTouches[0].clientX;
       const delta = endX - startX.current;
-      // threshold 50px
       if (delta < -50) {
-        // swipe left -> next
         setIndex((prev) => prev + 1);
       } else if (delta > 50) {
-        // swipe right -> prev
         setIndex((prev) => prev - 1);
       }
       startX.current = null;
@@ -119,18 +109,14 @@ export default function Testimonial(): JSX.Element {
     };
   }, []);
 
-  // Basic controls
   const next = () => setIndex((prev) => prev + 1);
   const prev = () => setIndex((prev) => prev - 1);
   const goTo = (i: number) => {
-    // i: logical slide index in testimonials (0..n-1)
-    // slides index would be i + 1
+
     setIndex(i + 1);
-    // ensure transition enabled
     setIsTransitioning(true);
   };
 
-  // compute transform
   const transformStyle = { transform: `translateX(-${index * 100}%)` };
   const transitionStyle = isTransitioning ? `transform ${TRANSITION_MS}ms cubic-bezier(.22,.9,.31,1)` : "none";
 
@@ -194,17 +180,22 @@ export default function Testimonial(): JSX.Element {
             </div>
           </div>
 
-
           {/* Dots */}
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center items-center gap-2 mt-6">
             {testimonials.map((_, i) => {
-              const active = index === i + 1; // because slides have clone at start
+              const logicalIndex = (index - 1 + testimonials.length) % testimonials.length;
+              const active = logicalIndex === i;
+
               return (
                 <button
                   key={i}
                   onClick={() => goTo(i)}
                   aria-label={`go to ${i}`}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${active ? "bg-orange-500 scale-110" : "bg-zinc-300"}`}
+                  className={`rounded-full transition-all duration-200 ${
+                    active 
+                      ? "w-3 h-3 bg-orange-500"
+                      : "w-2 h-2 bg-zinc-300"
+                  }`}
                 />
               );
             })}
