@@ -80,13 +80,7 @@ export default function LayananPage() {
 
 								{/* Centered label */}
 								<div className="absolute inset-0 flex items-center justify-center px-6">
-									<div
-										className={[
-											"text-center text-white",
-											svc.highlight ? "font-semibold" : "font-medium",
-											"text-xl",
-										].join(" ")}
-									>
+									<div className="text-center text-white font-medium text-xl">
 										{svc.title}
 									</div>
 								</div>

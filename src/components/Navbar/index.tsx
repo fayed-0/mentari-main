@@ -10,6 +10,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIdx, setActiveIdx] = useState<number>(-1);
+  
   const results: SearchItem[] = useMemo(() => (query.trim() ? searchAll(query).slice(0, 8) : []), [query]);
   const [openDropdown, setOpenDropdown] = useState(false);
   const desktopSearchRef = useRef<HTMLFormElement | null>(null);
@@ -63,7 +64,7 @@ const Navbar = () => {
       </div>
 
     {/* Menu desktop */}
-  <div className="hidden lg:flex gap-10 text-black-100 text-lg font-reguler font-be-vietnam">
+  <div className="hidden lg:flex gap-10 text-black-100 text-lg font-reguler font-be-vietnam absolute left-1/2 transform -translate-x-1/2 z-40">
         <Link href="/" className={`${linkBase} ${isActive("/") ? activeStyle : inactiveStyle}`}>Beranda</Link>
   <Link href="/menu/Dokter" className={`${linkBase} ${isActive("/menu/Dokter") ? activeStyle : inactiveStyle}`}>Dokter</Link>
         <Link href="/menu/Fasilitas" className={`${linkBase} ${isActive("/menu/Fasilitas") ? activeStyle : inactiveStyle}`}>Fasilitas</Link>
@@ -73,41 +74,45 @@ const Navbar = () => {
         <Link href="#" className={`${linkBase} ${inactiveStyle}`}>Karir</Link>
       </div>
 
-  {/* Desktop search */}
-  <form ref={desktopSearchRef} onSubmit={onDesktopSubmit} className="hidden lg:flex items-center gap-2 mx-6 relative">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => { setQuery(e.target.value); setOpenDropdown(true); setActiveIdx(-1); }}
-          onFocus={() => { if (results.length) setOpenDropdown(true); }}
-          onKeyDown={(e) => {
-            if (e.key === 'ArrowDown') {
-              e.preventDefault();
-              setOpenDropdown(true);
-              setActiveIdx((prev) => Math.min(results.length - 1, prev + 1));
-            } else if (e.key === 'ArrowUp') {
-              e.preventDefault();
-              setActiveIdx((prev) => Math.max(-1, prev - 1));
-            } else if (e.key === 'Enter') {
-              if (openDropdown) {
+  {/* Desktop search + appointment grouped (show on lg+) */}
+  <div className="hidden lg:flex items-center gap-3">
+    {!isActive("/") && (
+      <form ref={desktopSearchRef} onSubmit={onDesktopSubmit} className="flex items-center relative">
+        <div className="flex items-stretch rounded-md overflow-hidden border border-stone-300 shadow-sm">
+            <input
+            type="text"
+            value={query}
+            onChange={(e) => { setQuery(e.target.value); setOpenDropdown(true); setActiveIdx(-1); }}
+            onFocus={() => { if (results.length) setOpenDropdown(true); }}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowDown') {
                 e.preventDefault();
-                openSelected();
+                setOpenDropdown(true);
+                setActiveIdx((prev) => Math.min(results.length - 1, prev + 1));
+              } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                setActiveIdx((prev) => Math.max(-1, prev - 1));
+              } else if (e.key === 'Enter') {
+                if (openDropdown) {
+                  e.preventDefault();
+                  openSelected();
+                }
+              } else if (e.key === 'Escape') {
+                setOpenDropdown(false);
+                setActiveIdx(-1);
               }
-            } else if (e.key === 'Escape') {
-              setOpenDropdown(false);
-              setActiveIdx(-1);
-            }
-          }}
-          placeholder="Cari..."
-          className="w-48 h-9 px-3 bg-transparent text-stone-600 text-sm border border-stone-300 rounded-md focus:outline-none focus:border-orange-500"
-          aria-label="Cari"
-        />
-        <button type="submit" className="w-10 h-9 bg-orange-500 rounded-md flex items-center justify-center hover:bg-orange-600">
-          <img src={typeof SearchIcon === 'string' ? SearchIcon : (SearchIcon as any).src} alt="Cari" className="w-4 h-4" />
-        </button>
+            }}
+            placeholder="Cari..."
+            className="h-10 w-40 md:w-56 px-3 bg-white text-stone-600 text-sm focus:outline-none"
+            aria-label="Cari"
+          />
+          <button type="submit" className="h-10 w-10 bg-orange-500 text-white flex items-center justify-center hover:bg-orange-600">
+            <img src={typeof SearchIcon === 'string' ? SearchIcon : (SearchIcon as any).src} alt="Cari" className="w-4 h-4" />
+          </button>
+        </div>
 
         {openDropdown && results.length > 0 && (
-          <div className="absolute top-full left-0 mt-2 w-[28rem] max-w-[80vw] bg-white border border-stone-200 rounded-lg shadow-xl z-50">
+          <div className="absolute top-full left-0 mt-2 w-56 max-w-[60vw] bg-white border border-stone-200 rounded-lg shadow-xl z-50">
             <ul className="py-2 max-h-80 overflow-auto">
               {results.map((item, idx) => (
                 <li key={`${item.path}-${idx}`}>
@@ -129,10 +134,12 @@ const Navbar = () => {
           </div>
         )}
       </form>
+    )}
 
-  <Link href="/menu/Dokter" className="hidden lg:inline-flex bg-orange-500 text-white font-reguler px-5 py-2 rounded-md hover:bg-orange-600 transition">
+    <Link href="/menu/Dokter" className="bg-orange-500 text-white font-reguler px-5 py-2 rounded-md hover:bg-orange-600 transition">
         Buat Janji
       </Link>
+      </div>
 
       <button
         className="lg:hidden text-black"
