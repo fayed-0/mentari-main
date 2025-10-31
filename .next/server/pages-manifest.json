@@ -3,6 +3,7 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/healthcare": "pages/healthcare.js",
-  "/healthcare/[slug]": "pages/healthcare/[slug].js"
+  "/menu/layanan/rawat-inap": "pages/menu/layanan/rawat-inap.js",
+  "/menu/Fasilitas": "pages/menu/Fasilitas.js",
+  "/menu/layanan": "pages/menu/layanan.js"
 }

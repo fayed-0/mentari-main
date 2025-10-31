@@ -25,10 +25,20 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/healthcare/[slug]": [
+    "/menu/Fasilitas": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/healthcare/[slug].js"
+      "static/chunks/pages/menu/Fasilitas.js"
+    ],
+    "/menu/layanan": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/menu/layanan.js"
+    ],
+    "/menu/layanan/rawat-inap": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/menu/layanan/rawat-inap.js"
     ]
   },
   "ampFirstPages": []
