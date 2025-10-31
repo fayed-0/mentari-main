@@ -130,7 +130,7 @@ export default function Testimonial(): JSX.Element {
             <div className="h-0.5 bg-orange-500 w-full" />
           </div>
           <div className="block md:hidden ml-2">
-            <button className="inline-flex items-center gap-2 font-semibold text-orange-500 bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm">
+            <button className="inline-flex items-center gap-2 text-sm font-semibold text-orange-500 bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2">
               <span>View More</span>
               <img src={srcOf(Arrow)} alt="arrow" className="w-4 h-4" />
             </button>
@@ -142,7 +142,7 @@ export default function Testimonial(): JSX.Element {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit
           </h2>
           <div className="hidden md:inline-flex ml-6 mt-2 md:mt-0">
-            <button className="inline-flex items-center gap-2 font-semibold text-orange-500 bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm">
+            <button className="inline-flex items-center gap-2 text-sm font-semibold text-orange-500 bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2">
               <span>View More</span>
               <img src={srcOf(Arrow)} alt="arrow" className="w-4 h-4" />
             </button>

@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/menu/layanan/trauma-center": "pages/menu/layanan/trauma-center.js",
   "/": "pages/index.js",
-  "/menu/Dokter": "pages/menu/Dokter.js"
+  "/menu/Dokter": "pages/menu/Dokter.js",
+  "/menu/layanan/trauma-center": "pages/menu/layanan/trauma-center.js"
 }
