@@ -53,13 +53,14 @@ function DoctorCard({ specTitle, specIcon }: { specTitle: string; specIcon?: any
             <PillTag text={specTitle} icon={specIcon} />
           </div>
         </div>
-        <h3 className="mt-4 sm:mt-5 text-base sm:text-xl font-semibold text-black">dr. Budi Sutomo, Sp.N</h3>
+        <h3 className="mt-1 sm:mt-5 text-base sm:text-xl font-semibold text-black">dr. Budi Sutomo, Sp.N</h3>
         <p className="mt-1 sm:mt-2 text-neutral-600 text-xs sm:text-base">Perawatan gangguan otak, saraf & tulang belakang.</p>
         <div className="mt-4 sm:mt-6 flex items-center gap-2 justify-between">
-          <Link href="/menu/jadwal-dokter/profiledokter" className="inline-flex items-center gap-2 text-orange-500 text-xs sm:text-sm font-semibold">
-            <Image src={ProfileIcon} alt="Profile" width={20} height={20} className="hidden sm:inline-block" />
-            <span>Lihat Profile</span>
-          </Link>
+<Link href="/menu/jadwal-dokter/profiledokter" className="inline-flex items-center gap-2 text-orange-500 text-xs sm:text-sm font-semibold">
+  <Image src={ProfileIcon} alt="Profile" width={20} height={20} className="hidden sm:inline-block" />
+  <span className="sm:hidden">Profile</span>
+  <span className="hidden sm:inline-block">Lihat Profile</span>
+</Link>
           <Link href="/menu/jadwal-dokter" className="inline-flex items-center gap-2 px-3 py-2 rounded-[5px] border border-zinc-300 text-neutral-700 text-xs sm:text-sm font-semibold bg-white hover:border-orange-400 hover:text-orange-600 transition">
             <Image src={CalendarIcon} alt="Buat Janji" width={24} height={24} className="hidden sm:inline-block" />
             <span>Appointment</span>
@@ -87,7 +88,7 @@ export default function SpecializationDetail() {
           {/* Header card */}
           <div className="bg-white rounded-[10px] border border-stone-300 shadow-[0_4px_8px_rgba(0,0,0,0.06)] p-5 sm:p-8">
             <div className="grid grid-cols-[96px,1fr] sm:grid-cols-[256px,1fr] gap-5 sm:gap-6 items-center">
-              <div className="w-24 h-24 sm:size-64 rounded-[10px] outline outline-2 outline-offset-[-2px] outline-stone-300 bg-white flex items-center justify-center overflow-hidden">
+              <div className="w-24 h-24 sm:size-64 rounded-[10px] outline outline-1 outline-offset-[-2px] outline-stone-300 bg-white flex items-center justify-center overflow-hidden">
                 {spec.icon ? (
                   <Image src={spec.icon} alt={spec.title} width={56} height={56} className="sm:w-24 sm:h-24" />
                 ) : (

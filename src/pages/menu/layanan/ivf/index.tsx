@@ -22,11 +22,15 @@ export default function IVFPage() {
 				<main className="flex-1 w-full bg-white">
 					<section className="relative w-full pt-24 pb-10 sm:pt-32 sm:pb-14">
 						<div className="mx-auto w-full max-w-[1272px] px-4">
-							<div className="flex flex-col items-center gap-2 mb-4">
-								<span className="text-black text-xs sm:text-sm font-semibold tracking-wide">IVF MORULLA</span>
-								<span className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500" />
-							</div>
-							<h1 className="text-black font-bold font-sans tracking-tight text-2xl sm:text-3xl md:text-5xl leading-snug text-center mx-auto max-w-5xl">
+							<div className="flex justify-center">
+                                <div className="inline-flex flex-col items-center gap-2 mb-4 w-fit">
+                                    <span className="text-black text-xs sm:text-sm font-semibold tracking-wide">
+                                    IVF MORULLA
+                                    </span>
+                                    <span className="h-0.5 bg-orange-500 rounded-md w-full" />
+                                </div>
+                            </div>
+							<h1 className="text-black font-bold font-sans tracking-tight text-2xl sm:text-3xl md:text-4xl leading-snug text-center mx-auto max-w-5xl">
 								Klinik Bayi Tabung Dan Gangguan Kesuburan
 							</h1>
 							<p className="mt-6 text-neutral-700 text-sm sm:text-base font-medium max-w-3xl text-center mx-auto">

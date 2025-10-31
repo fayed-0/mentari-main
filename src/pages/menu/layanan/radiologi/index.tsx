@@ -20,11 +20,13 @@ export default function RadiologyPage() {
 				<main className="flex-1 w-full bg-white">
 					<section className="relative w-full pt-24 pb-10 sm:pt-32 sm:pb-14">
 						<div className="mx-auto w-full max-w-[1272px] px-4">
-							<div className="flex flex-col items-center gap-2 mb-4">
-								<span className="text-black text-xs sm:text-sm font-semibold tracking-wide">RADIOLOGI</span>
-								<span className="w-24 h-0 outline outline-2 outline-offset-[-1px] outline-orange-500" />
+							<div className="flex justify-center">
+								<div className="inline-flex flex-col justify-start items-center gap-[5px] mb-4 font-be-vietnam">
+									<span className="text-black text-xs sm:text-sm font-semibold tracking-wide text-center">RADIOLOGI</span>
+									<span className="h-0.5 w-24 bg-orange-500 rounded-md" />
+								</div>
 							</div>
-							<h1 className="text-black font-bold font-sans tracking-tight text-2xl sm:text-3xl md:text-5xl leading-snug text-center mx-auto max-w-5xl">
+							<h1 className="text-black font-bold font-sans tracking-tight text-2xl sm:text-3xl md:text-4xl leading-snug text-center mx-auto max-w-5xl">
 								Layanan Radiologi & Pencitraan Medis
 							</h1>
 							<p className="mt-6 text-neutral-700 text-sm sm:text-base font-medium max-w-3xl text-center mx-auto">
