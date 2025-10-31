@@ -41,9 +41,9 @@ type ViewMoreProps = {
 
 const ViewMore = ({ size = 'md', className = '', boxed = false }: ViewMoreProps) => {
     const sizeClass = size === 'sm' ? 'text-xs' : size === 'md' ? 'text-sm' : 'text-base';
-    return (
-        <Link
-            href="/menu/rawat-inap"
+	return (
+		<Link
+			href="/menu/layanan/rawat-inap"
             className={`inline-flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white transition ${sizeClass} ${className} ${
                 boxed ? 'bg-white border border-zinc-300 rounded-md px-3 py-1.5 shadow-sm hover:shadow md:px-4 md:py-2' : ''
             }`}

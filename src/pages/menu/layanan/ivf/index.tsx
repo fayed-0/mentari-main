@@ -30,7 +30,7 @@ export default function IVFPage() {
                                     <span className="h-0.5 bg-orange-500 rounded-md w-full" />
                                 </div>
                             </div>
-							<h1 className="text-black font-bold font-sans tracking-tight text-2xl sm:text-3xl md:text-4xl leading-snug text-center mx-auto max-w-5xl">
+							<h1 className="text-black font-semibold font-be-vietnam tracking-tight text-2xl sm:text-3xl md:text-4xl leading-snug text-center mx-auto max-w-5xl">
 								Klinik Bayi Tabung Dan Gangguan Kesuburan
 							</h1>
 							<p className="mt-6 text-neutral-700 text-sm sm:text-base font-medium max-w-3xl text-center mx-auto">
