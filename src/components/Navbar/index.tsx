@@ -62,8 +62,8 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Menu desktop */}
-  <div className="hidden md:flex gap-10 text-black-100 text-lg font-reguler font-be-vietnam">
+    {/* Menu desktop */}
+  <div className="hidden lg:flex gap-10 text-black-100 text-lg font-reguler font-be-vietnam">
         <Link href="/" className={`${linkBase} ${isActive("/") ? activeStyle : inactiveStyle}`}>Beranda</Link>
   <Link href="/menu/Dokter" className={`${linkBase} ${isActive("/menu/Dokter") ? activeStyle : inactiveStyle}`}>Dokter</Link>
         <Link href="/menu/Fasilitas" className={`${linkBase} ${isActive("/menu/Fasilitas") ? activeStyle : inactiveStyle}`}>Fasilitas</Link>
@@ -73,8 +73,8 @@ const Navbar = () => {
         <Link href="#" className={`${linkBase} ${inactiveStyle}`}>Karir</Link>
       </div>
 
-      {/* Desktop search */}
-      <form ref={desktopSearchRef} onSubmit={onDesktopSubmit} className="hidden md:flex items-center gap-2 mx-6 relative">
+  {/* Desktop search */}
+  <form ref={desktopSearchRef} onSubmit={onDesktopSubmit} className="hidden lg:flex items-center gap-2 mx-6 relative">
         <input
           type="text"
           value={query}
@@ -130,20 +130,20 @@ const Navbar = () => {
         )}
       </form>
 
-      <Link href="/menu/Dokter" className="hidden md:inline-flex bg-orange-500 text-white font-reguler px-5 py-2 rounded-md hover:bg-orange-600 transition">
+  <Link href="/menu/Dokter" className="hidden lg:inline-flex bg-orange-500 text-white font-reguler px-5 py-2 rounded-md hover:bg-orange-600 transition">
         Buat Janji
       </Link>
 
       <button
-        className="md:hidden text-black"
+        className="lg:hidden text-black"
         onClick={() => setIsOpen(!isOpen)}
       >
         ☰
       </button>
 
       {/* Mobile menu */}
-      {isOpen && (
-  <div className="absolute top-16 left-0 w-full bg-white flex flex-col gap-4 p-6 shadow-md md:hidden z-50 font-be-vietnam">
+    {isOpen && (
+  <div className="absolute top-16 left-0 w-full bg-white flex flex-col gap-4 p-6 shadow-md lg:hidden z-50 font-be-vietnam">
           <div className="flex items-center w-full mb-2">
             <input
               type="text"

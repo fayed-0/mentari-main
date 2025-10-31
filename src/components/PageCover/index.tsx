@@ -31,11 +31,10 @@ const PageCover = () => {
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
-  // Auto slide change - DIUBAH MENJADI 20 DETIK
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 10000); // Diubah dari 4000 menjadi 10000 (10 detik)
+    }, 10000); // durasi slide (10 detik)
     return () => clearInterval(interval);
   }, [slides.length]);
 
@@ -185,20 +184,20 @@ const PageCover = () => {
                 </button>
 
                 {/* Dots Indicator */}
-<div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-  {slides.map((_, index) => (
-    <button
-      key={index}
-      onClick={() => setCurrentSlide(index)}
-      className={`rounded-full transition-all duration-300 ${
-        index === currentSlide 
-          ? 'w-3 h-3 bg-orange-500'   // ukuran aktif
-          : 'w-2 h-2 bg-white/70 hover:bg-white' // ukuran non aktif
-      }`}
-      aria-label={`Pergi ke slide ${index + 1}`}
-    />
-  ))}
-</div>
+                <div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                  {slides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`rounded-full transition-all duration-300 ${
+                        index === currentSlide 
+                          ? 'w-3 h-3 bg-orange-500'   // ukuran aktif
+                          : 'w-2 h-2 bg-white/70 hover:bg-white' // ukuran non aktif
+                      }`}
+                      aria-label={`Pergi ke slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
 
               </div>
 

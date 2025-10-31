@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
   "/menu/layanan/rawat-inap": "pages/menu/layanan/rawat-inap.js",
-  "/menu/Fasilitas": "pages/menu/Fasilitas.js",
-  "/menu/layanan": "pages/menu/layanan.js"
+  "/menu/layanan": "pages/menu/layanan.js",
+  "/": "pages/index.js"
 }

@@ -6,6 +6,74 @@ import AnimatedCollapse from '../../../../components/AnimatedCollapse';
 import DownIcon from '../../../../components/HealthCare/source/down.svg';
 
 export default function InpatientPage() {
+	const roomCards = [
+		{
+			id: 'suite-1',
+			title: 'Suite | Rp. 2.050.000',
+			summary:
+				'Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Dining Set, Kitchen Set, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC',
+			full:
+				'Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Dining Set, Kitchen Set, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC'
+		},
+		{
+			id: 'vvip',
+			title: 'VVIP | Rp. 2.050.000',
+			summary:
+				'Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas',
+			full:
+				'Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas'
+		},
+		{
+			id: 'vip',
+			title: 'VIP | Rp. 1.200.000',
+			summary:
+				'Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas Portable',
+			full:
+				'Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas Portable'
+		},
+		{
+			id: 'kelas1',
+			title: 'Kelas 1 | Rp. 625.000',
+			summary:
+				'Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, 2 Televisi 30\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC',
+			full:
+				'Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, 2 Televisi 30\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC'
+		},
+		{
+			id: 'kelas2',
+			title: 'Kelas 2 | Rp. 400.000',
+			summary:
+				'Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30\" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC',
+			full:
+				'Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30\" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC'
+		},
+		{
+			id: 'kelas3',
+			title: 'Kelas 3 | Rp. 200.000',
+			summary:
+				'Tempat Tidur Standar (3-4 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30\" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC',
+			full:
+				'Tempat Tidur Standar (3-4 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30\" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC'
+		}
+	];
+
+	const [selectedCard, setSelectedCard] = React.useState<any | null>(null);
+	const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+	// (mobile-only filter removed) 
+
+	const openModal = (card: any) => {
+		setSelectedCard(card);
+		setIsModalOpen(true);
+		document.body.style.overflow = 'hidden';
+	};
+
+	const closeModal = () => {
+		setSelectedCard(null);
+		setIsModalOpen(false);
+		document.body.style.overflow = '';
+	};
+
 	return (
 		<>
 			<Head>
@@ -27,21 +95,72 @@ export default function InpatientPage() {
 								</div>
 							</div>
 							<h1 className="text-black font-bold font-sans tracking-tight text-2xl sm:text-3xl md:text-4xl leading-snug text-center mx-auto max-w-5xl">
-								Layanan Rawat Inap – Perawatan Nyaman 24 Jam
+								Pilihan Kamar Rawat Inap
 							</h1>
 							<p className="mt-6 text-neutral-700 text-sm sm:text-base font-medium max-w-3xl text-center mx-auto">
-								Kamar perawatan nyaman, fasilitas lengkap, dan pemantauan dokter-perawat sepanjang waktu untuk pemulihan yang optimal.
+								Tersedia berbagai pilihan tipe kamar dengan fasilitas dan kenyamanan yang dapat disesuaikan dengan kebutuhan Anda
 							</p>
-							<div className="mt-10 sm:mt-14">
-								<div className="w-full h-56 sm:h-[360px] md:h-[480px] bg-neutral-200 rounded-md flex items-center justify-center text-neutral-600 text-sm sm:text-base font-medium select-none">
-									Ilustrasi Rawat Inap (Coming Soon)
+
+							<div className="hidden md:block mt-10 md:mt-14">
+								<div className="w-full max-w-[1271px] mx-auto relative" style={{ paddingTop: '88.75%' }}>
+									{roomCards.map((card, idx) => {
+										const col = idx % 3; // 0,1,2
+										const row = Math.floor(idx / 3); // 0,1
+										const leftPct = (col * 437) / 1271 * 100; // percentage from original px
+										const topPct = (row * 584) / 1128 * 100; // percentage from original px
+										const cardWidthPct = (384 / 1271) * 100; // original w-96 (384px)
+										const cardHeightPct = (544 / 1128) * 100;
+										return (
+											<button
+												key={card.id}
+												onClick={() => openModal(card)}
+												className="absolute overflow-hidden text-left"
+												style={{
+													left: `${leftPct}%`,
+													top: `${topPct}%`,
+													width: `${cardWidthPct}%`,
+													height: `${cardHeightPct}%`
+												}}
+											>
+												<div className="absolute left-0 top-0 rounded-[5px] w-full h-[70%] bg-neutral-400 flex items-center justify-center">
+													<span className="text-white font-semibold">Coming Soon</span>
+												</div>
+												<div className="absolute left-0" style={{ top: '73%' }}>
+													<h3 className="text-black text-xl font-semibold font-be-vietnam">{card.title}</h3>
+												</div>
+												<div className="absolute left-0" style={{ top: '79%' }}>
+													<p className="text-black md:text-neutral-700 text-base font-medium font-be-vietnam">{card.summary}</p>
+												</div>
+											</button>
+										);
+									})}
 								</div>
 							</div>
+
+							{isModalOpen && selectedCard && (
+								<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+									<div className="absolute inset-0 bg-black/50" onClick={closeModal} />
+									<div className="relative max-w-2xl w-full bg-white rounded-lg shadow-xl z-10 overflow-hidden">
+										<button onClick={closeModal} className="absolute right-3 top-3 text-neutral-600 hover:text-orange-500">
+											×
+										</button>
+										<div className="p-6">
+											<h3 className="text-2xl font-be-vietnam font-semibold text-black">{selectedCard.title}</h3>
+											<p className="mt-4 text-neutral-700 text-base font-medium">{selectedCard.full}</p>
+											<div className="mt-6 text-right">
+												<button onClick={closeModal} className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">Tutup</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							)}
 						</div>
 					</section>
 
-					{/* Inpatient Services Accordion */}
-					<InpatientServicesAccordion />
+					{/* Room Types Filter (mobile only) */}
+					<div className="block md:hidden">
+						<RoomTypeAccordion />
+					</div>
 				</main>
 				<Footer />
 			</div>
@@ -49,91 +168,105 @@ export default function InpatientPage() {
 	);
 }
 
-// ---------------- Inpatient Services Accordion ----------------
+// ---------------- Room Types (Filter) ----------------
+
 interface ServiceItem {
 	id: string;
 	title: string;
 	body: React.ReactNode;
 }
 
-const inpatientServices: ServiceItem[] = [
+const roomOptions: ServiceItem[] = [
 	{
-		id: 'rooms',
-		title: '1. Kamar Perawatan',
+		id: 'suite',
+		title: '1. Kamar Suite',
 		body: (
-			<div className="space-y-4 text-neutral-700 text-sm sm:text-base font-medium leading-relaxed">
-				<p>Pilihan kelas kamar menyesuaikan kebutuhan dan kenyamanan pasien.</p>
-				<ul className="list-disc pl-5 space-y-1">
-					<li>VIP / VVIP</li>
-					<li>Kelas 1</li>
-					<li>Kelas 2</li>
-					<li>Kelas 3</li>
-				</ul>
-				<p className="font-semibold">Fasilitas Kamar (variasi sesuai kelas):</p>
-				<ul className="list-disc pl-5 space-y-1">
-					<li>AC, TV, kamar mandi dalam</li>
-					<li>Tempat tidur pasien elektrik & pendamping</li>
-					<li>Meals plan harian & room service</li>
-				</ul>
+			<div className="space-y-3">
+				<div className="w-full h-40 rounded-md bg-neutral-300 flex items-center justify-center">
+					<span className="text-white font-semibold">Coming Soon</span>
+				</div>
+				<h4 className="text-black text-sm font-semibold">Suite | Rp. 2.050.000</h4>
+				<p className="text-neutral-700 text-sm">Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Dining Set, Kitchen Set, Televisi 40", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC</p>
 			</div>
 		)
 	},
 	{
-		id: 'nursing',
-		title: '2. Keperawatan 24 Jam',
+		id: 'vvip',
+		title: '2. Kamar VVIP',
 		body: (
-			<div className="space-y-4 text-neutral-700 text-sm sm:text-base font-medium leading-relaxed">
-				<p>Perawat profesional siap 24 jam melakukan pemantauan, pemberian obat, dan perawatan sesuai instruksi dokter.</p>
+			<div className="space-y-3">
+				<div className="w-full h-40 rounded-md bg-neutral-300 flex items-center justify-center">
+					<span className="text-white font-semibold">Coming Soon</span>
+				</div>
+				<h4 className="text-black text-sm font-semibold">VVIP | Rp. 2.050.000</h4>
+				<p className="text-neutral-700 text-sm">Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas</p>
 			</div>
 		)
 	},
 	{
-		id: 'doctor-rounds',
-		title: '3. Visit Dokter & Konsultasi',
+		id: 'vip',
+		title: '3. Kamar VIP',
 		body: (
-			<div className="space-y-4 text-neutral-700 text-sm sm:text-base font-medium leading-relaxed">
-				<p>Visit dokter harian dan konsultasi antar disiplin untuk evaluasi kondisi dan evaluasi terapi.</p>
+			<div className="space-y-3">
+				<div className="w-full h-40 rounded-md bg-neutral-300 flex items-center justify-center">
+					<span className="text-white font-semibold">Coming Soon</span>
+				</div>
+				<h4 className="text-black text-sm font-semibold">VIP | Rp. 1.200.000</h4>
+				<p className="text-neutral-700 text-sm">Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas Portable</p>
 			</div>
 		)
 	},
 	{
-		id: 'icu',
-		title: '4. Perawatan Intensif (ICU/ICCU/NICU)',
+		id: 'kelas1',
+		title: '4. Kelas 1',
 		body: (
-			<div className="space-y-4 text-neutral-700 text-sm sm:text-base font-medium leading-relaxed">
-				<p>Unit perawatan intensif dengan pemantauan ketat dan peralatan lengkap untuk kasus kritis.</p>
+			<div className="space-y-3">
+				<div className="w-full h-40 rounded-md bg-neutral-300 flex items-center justify-center">
+					<span className="text-white font-semibold">Coming Soon</span>
+				</div>
+				<h4 className="text-black text-sm font-semibold">Kelas 1 | Rp. 625.000</h4>
+				<p className="text-neutral-700 text-sm">Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, 2 Televisi 30", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC</p>
 			</div>
 		)
 	},
 	{
-		id: 'supporting',
-		title: '5. Penunjang Medis Terintegrasi',
+		id: 'kelas2',
+		title: '5. Kelas 2',
 		body: (
-			<div className="space-y-4 text-neutral-700 text-sm sm:text-base font-medium leading-relaxed">
-				<p>Laboratorium, radiologi, farmasi 24 jam, serta layanan rehabilitasi medik.</p>
+			<div className="space-y-3">
+				<div className="w-full h-40 rounded-md bg-neutral-300 flex items-center justify-center">
+					<span className="text-white font-semibold">Coming Soon</span>
+				</div>
+				<h4 className="text-black text-sm font-semibold">Kelas 2 | Rp. 400.000</h4>
+				<p className="text-neutral-700 text-sm">Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC</p>
 			</div>
 		)
 	},
 	{
-		id: 'education',
-		title: '6. Edukasi & Discharge Planning',
+		id: 'kelas3',
+		title: '6. Kelas 3',
 		body: (
-			<div className="space-y-4 text-neutral-700 text-sm sm:text-base font-medium leading-relaxed">
-				<p>Edukasi perawatan di rumah, kontrol lanjutan, serta perencanaan pulang untuk mencegah readmisi.</p>
+			<div className="space-y-3">
+				<div className="w-full h-40 rounded-md bg-neutral-300 flex items-center justify-center">
+					<span className="text-white font-semibold">Coming Soon</span>
+				</div>
+				<h4 className="text-black text-sm font-semibold">Kelas 3 | Rp. 200.000</h4>
+				<p className="text-neutral-700 text-sm">Tempat Tidur Standar (3-4 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC</p>
 			</div>
 		)
 	}
 ];
 
-function InpatientServicesAccordion() {
-	const [openId, setOpenId] = React.useState<string | null>(null);
+function RoomTypeAccordion() {
+	// Default open on mobile: suite
+	const [openId, setOpenId] = React.useState<string | null>('suite');
 	const toggle = (id: string) => setOpenId(prev => (prev === id ? null : id));
 
 	return (
-		<section className="w-full pt-2 pb-20 bg-white">
+		<section className="w-full pt-6 pb-6 bg-white">
 			<div className="mx-auto w-full max-w-[1272px] px-4">
 				<div className="rounded-xl border border-zinc-200 bg-white p-4 sm:p-6 shadow-sm">
-					{inpatientServices.map((item, idx) => {
+					{roomOptions.map((item, idx) => {
 						const isOpen = openId === item.id;
 						return (
 							<div key={item.id}>
@@ -147,9 +280,9 @@ function InpatientServicesAccordion() {
 									</span>
 								</button>
 								<AnimatedCollapse isOpen={isOpen}>
-									<div className="pb-6 pt-1 px-1 sm:px-2">{item.body}</div>
+									<div className="pb-4 pt-1 px-1 sm:px-2">{item.body}</div>
 								</AnimatedCollapse>
-								{idx < inpatientServices.length - 1 && <div className="h-px bg-zinc-200" />}
+								{idx < roomOptions.length - 1 && <div className="h-px bg-zinc-200" />}
 							</div>
 						);
 					})}
@@ -158,4 +291,5 @@ function InpatientServicesAccordion() {
 		</section>
 	);
 }
+
 
