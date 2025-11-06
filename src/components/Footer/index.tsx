@@ -11,7 +11,7 @@ import LogoImg from "./source/logo.png";
 
 const Footer = () => {
   return (
-  <footer className="w-full bg-white font-sans relative overflow-hidden" style={{ minHeight: 476 }}>
+  <footer className="w-full bg-white font-sans relative overflow-hidden md:min-h-[476px] min-h-[360px]">
       {/* Background Image */}
       <Image
         src={BackgroundImg}
@@ -20,9 +20,9 @@ const Footer = () => {
         className="object-cover z-0 -top-[432px] left-0 h-[1041px] w-full absolute"
       />
       {/* Overlay */}
-  <div className="w-full h-full absolute left-0 top-0 bg-amber-900/30" style={{ zIndex: 1 }} />
+  <div className="w-full h-full absolute left-0 top-0 bg-green-900/80" style={{ zIndex: 1 }} />
       {/* Content */}
-  <div className="relative z-10 w-full max-w-[1129px] mx-auto px-4 pt-24 pb-7 flex flex-col gap-9">
+  <div className="relative z-10 w-full max-w-[1129px] mx-auto px-4 pt-8 md:pt-24 pb-7 flex flex-col gap-6 md:gap-9">
   {/* Desktop Layout */}
   <div className="w-full hidden md:flex justify-between items-start">
           {/* Left Section */}

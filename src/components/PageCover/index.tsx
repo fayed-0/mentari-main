@@ -91,8 +91,8 @@ const PageCover = () => {
             <div className="space-y-8">
               {/* Badge */}
               <div className="inline-flex items-center gap-3 sm:gap-4 md:gap-5 bg-white/80 backdrop-blur-sm px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full shadow-lg border border-orange-100">
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                <span className="text-[12px] sm:text-base md:text-sm font-medium text-orange-600">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-700 rounded-full animate-pulse"></div>
+                <span className="text-[12px] sm:text-base md:text-sm font-medium text-green-700">
                   Layanan Kesehatan Terpercaya
                 </span>
               </div>
