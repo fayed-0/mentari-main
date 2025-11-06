@@ -39,12 +39,10 @@ export default function Paket() {
 		if (!lightboxOpen) return;
 		const onKey = (e: KeyboardEvent) => {
 			if (e.key === "Escape") closeLightbox();
-			if (e.key === "ArrowLeft") prev();
-			if (e.key === "ArrowRight") next();
 		};
 		window.addEventListener("keydown", onKey);
 		return () => window.removeEventListener("keydown", onKey);
-	}, [lightboxOpen, next, prev]);
+	}, [lightboxOpen]);
 
 	const touchStartX = useRef<number | null>(null);
 	const touchEndX = useRef<number | null>(null);
@@ -68,7 +66,7 @@ export default function Paket() {
 	return (
 		<div className="bg-white min-h-screen flex flex-col">
 			<Navbar />
-			<main className="flex-1 flex flex-col items-center px-4 pt-10 md:pt-24 pb-16">
+			<main className="flex-1 flex flex-col items-center px-4 pt-10 md:pt-20 pb-16">
 				<div className="w-full max-w-[1271px] mx-auto flex flex-col items-center pt-12 px-2 md:px-0">
 						<div className="inline-flex flex-col justify-start items-center gap-[5px] mb-4 font-be-vietnam">
 							<div className="text-black text-xs sm:text-sm font-semibold text-center">PAKET KESEHATAN</div>
@@ -111,49 +109,30 @@ export default function Paket() {
 								✕
 							</button>
 
-							<button
-								aria-label="Sebelumnya"
-								onClick={prev}
-								className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/20 rounded-full p-3 md:p-4"
-							>
-								‹
-							</button>
-							<button
-								aria-label="Berikutnya"
-								onClick={next}
-								className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/20 rounded-full p-3 md:p-4"
-							>
-								›
-							</button>
-
-							<div
-								className="relative w-[92vw] h-[70vh] md:w-[80vw] md:h-[80vh]"
-								onTouchStart={onTouchStart}
-								onTouchMove={onTouchMove}
-								onTouchEnd={onTouchEnd}
-							>
-								<Image
-									src={paketList[currentIndex].img}
-									alt={paketList[currentIndex].label}
-									fill
-									className="object-contain"
-									priority
-								/>
-							</div>
-
-							<div className="absolute bottom-4 left-0 right-0 flex flex-col items-center gap-3 px-4">
-								<div className="text-white text-sm md:text-base font-medium text-center bg-black/30 px-3 py-1 rounded-full">
-									{paketList[currentIndex].label}
+							{/* Modal content: image left, detail panel right (responsive) */}
+							<div className="relative mx-4 w-[calc(100%-32px)] h-[78vh] md:mx-0 md:w-[70vw] md:h-[70vh] flex flex-col md:flex-row gap-6 items-stretch">
+								{/* Left: image */}
+								<div className="md:w-1/2 w-full aspect-square md:aspect-auto md:h-auto bg-black/800 rounded-lg overflow-hidden flex items-center justify-center relative" onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+									<Image src={paketList[currentIndex].img} alt={paketList[currentIndex].label} fill className="object-cover p-0" priority />
 								</div>
-								<div className="flex items-center gap-2">
-									{paketList.map((_, i) => (
-										<button
-											key={i}
-											aria-label={`Ke gambar ${i + 1}`}
-											onClick={() => setCurrentIndex(i)}
-											className={`${i === currentIndex ? "w-3.5" : "w-2.5"} h-2.5 rounded-full ${i === currentIndex ? "bg-orange-500" : "bg-white/70"}`}
-										/>
-									))}
+								{/* Right: detail panel */}
+								<div className="md:w-1/2 w-full bg-zinc-600 text-white rounded-lg p-6 flex flex-col">
+									<h2 className="text-white text-xl md:text-3xl font-semibold mb-3">Judul Paket (Lorem Ipsum)</h2>
+									<div className="flex-1 overflow-auto pr-2 text-xs md:text-base leading-relaxed max-h-[26vh] md:max-h-none">
+										<p>
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+										</p>
+										<p className="mt-3">
+											Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+										</p>
+										<p className="mt-3">
+											Suspendisse potenti. Integer non feugiat lorem. Phasellus ut neque ut tortor varius luctus.
+										</p>
+									</div>
+									{/* Full width action button */}
+									<div className="mt-4">
+										<button className="w-full bg-white text-zinc-900 hover:bg-white/90 py-2 rounded-md text-base md:py-3 md:text-lg font-semibold">Appointment</button>
+									</div>
 								</div>
 							</div>
 						</div>

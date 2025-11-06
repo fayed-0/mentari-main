@@ -4,9 +4,11 @@ import Footer from "../../../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import DownIcon from "../../../components/HealthCare/source/down.svg";
+import ProfileIcon from "../../../components/HealthCare/source/profile.svg";
 import AnimatedCollapse from "../../../components/AnimatedCollapse"; // Import komponen yang sudah diperbaiki
 
 import { doctors, getDoctorSpecialization, searchDoctors } from "../../../data/doctors";
+import CalenderIcon from "../../../components/HealthCare/source/calender.svg";
 
 // Category mapping can reuse subset from healthcare page for consistency
 const categories: { id: string; title: string; specializationIds: number[] }[] = [
@@ -37,7 +39,7 @@ return (
 
 function SectionHeader() {
 	return (
-		<section className="w-full max-w-[1271px] mx-auto flex flex-col items-center px-5 md:px-0 pt-10 md:pt-24">
+		<section className="w-full max-w-[1271px] mx-auto flex flex-col items-center px-5 md:px-0 pt-10 md:pt-20">
 			
 			{/* Sub-title */}
 			<div className="inline-flex flex-col justify-start items-center gap-[5px] mb-4 font-be-vietnam w-full">
@@ -161,7 +163,10 @@ function DoctorCard({ doctorId }: DoctorCardProps) {
 						className="w-32 h-[133px] object-cover rounded-[5px] border border-zinc-300"
 					/>
 					{spec && (
-						<span className="sm:hidden absolute left-1 bottom-1 w-3 h-3 bg-orange-500 rounded-sm border border-white/80" />
+						// keep specialization badge visible in small screens, but hide the overlay on md+ (tablet/desktop)
+						<div className="absolute left-2 bottom-2 bg-white/95 rounded-md p-1 flex items-center justify-center shadow-sm md:hidden">
+							<Image src={spec.icon} alt={spec.title} width={20} height={20} className="w-5 h-5" />
+						</div>
 					)}
 				</div>
 			</div>
@@ -170,25 +175,27 @@ function DoctorCard({ doctorId }: DoctorCardProps) {
 				<div className="flex items-start gap-2">
 					<h3 className="text-black text-base sm:text-xl font-semibold leading-snug flex-1">{doctor.name}</h3>
 					{spec && (
-						<span className="hidden sm:inline-flex items-center gap-1 text-orange-500 text-[10px] font-bold">
-							<span className="w-3 h-3 bg-orange-500 rounded-sm" />
-							{spec.title}
+						<span className="hidden sm:inline-flex items-center gap-2 text-orange-500 text-[10px] font-bold">
+							<Image src={spec.icon} alt={spec.title} width={20} height={20} className="w-5 h-5" />
+							<span className="text-xs font-bold">{spec.title}</span>
 						</span>
 					)}
 				</div>
 				<p className="mt-2 text-neutral-600 text-sm sm:text-base font-medium line-clamp-2">{doctor.summary}</p>
-				<div className="mt-auto flex items-center gap-3 sm:gap-4 pt-4">
+				<div className="mt-auto flex items-center gap-3 sm:gap-4 pt-4 md:justify-between">
 					<Link
-						href={`#/dokter/${doctor.id}`}
-						className="inline-flex items-center gap-1 sm:gap-2 text-orange-500 text-xs sm:text-sm font-semibold"
+						href={`/menu/jadwal-dokter/profiledokter?id=${doctor.id}`}
+						className="inline-flex items-center gap-2 text-orange-500 text-xs sm:text-sm font-semibold"
 					>
-						<span className="hidden sm:inline-block w-3 h-3 bg-orange-500 rounded-sm" />
+						<Image src={ProfileIcon} alt="Profile" width={18} height={18} className="hidden sm:inline-block" />
 						<span className="sm:hidden">Profile</span>
 						<span className="hidden sm:inline">Lihat Profile</span>
 					</Link>
-					<button className="relative inline-flex items-center gap-1 sm:gap-2 bg-white border border-zinc-300 rounded-md px-4 py-1.5 sm:px-5 sm:py-2 text-neutral-600 text-xs sm:text-sm font-semibold hover:border-orange-500 hover:text-orange-500 transition">
-						<span className="hidden sm:inline-block w-3 h-3 bg-orange-500 rounded-sm" /> Appointment
-					</button>
+
+					<Link href="/menu/jadwal-dokter" className="relative inline-flex items-center gap-2 sm:gap-3 bg-white border border-zinc-300 rounded-md px-4 py-1.5 sm:px-5 sm:py-2 text-neutral-600 text-xs sm:text-sm font-semibold hover:border-orange-500 hover:text-orange-500 transition">
+						<Image src={CalenderIcon} alt="Appointment" width={18} height={18} className="hidden sm:inline-block" />
+						<span>Appointment</span>
+					</Link>
 				</div>
 			</div>
 		</div>

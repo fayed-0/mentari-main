@@ -84,7 +84,7 @@ export default function FasilitasJaya() {
 	return (
 		<div className="bg-white min-h-screen flex flex-col">
 			<Navbar />
-			<main className="flex-1 flex flex-col items-center px-4 pt-10 md:pt-24 pb-16">
+			<main className="flex-1 flex flex-col items-center px-4 pt-10 md:pt-20 pb-16">
 				<div className="w-full max-w-[1271px] mx-auto flex flex-col items-center pt-12 px-2 md:px-0">
 						<div className="inline-flex flex-col justify-start items-center gap-[5px] mb-4 font-be-vietnam">
 							<div className="text-black text-xs sm:text-sm font-semibold text-center">FASILITAS</div>
@@ -100,7 +100,7 @@ export default function FasilitasJaya() {
 								className="group relative w-full aspect-square bg-neutral-600 rounded-md overflow-hidden border border-zinc-300 bg-white transition-all duration-0 hover:duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
 								onClick={() => openLightbox(idx)}
 							>
-								<Image src={item.img} alt={item.label} fill className="object-cover transition-transform duration-0 group-hover:duration-500 group-hover:scale-105" placeholder="empty" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px" />
+								<Image src={item.img} alt={item.label} fill className="object-cover" placeholder="empty" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px" />
 								<div className="absolute left-3 top-3 md:left-4 md:top-4">
 									<div className="relative inline-block">
 										{/* Layer depan (putih) dibalik radius */}

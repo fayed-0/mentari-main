@@ -138,17 +138,37 @@ export default function InpatientPage() {
 							</div>
 
 							{isModalOpen && selectedCard && (
-								<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-									<div className="absolute inset-0 bg-black/50" onClick={closeModal} />
-									<div className="relative max-w-2xl w-full bg-white rounded-lg shadow-xl z-10 overflow-hidden">
-										<button onClick={closeModal} className="absolute right-3 top-3 text-neutral-600 hover:text-orange-500">
-											×
-										</button>
-										<div className="p-6">
-											<h3 className="text-2xl font-be-vietnam font-semibold text-black">{selectedCard.title}</h3>
-											<p className="mt-4 text-neutral-700 text-base font-medium">{selectedCard.full}</p>
-											<div className="mt-6 text-right">
-												<button onClick={closeModal} className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">Tutup</button>
+								<div
+									className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+									role="dialog"
+									aria-modal="true"
+								>
+									<button
+										aria-label="Tutup"
+										onClick={closeModal}
+										className="absolute top-4 right-4 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2"
+									>
+										✕
+									</button>
+
+									{/* Modal content: image left, detail panel right (responsive) */}
+									<div className="relative mx-4 w-[calc(100%-32px)] h-[78vh] md:mx-0 md:w-[70vw] md:h-[70vh] flex flex-col md:flex-row gap-6 items-stretch">
+										{/* Left: image */}
+										<div className="md:w-1/2 w-full aspect-square md:aspect-auto md:h-auto bg-black/800 rounded-lg overflow-hidden flex items-center justify-center relative">
+											{/* show room title as a visual placeholder; replace with <Image> if you provide images */}
+											<div className="w-full h-full flex items-center justify-center bg-cover bg-center" style={{ backgroundColor: '#b91c1c' }}>
+												<div className="w-full h-full flex items-center justify-center text-white text-2xl font-bold">{selectedCard.title.split('|')[0]}</div>
+											</div>
+										</div>
+										{/* Right: detail panel */}
+										<div className="md:w-1/2 w-full bg-zinc-600 text-white rounded-lg p-6 flex flex-col">
+											<h2 className="text-white text-xl md:text-3xl font-semibold mb-3">{selectedCard.title}</h2>
+											<div className="flex-1 overflow-auto pr-2 text-xs md:text-base leading-relaxed max-h-[26vh] md:max-h-none">
+												<p>{selectedCard.full}</p>
+											</div>
+											{/* Full width action button */}
+											<div className="mt-4">
+												<button onClick={closeModal} className="w-full bg-white text-zinc-900 hover:bg-white/90 py-2 rounded-md text-base md:py-3 md:text-lg font-semibold">Appointment</button>
 											</div>
 										</div>
 									</div>

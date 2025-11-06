@@ -3,7 +3,6 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import Image from "next/image";
 import { useRouter } from "next/router";
-// Background images for each service
 import ImgRawatJalan from "./source/rawat-jalan.png";
 import ImgRawatInap from "./source/rawat-inap.png";
 import ImgGawatDarurat from "./source/gawat-darurat.png";
@@ -13,8 +12,8 @@ import ImgTraumaCenter from "./source/trauma-center.png";
 
 type Service = {
 	title: string;
-	highlight?: boolean; // trauma center variant (gray background, white text)
-	imageSrc?: any; // next/image static import
+	highlight?: boolean; 
+	imageSrc?: any; 
 };
 
 const SERVICES: Service[] = [
@@ -43,7 +42,7 @@ export default function LayananPage() {
 			<Navbar />
 
 			{/* Header */}
-			<section className="max-w-[1512px] mx-auto px-4 sm:px-6 md:px-10 pt-10 md:pt-24 pb-10">
+			<section className="max-w-[1512px] mx-auto px-4 sm:px-6 md:px-10 pt-10 md:pt-20 pb-10">
 				<div className="max-w-[1272px] mx-auto items-center pt-12 px-2">
 					<div className="flex flex-col items-center gap-[5px] w-fit mx-auto">
 						<span className="text-black text-xs sm:text-sm font-semibold text-center">
@@ -52,14 +51,14 @@ export default function LayananPage() {
 						<div className="h-0.5 bg-orange-500 rounded-md w-full"></div>
 					</div>
 
-					<div className="mt-3 relative flex items-center justify-center w-full">
+					<div className="mt-4 relative flex items-center justify-center w-full">
 						<h1 className="text-center text-black text-2xl md:text-4xl font-semibold max-w-[1127px]">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit
+							Menyediakan layanan kesehatan terpercaya dengan tenaga medis berpengalaman
 						</h1>
 					</div>
 
-					{/* Cards grid: 2 cols on mobile like Fasilitas, 3 cols on desktop */}
-					<div className="mt-10 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
+					{/* Cards grid: match Paket/Fasilitas — 2 cols mobile, 3 cols at md, same gaps */}
+					<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 w-full mt-14">
 						{SERVICES.map((svc, idx) => (
 							<button
 								key={idx}
@@ -71,17 +70,19 @@ export default function LayananPage() {
 									"focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2",
 								].join(" ")}
 							>
-								{/* Background image */}
+								{/* Background image (no hover scale on image; card scales instead) */}
 								{svc.imageSrc && (
-									<Image src={svc.imageSrc} alt={svc.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+									<Image src={svc.imageSrc} alt={svc.title} fill className="object-cover" />
 								)}
 								{/* Dark overlay for legibility */}
 								<div className="absolute inset-0 bg-black/30" />
 
-								{/* Centered label */}
-								<div className="absolute inset-0 flex items-center justify-center px-6">
-									<div className="text-center text-white font-medium text-xl">
-										{svc.title}
+								{/* Top-left boxed label (like Fasilitas) */}
+								<div className="absolute left-3 top-3 md:left-4 md:top-4">
+									<div className="relative inline-block">
+										<div className="relative px-2 py-1 md:px-4 md:py-2 bg-white/75 inline-flex justify-start items-center whitespace-nowrap text-black text-xs sm:text-sm md:text-xl font-medium font-be-vietnam rounded-tl-[5px] md:rounded-tl-[5px] rounded-br-[5px] md:rounded-br-[5px] rounded-tr-[5px] rounded-bl-[5px] shadow">
+											{svc.title}
+										</div>
 									</div>
 								</div>
 							</button>

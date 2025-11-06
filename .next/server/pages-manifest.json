@@ -2,8 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/menu/layanan": "pages/menu/layanan.js",
   "/menu/layanan/rawat-inap": "pages/menu/layanan/rawat-inap.js",
-  "/menu/layanan/trauma-center": "pages/menu/layanan/trauma-center.js",
-  "/menu/layanan/radiologi": "pages/menu/layanan/radiologi.js"
+  "/menu/Fasilitas": "pages/menu/Fasilitas.js",
+  "/menu/Dokter": "pages/menu/Dokter.js",
+  "/": "pages/index.js",
+  "/healthcare": "pages/healthcare.js",
+  "/healthcare/[slug]": "pages/healthcare/[slug].js"
 }
