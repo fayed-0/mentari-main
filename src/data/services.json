@@ -1,0 +1,47 @@
+{
+  "headerTitle": "Menyediakan layanan kesehatan terpercaya dengan tenaga medis berpengalaman",
+  "services": [
+    {
+      "slug": "rawat-jalan",
+      "title": "Rawat Jalan",
+      "image": "/uploads/1763616811229-donor_darah.png",
+      "visible": true,
+      "order": 0
+    },
+    {
+      "slug": "rawat-inap",
+      "title": "Rawat Inap",
+      "image": "",
+      "visible": true,
+      "order": 1
+    },
+    {
+      "slug": "gawat-darurat",
+      "title": "Gawat Darurat",
+      "image": "",
+      "visible": true,
+      "order": 2
+    },
+    {
+      "slug": "radiologi",
+      "title": "Radiologi",
+      "image": "",
+      "visible": true,
+      "order": 3
+    },
+    {
+      "slug": "ivf",
+      "title": "IVF Morulla",
+      "image": "",
+      "visible": true,
+      "order": 4
+    },
+    {
+      "slug": "trauma-center",
+      "title": "Trauma Center",
+      "image": "",
+      "visible": true,
+      "order": 5
+    }
+  ]
+}

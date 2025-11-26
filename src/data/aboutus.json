@@ -1,0 +1,19 @@
+{
+  "title": "Mengutamakan kenyamanan dan kualitas layanan pasien",
+  "description": "Pelayanan bermutu didukung tenaga profesional. Kami terus meningkatkan mutu dengan teknologi modern.",
+  "mainImage": "/uploads/1763371410477-rsimg.png",
+  "cards": [
+    {
+      "heading": "24/7",
+      "text": "Pelayanan kesehatan tersedia setiap saat dengan tim medis yang siap mendengar, melayani, dan mengasihi pasien.",
+      "icon": "/uploads/1762485047355-24-hour.svg",
+      "image": "/uploads/1762499128447-doc.jpg"
+    },
+    {
+      "heading": "Location",
+      "text": "Jl. Raya Legok - Karawaci No.KM.04, Bojong Nangka, Kec. Klp. Dua, Kabupaten Tangerang, Banten 15810",
+      "icon": "/uploads/location-on.svg",
+      "image": "/uploads/rs.jpg"
+    }
+  ]
+}

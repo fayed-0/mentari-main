@@ -23,8 +23,10 @@ const Footer = () => {
   <div className="w-full h-full absolute left-0 top-0 bg-green-900/80" style={{ zIndex: 1 }} />
       {/* Content */}
   <div className="relative z-10 w-full max-w-[1129px] mx-auto px-4 pt-8 md:pt-24 pb-7 flex flex-col gap-6 md:gap-9">
-  {/* Desktop Layout */}
-  <div className="w-full hidden md:flex justify-between items-start">
+      
+      {/* Desktop Layout */}
+      <div className="w-full hidden md:flex justify-between items-start">
+          
           {/* Left Section */}
           <div className="inline-flex flex-col justify-start items-start gap-8">
             <div className="w-full flex items-center justify-start mb-2">
@@ -48,6 +50,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
+         
           {/* Right Section */}
           <div className="w-[807px] flex justify-start items-start gap-7">
             {/* Home */}
@@ -60,6 +63,7 @@ const Footer = () => {
                 <div className="text-neutral-50 text-lg font-normal leading-relaxed">Testimonial</div>
               </div>
             </div>
+          
             {/* Menu */}
             <div className="flex-1 inline-flex flex-col justify-start items-start gap-3.5">
               <div className="text-neutral-50 text-xl font-semibold leading-loose">Menu</div>
@@ -71,6 +75,7 @@ const Footer = () => {
                 <div className="text-neutral-50 text-lg font-normal leading-relaxed">Karir</div>
               </div>
             </div>
+           
             {/* Work Hours */}
             <div className="flex-1 inline-flex flex-col justify-start items-start gap-3.5">
               <div className="text-neutral-50 text-xl font-semibold leading-loose">Work Hours</div>

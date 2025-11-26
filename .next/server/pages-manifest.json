@@ -3,6 +3,15 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/menu/layanan/rawat-jalan": "pages/menu/layanan/rawat-jalan.js",
-  "/menu/layanan": "pages/menu/layanan.js"
+  "/admin/aboutus": "pages/admin/aboutus.js",
+  "/api/aboutus": "pages/api/aboutus.js",
+  "/admin/layanan/gawat-darurat": "pages/admin/layanan/gawat-darurat.js",
+  "/api/layanan/[slug]": "pages/api/layanan/[slug].js",
+  "/admin/layanan/radiologi": "pages/admin/layanan/radiologi.js",
+  "/api/layanan": "pages/api/layanan.js",
+  "/admin/layanan/rawat-jalan": "pages/admin/layanan/rawat-jalan.js",
+  "/admin/healthcare": "pages/admin/healthcare.js",
+  "/admin": "pages/admin.js",
+  "/api/healthcare": "pages/api/healthcare.js",
+  "/admin/layanan": "pages/admin/layanan.js"
 }

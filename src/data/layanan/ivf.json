@@ -1,0 +1,9 @@
+{
+  "slug": "ivf",
+  "title": "Layanan IVF Morulla",
+  "description": "Program bayi tabung dan fertilitas dengan dukungan tenaga ahli.",
+  "heroImage": "",
+  "sections": [
+    { "id": "program", "title": "1. Program Fertilitas", "bodyHtml": "<p>Konsultasi dan program IVF sesuai kebutuhan pasien.</p>" }
+  ]
+}

@@ -8,8 +8,8 @@ import AnimatedCollapse from "../../components/AnimatedCollapse";
 
 // Reuse a few existing icons (import from components/HealthCare/source)
 // Centralized data
-import { specializations } from "../../data/specializations";
-import { toSlug } from "../../data/specializations";
+import { specializations as staticSpecializations, toSlug } from "../../data/specializations";
+import { executeQuery } from '../../lib/database';
 
 // Full specialization list. If you have images later, replace `icon: null` with import.
 // id, title, desc, optional icon (null => placeholder)
@@ -24,7 +24,7 @@ function PlaceholderIcon({ label, size = 40 }: { label: string; size?: number })
   return <div className={`${base} ${dimension}`}>{initial}</div>;
 }
 
-export default function FullHealthCare() {
+export default function FullHealthCare({ initialSpecs }: { initialSpecs?: any[] | null }) {
   return (
     <div className="bg-stone-50 min-h-screen flex flex-col">
       <Navbar />
@@ -41,7 +41,7 @@ export default function FullHealthCare() {
           </h1>
 
           {/* Search (client-side filter) */}
-          <HealthCareSearch />
+          <HealthCareSearch initialSpecs={initialSpecs} />
         </div>
       </main>
       <Footer />
@@ -49,30 +49,177 @@ export default function FullHealthCare() {
   );
 }
 
-function HealthCareSearch() {
+export async function getServerSideProps() {
+  try {
+    // reuse same query as API
+    const rows: any[] = await executeQuery('SELECT id, name, slug, subtitle, description, icon, is_hidden, created_at, updated_at FROM specializations ORDER BY id DESC');
+    // filter hidden for public page
+    const data = (rows || [])
+      .filter(r => !r.is_hidden)
+      .map(r => ({
+        id: r.id,
+        name: r.name,
+        title: r.name,
+        slug: r.slug,
+        desc: r.description,
+        subtitle: r.subtitle || r.sub_title || '',
+        icon: r.icon || null,
+        is_hidden: !!r.is_hidden,
+        created_at: r.created_at ? new Date(r.created_at).toISOString() : null,
+        updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : null,
+      }));
+    return { props: { initialSpecs: data } };
+  } catch (e) {
+    return { props: { initialSpecs: null } };
+  }
+}
+
+function HealthCareSearch({ initialSpecs }: { initialSpecs?: any[] | null }) {
   // Pencarian dan Filter
   const [query, setQuery] = React.useState("");
+  const [specs, setSpecs] = React.useState<any[] | null>(initialSpecs ?? null);
 
-  // Kategori (accordion & filter) contoh: mapping nama kategori ke list specialization id
-  const categories: { id: string; title: string; specializationIds: number[] }[] = [
-    { id: "anak", title: "Anak", specializationIds: [1, 23] },
-    { id: "anestesi", title: "Anestesi", specializationIds: [24] },
-    { id: "bedah-ortopedi", title: "Bedah Ortopedi", specializationIds: [2, 21] },
-    { id: "bedah-urologi", title: "Bedah Urologi", specializationIds: [12] },
-    { id: "jantung", title: "Jantung & Pembuluh Darah", specializationIds: [3, 38] },
-    { id: "kebidanan", title: "Kebidanan & Kandungan", specializationIds: [6, 33] },
-    { id: "paru", title: "Paru & Pernapasan", specializationIds: [8] },
-    { id: "penyakit-dalam", title: "Penyakit Dalam", specializationIds: [9, 10, 11, 15, 36] },
-    { id: "saraf", title: "Saraf", specializationIds: [7, 20] },
-    { id: "tht", title: "THT", specializationIds: [25] },
-  ];
+  React.useEffect(() => {
+    if (initialSpecs != null) return; // already provided by server
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/healthcare');
+        if (!res.ok) throw new Error('Failed to fetch');
+        const json = await res.json();
+        // Exclude hidden items from public listing
+        const data = (json.data || [])
+          .filter((d: any) => !d.is_hidden)
+          .map((d: any) => ({
+            ...d,
+            title: d.name,
+            desc: d.description,
+            subtitle: d.subtitle || d.sub_title || '',
+          }));
+        if (mounted) setSpecs(data);
+      } catch (e) {
+        if (mounted) setSpecs(staticSpecializations as any);
+      }
+    })();
+    return () => { mounted = false; };
+  }, [initialSpecs]);
+
+  // Build categories exactly like the user's requested grouping.
+  // We'll map specializations to categories by matching the specialization title (or slug)
+  // against the provided list. Unmatched items go into 'Lainnya'.
+  const categories = React.useMemo(() => {
+    const defs: { id: string; title: string; labels: string[] }[] = [
+      {
+        id: 'penyakit-dalam',
+        title: 'Spesialis Penyakit Dalam & Sistem Organ',
+        labels: [
+          'Endokrinologi',
+          'Gastroenterologi',
+          'Geriatri',
+          'Hematologi',
+          'Imunologi & Alergi',
+          'Kardiologi',
+          'Kardiovaskular',
+          'Nefrologi',
+          'Neurologi',
+          'Onkologi',
+          'Penyakit Infeksi',
+          'Pulmonologi',
+          'Reumatologi',
+        ],
+      },
+      {
+        id: 'bedah',
+        title: 'Bedah',
+        labels: [
+          'Anestesi',
+          'Bedah Anak',
+          'Bedah Ortopedi',
+          'Bedah Plastik',
+          'Bedah Saraf',
+          'Bedah Umum',
+          'Urologi',
+        ],
+      },
+      {
+        id: 'wanita-ibu-anak',
+        title: 'Kesehatan Wanita, Ibu & Anak',
+        labels: [
+          'Ginekologi',
+          'Obstetri & Ginekologi',
+          'Pediatri',
+          'Perinatologi',
+          'Laktasi',
+        ],
+      },
+      {
+        id: 'indera-kulit-mulut',
+        title: 'Indera, Kulit & Mulut',
+        labels: ['Dermatologi', 'Mata', 'Mata (Oftalmologi)', 'THT', 'Gigi', 'Kedokteran Gigi'],
+      },
+      {
+        id: 'rehab-lanjutan',
+        title: 'Rehabilitasi, Tulang & Perawatan Lanjutan',
+        labels: ['Kesehatan Tulang', 'Fisioterapi', 'Rehabilitasi Klinik', 'Perawatan Luka', 'Perawatan Paliatif', 'Luka & Wound Care', 'Paliatif'],
+      },
+      {
+        id: 'kesehatan-mental',
+        title: 'Kesehatan Mental',
+        labels: ['Psikiatri', 'Psikologi Klinis'],
+      },
+      {
+        id: 'diagnostik-penunjang',
+        title: 'Diagnostik & Penunjang Medis',
+        labels: ['Radiologi', 'Patologi Klinik', 'Farmasi Klinik'],
+      },
+      { id: 'lainnya', title: 'Lainnya', labels: [] },
+    ];
+
+    const base = specs ?? staticSpecializations;
+    const result = defs.map(d => ({ id: d.id, title: d.title, specializationIds: [] as number[], labels: d.labels }));
+
+    const assigned = new Set<number>();
+
+    const normalize = (str: string) => (str || '').toString().toLowerCase().replace(/\s+/g, ' ').trim();
+
+    base.forEach((s: any) => {
+      const title = normalize(s.title || s.name || '');
+      const slug = (s.slug || toSlug(s.title || '')).toLowerCase();
+      const iconFile = (s.icon || '').toString().toLowerCase();
+      let placed = false;
+
+      for (const cat of result) {
+        if (!cat.labels || cat.labels.length === 0) continue;
+        for (const lab of cat.labels) {
+          const l = normalize(lab);
+          // match if title contains label, or slug equals label-slug, or icon filename contains label
+          if (title.includes(l) || slug === toSlug(lab) || iconFile.includes(l.replace(/\s+/g, '-'))) {
+            cat.specializationIds.push(s.id);
+            assigned.add(s.id);
+            placed = true;
+            break;
+          }
+        }
+        if (placed) break;
+      }
+    });
+
+    // any not assigned goes to 'lainnya'
+    const otherCat = result.find(r => r.id === 'lainnya');
+    if (otherCat) {
+      base.forEach((s: any) => {
+        if (!assigned.has(s.id)) otherCat.specializationIds.push(s.id);
+      });
+    }
+
+    return result.map(({ id, title, specializationIds }) => ({ id, title, specializationIds }));
+  }, [specs]);
 
   const filtered = React.useMemo(() => {
     const q = query.toLowerCase();
-    return specializations.filter((s) =>
-      [s.title, s.desc].some((t) => t.toLowerCase().includes(q))
-    );
-  }, [query]);
+    const base = specs ?? staticSpecializations;
+    return base.filter((s: any) => [s.title, s.desc || '', s.subtitle || ''].some((t: string) => (t || '').toLowerCase().includes(q)));
+  }, [query, specs]);
 
   const [openCategory, setOpenCategory] = React.useState<string | null>(null);
   const toggleCategory = (id: string) => {
@@ -96,9 +243,10 @@ function HealthCareSearch() {
 
       {/* Accordion Kategori */}
       <div className="mb-10 rounded-xl border border-zinc-200 bg-white p-4 sm:p-6 shadow-sm">
-        {categories.map((cat, idx) => {
+          {categories.map((cat, idx) => {
           const isOpen = openCategory === cat.id;
-          const catSpecs = specializations.filter((s) => cat.specializationIds.includes(s.id));
+          const base = specs ?? staticSpecializations;
+          const catSpecs = base.filter((s: any) => cat.specializationIds.includes(s.id));
           return (
             <div key={cat.id}>
               <button
@@ -139,7 +287,7 @@ function HealthCareSearch() {
                           {s.title}
                         </p>
                         <span className="block text-xs sm:text-sm leading-snug font-medium transition-colors text-neutral-500 group-hover:text-white/90">
-                          {s.desc}
+                          {s.subtitle || s.desc}
                         </span>
                       </Link>
                     );
@@ -174,7 +322,7 @@ function HealthCareSearch() {
               {s.title}
             </h3>
             <p className="text-xs sm:text-sm font-medium flex-grow text-neutral-600 group-hover:text-white/90">
-              {s.desc}
+              {s.subtitle || s.desc}
             </p>
           </Link>
         ))}

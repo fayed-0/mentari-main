@@ -4,12 +4,19 @@ import { executeQuery } from '../../../lib/database';
 async function ensureColumn() {
   // Try selecting; if fails because of unknown column, add it.
   try {
-    await executeQuery('SELECT is_hidden FROM specializations LIMIT 1');
+    await executeQuery('SELECT is_hidden, subtitle FROM specializations LIMIT 1');
   } catch (err: any) {
     const msg = String(err?.message || err);
-    if (/unknown column/i.test(msg) && msg.includes('is_hidden')) {
-      console.warn('[auto-migrate] Adding is_hidden column to specializations');
-      await executeQuery('ALTER TABLE specializations ADD COLUMN is_hidden BOOLEAN NOT NULL DEFAULT FALSE');
+    // add missing columns if they are absent
+    if (/unknown column/i.test(msg)) {
+      if (msg.includes('is_hidden')) {
+        console.warn('[auto-migrate] Adding is_hidden column to specializations');
+        await executeQuery('ALTER TABLE specializations ADD COLUMN is_hidden BOOLEAN NOT NULL DEFAULT FALSE');
+      }
+      if (msg.includes('subtitle')) {
+        console.warn('[auto-migrate] Adding subtitle column to specializations');
+        await executeQuery("ALTER TABLE specializations ADD COLUMN subtitle TEXT NULL DEFAULT ''");
+      }
     } else {
       // swallow only if unknown column; otherwise rethrow
       throw err;
@@ -25,12 +32,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await ensureColumn();
 
     if (req.method === 'GET') {
-      const rows = await executeQuery('SELECT id, name, slug, description, icon, is_hidden, created_at, updated_at FROM specializations ORDER BY id DESC');
+      const rows = await executeQuery('SELECT id, name, slug, subtitle, description, icon, is_hidden, created_at, updated_at FROM specializations ORDER BY id DESC');
       return res.status(200).json({ data: rows });
     }
 
     if (req.method === 'POST') {
-      const { name, description, icon } = req.body || {};
+  const { name, description, icon, subtitle } = req.body || {};
       if (!name) return res.status(400).json({ error: 'Name required' });
       const slug = (name as string)
         .toLowerCase()
@@ -39,8 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '');
       const result: any = await executeQuery(
-        'INSERT INTO specializations (name, slug, description, icon) VALUES (?, ?, ?, ?)',
-        [name, slug, description || '', icon || null]
+        'INSERT INTO specializations (name, slug, subtitle, description, icon) VALUES (?, ?, ?, ?, ?)',
+        [name, slug, subtitle || '', description || '', icon || null]
       );
       const inserted = await executeQuery('SELECT id, name, slug, description, icon, is_hidden, created_at, updated_at FROM specializations WHERE id = ?', [result.insertId]);
       return res.status(201).json({ data: inserted[0] });

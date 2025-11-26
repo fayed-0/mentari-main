@@ -16,3 +16,26 @@ html, body, #__next {
 body {
   font-family: 'Be Vietnam Pro', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
+
+/* Small utility: clamp text to 4 lines with an ellipsis (fallback if Tailwind line-clamp plugin not installed) */
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fade-bottom {
+  /* optional subtle gradient to fade overflowing text on cards */
+  position: relative;
+}
+.fade-bottom::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
+}

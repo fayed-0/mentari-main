@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { getSpecializationBySlug } from "../../data/specializations";
+import { getSpecializationBySlug, toSlug } from "../../data/specializations";
 import DoctorImg from "../../components/OurDoctor/source/doctor.png";
 import ProfileIcon from "../../components/HealthCare/source/profile.svg";
 import CalendarIcon from "../../components/HealthCare/source/calender.svg";
@@ -53,7 +53,7 @@ function DoctorCard({ specTitle, specIcon }: { specTitle: string; specIcon?: any
             <PillTag text={specTitle} icon={specIcon} />
           </div>
         </div>
-        <h3 className="mt-1 sm:mt-5 text-base sm:text-xl font-semibold text-black">dr. Budi Sutomo, Sp.N</h3>
+        <h3 className="mt-1 sm:mt-5 text-sm sm:text-xl font-semibold text-black">dr. Budi Sutomo, Sp.N</h3>
         <p className="mt-1 sm:mt-2 text-neutral-600 text-xs sm:text-base">Perawatan gangguan otak, saraf & tulang belakang.</p>
         <div className="mt-4 sm:mt-6 flex items-center gap-2 justify-between">
 <Link href="/menu/jadwal-dokter/profiledokter" className="inline-flex items-center gap-2 text-orange-500 text-xs sm:text-sm font-semibold">
@@ -74,11 +74,57 @@ function DoctorCard({ specTitle, specIcon }: { specTitle: string; specIcon?: any
 export default function SpecializationDetail() {
   const router = useRouter();
   const { slug } = router.query as { slug?: string };
-  const spec = slug ? getSpecializationBySlug(slug) : null;
+  const [spec, setSpec] = React.useState<any | null>(null);
+
+  React.useEffect(() => {
+    if (!slug) return;
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/healthcare');
+        if (!res.ok) throw new Error('Failed');
+        const json = await res.json();
+        const items: any[] = json.data || [];
+        const raw = items.find(i => i.slug === slug);
+        let found: any = null;
+        if (raw) {
+          // If the DB row is hidden, treat as not found (redirect to 404)
+          if (raw.is_hidden) {
+            if (mounted) {
+              // client-side redirect to 404
+              try { router.replace('/404'); } catch {};
+              setSpec(null);
+            }
+            return;
+          }
+          // normalize DB row to the shape expected by this page
+          found = {
+            title: raw.name ?? raw.title,
+            description: raw.description ?? raw.desc ?? '',
+            desc: raw.description ?? raw.desc ?? '',
+            icon: raw.icon ?? null,
+            slug: raw.slug ?? toSlug(raw.name ?? raw.title ?? ''),
+            subtitle: raw.subtitle ?? ''
+          };
+        } else {
+          const staticFound = getSpecializationBySlug(slug);
+          if (staticFound) {
+            found = { ...staticFound };
+          }
+        }
+  if (mounted) setSpec(found || null);
+      } catch (e) {
+        // fallback to static
+        const staticFound = getSpecializationBySlug(slug);
+        if (mounted) setSpec(staticFound || null);
+      }
+    })();
+    return () => { mounted = false; };
+  }, [slug]);
 
   if (!spec) return null;
 
-  const longDesc = extendedDescriptions[spec.title] ?? spec.desc;
+  const longDesc = spec.description ?? extendedDescriptions[spec.title] ?? spec.desc;
 
   return (
     <div className="bg-stone-50 min-h-screen flex flex-col">
@@ -96,10 +142,15 @@ export default function SpecializationDetail() {
                 )}
               </div>
               <div className="flex items-center">
-                <h1 className="text-4xl sm:text-5xl font-bold text-black leading-tight">{spec.title}</h1>
+                <div>
+                  {/* Make heading more responsive: smaller on mobile, larger on sm+ */}
+                  <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black leading-tight break-words">{spec.title}</h1>
+                  {spec.subtitle && <div className="text-sm sm:text-base text-slate-600 mt-1">{spec.subtitle}</div>}
+                </div>
               </div>
             </div>
-            <p className="mt-6 text-neutral-600 text-lg sm:text-xl leading-relaxed whitespace-pre-line">{longDesc}</p>
+            {/* Reduce paragraph size on mobile to avoid oversized text */}
+            <p className="mt-6 text-neutral-600 text-base sm:text-lg md:text-xl leading-relaxed whitespace-pre-line">{longDesc}</p>
           </div>
 
           {/* Doctors grid */}

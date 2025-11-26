@@ -1,0 +1,9 @@
+{
+  "slug": "radiologi",
+  "title": "Layanan Radiologi",
+  "description": "Pemeriksaan pencitraan modern: X-Ray, USG, CT Scan, dan lainnya.",
+  "heroImage": "",
+  "sections": [
+    { "id": "modalities", "title": "1. Modalitas Pemeriksaan", "bodyHtml": "<p>Pilihan lengkap modalitas pencitraan sesuai indikasi klinis.</p>" }
+  ]
+}

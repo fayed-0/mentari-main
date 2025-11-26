@@ -1,0 +1,19 @@
+{
+  "slides": [
+    {
+      "src": "/uploads/1763372863985-promo.jpg",
+      "visible": true
+    },
+    {
+      "src": "/uploads/1763372832143-PMI.png",
+      "visible": true
+    }
+  ],
+  "settings": {
+    "autoplay": false,
+    "interval": 10000,
+    "showDots": false
+  },
+  "headerTitle": "Kesehatan Anda Prioritas Utama Kami",
+  "headerDescription": "Layanan kesehatan terpadu dengan dokter profesional & fasilitas modern untuk memberikan yang terbaik bagi Anda dan keluarga"
+}

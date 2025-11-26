@@ -1,0 +1,9 @@
+{
+  "slug": "gawat-darurat",
+  "title": "Layanan Gawat Darurat",
+  "description": "Pelayanan cepat tanggap 24 jam untuk kondisi darurat medis.",
+  "heroImage": "",
+  "sections": [
+    { "id": "emergency", "title": "1. Pelayanan Darurat", "bodyHtml": "<p>Tim medis siaga 24/7 untuk penanganan kegawatdaruratan.</p>" }
+  ]
+}

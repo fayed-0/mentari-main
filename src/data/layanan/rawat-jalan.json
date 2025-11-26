@@ -1,0 +1,18 @@
+{
+  "slug": "rawat-jalan",
+  "title": "Layanan Rawat Jalan – Klinik Umum & Spesialis",
+  "description": "Pemeriksaan, konsultasi, dan tindakan medis harian dengan akses penunjang (lab, radiologi, farmasi) untuk perawatan cepat dan tepat tanpa perlu rawat inap.",
+  "heroImage": "/uploads/1763616771551-asuransi.png",
+  "sections": [
+    {
+      "id": "clinics",
+      "title": "1. asdfghjkl;",
+      "bodyHtml": "<p>Konsultasi dengan dokter umum dan berbagai dokter spesialis.</p>"
+    },
+    {
+      "id": "minor-procedures",
+      "title": "2. asdfghjkl",
+      "bodyHtml": "<p>Tindakan tanpa rawat inap seperti penjahitan luka ringan, nebulisasi, injeksi, dan lainnya.</p>"
+    }
+  ]
+}

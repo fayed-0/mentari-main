@@ -25,36 +25,63 @@ const AdminDashboard: React.FC = () => {
           </div>
           <div className="h-px bg-neutral-200/0" />
           <nav className="flex-1 px-2 flex flex-col gap-4 overflow-y-auto">
+            
             <div>
               <ul className="space-y-1">
                 <li>
-                  <div className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Be_Vietnam_Pro']">
+                  <div className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Open_Sans']">
                     <span className="inline-block size-3 bg-orange-500 rounded-sm" />
                     Dashboard
                   </div>
                 </li>
               </ul>
             </div>
-            <div className="px-4 text-slate-400 text-xs font-medium font-['Be_Vietnam_Pro'] tracking-wide">PAGES</div>
+            <div className="px-4 text-slate-400 text-xs font-medium font-['Open_Sans'] tracking-wide">PAGES</div>
             <div>
               <ul className="space-y-1">
                 <li>
-                  <Link href="/admin/healthcare" className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Be_Vietnam_Pro'] hover:bg-neutral-50">
+                  <Link href="/admin/healthcare" className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Open_Sans'] hover:bg-neutral-50">
                     <span className="inline-block size-3 bg-orange-500 rounded-sm" />
                     Healthcare
                   </Link>
                 </li>
                 <li>
-                  <div className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Be_Vietnam_Pro']">
+                  <div className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Open_Sans']">
                     <span className="inline-block size-3 bg-orange-500 rounded-sm" />
                     Ecommerce
                   </div>
                 </li>
                 <li>
-                  <Link href="/admin/about-us" className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Be_Vietnam_Pro'] hover:bg-neutral-50">
+                  <Link href="/admin/aboutus" className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Open_Sans'] hover:bg-neutral-50">
                     <span className="inline-block size-3 bg-orange-500 rounded-sm" />
                     About Us
                   </Link>
+                </li>
+                <li>
+                  <Link href="/admin/header" className="px-4 py-2.5 rounded-sm flex items-center gap-2 text-black text-sm font-medium font-['Open_Sans'] hover:bg-neutral-50">
+                    <span className="inline-block size-3 bg-orange-500 rounded-sm" />
+                    Header
+                  </Link>
+                </li>
+                {/* Layanan dropdown */}
+                <li>
+                  <details className="group">
+                    <summary className="px-4 py-2.5 rounded-sm flex items-center justify-between gap-2 text-black text-sm font-medium font-['Open_Sans'] cursor-pointer hover:bg-neutral-50 list-none">
+                      <span className="inline-flex items-center gap-2">
+                        <span className="inline-block size-3 bg-orange-500 rounded-sm" />
+                        Layanan
+                      </span>
+                      <span className="text-slate-400 group-open:rotate-180 transition">▾</span>
+                    </summary>
+                    <ul className="mt-1 ml-8 mb-2 space-y-1">
+                      <li><Link href="/admin/layanan/gawat-darurat" className="block px-3 py-1.5 rounded hover:bg-neutral-50 text-sm">Gawat Darurat</Link></li>
+                      <li><Link href="/admin/layanan/rawat-jalan" className="block px-3 py-1.5 rounded hover:bg-neutral-50 text-sm">Rawat Jalan</Link></li>
+                      <li><Link href="/admin/layanan/rawat-inap" className="block px-3 py-1.5 rounded hover:bg-neutral-50 text-sm">Rawat Inap</Link></li>
+                      <li><Link href="/admin/layanan/radiologi" className="block px-3 py-1.5 rounded hover:bg-neutral-50 text-sm">Radiologi</Link></li>
+                      <li><Link href="/admin/layanan/ivf" className="block px-3 py-1.5 rounded hover:bg-neutral-50 text-sm">IVF Morulla</Link></li>
+                      <li><Link href="/admin/layanan/trauma-center" className="block px-3 py-1.5 rounded hover:bg-neutral-50 text-sm">Trauma Center</Link></li>
+                    </ul>
+                  </details>
                 </li>
               </ul>
             </div>

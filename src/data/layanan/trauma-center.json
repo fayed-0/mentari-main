@@ -1,0 +1,13 @@
+{
+  "slug": "trauma-center",
+  "title": "Trauma Center",
+  "description": "Penanganan komprehensif untuk kasus trauma akut dan kronis.",
+  "heroImage": "",
+  "sections": [
+    {
+      "id": "handling",
+      "title": "1. Penanganan Trauma",
+      "bodyHtml": "<p>Tim multidisiplin untuk penanganan trauma yang cepat dan tepat.<br/>-Tim multidisiplin untuk penanganan trauma yang cepat dan tepat</p><p>Tim multidisiplin untuk penanganan trauma yang cepat dan tepat<br/>Tim multidisiplin untuk penanganan trauma yang cepat dan tepat</p>"
+    }
+  ]
+}

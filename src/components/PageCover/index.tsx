@@ -6,37 +6,65 @@ import Asuransi from "./source/asuransi.png";
 import PMI from "./source/PMI.png";
 
 const PageCover = () => {
-  const slides = React.useMemo(
+  const defaultSlides = React.useMemo(
     () => [
-      {
-        src: typeof DonorDarah === 'string' ? DonorDarah : DonorDarah.src,
-        title: "Donor Darah",
-        description: "Berkontribusi untuk sesama dengan mendonorkan darah"
-      },
-      {
-        src: typeof Asuransi === 'string' ? Asuransi : Asuransi.src,
-        title: "Asuransi Kesehatan",
-        description: "Perlindungan lengkap untuk kesehatan Anda dan keluarga"
-      },
-      {
-        src: typeof PMI === 'string' ? PMI : PMI.src,
-        title: "PMI",
-        description: "Palang Merah Indonesia - Melayani dengan hati"
-      }
+      { src: typeof DonorDarah === 'string' ? DonorDarah : DonorDarah.src },
+      { src: typeof Asuransi === 'string' ? Asuransi : Asuransi.src },
+      { src: typeof PMI === 'string' ? PMI : PMI.src },
     ],
     []
   );
+
+  const [slides, setSlides] = React.useState(() => defaultSlides.map(s => ({ src: s.src, visible: true })));
+  const [settings, setSettings] = React.useState<{ autoplay?: boolean; interval?: number; showDots?: boolean }>({ autoplay: true, interval: 10000, showDots: true });
+  const [headerTitle, setHeaderTitle] = React.useState('Kesehatan Anda Prioritas Utama Kami');
+  const [headerDescription, setHeaderDescription] = React.useState('Layanan kesehatan terpadu dengan dokter profesional & fasilitas modern untuk memberikan yang terbaik bagi Anda dan keluarga');
+
+  React.useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/header');
+        if (!res.ok) return; // keep defaults on failure
+        const j = await res.json();
+        if (!mounted) return;
+        if (j?.data?.slides && Array.isArray(j.data.slides) && j.data.slides.length > 0) {
+          setSlides(j.data.slides.map((s: any) => ({ src: String(s.src || ''), visible: typeof s.visible === 'boolean' ? s.visible : true })));
+        }
+        if (j?.data?.settings) setSettings(j.data.settings);
+        if (typeof j?.data?.headerTitle === 'string') setHeaderTitle(j.data.headerTitle);
+        if (typeof j?.data?.headerDescription === 'string') setHeaderDescription(j.data.headerDescription);
+      } catch (e) {
+        // ignore and use default slides
+      }
+    })();
+    return () => { mounted = false; };
+  }, [defaultSlides.length]);
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
+  const visibleSlides = slides.filter(s => s.visible !== false);
+
   React.useEffect(() => {
+    if (!settings.autoplay) return;
+    const dur = Math.max(500, Number(settings.interval || 10000));
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 10000); // durasi slide (10 detik)
+      if (visibleSlides.length === 0) return;
+      setCurrentSlide((prev) => (prev + 1) % visibleSlides.length);
+    }, dur);
     return () => clearInterval(interval);
-  }, [slides.length]);
+  }, [visibleSlides.length, settings.autoplay, settings.interval]);
+
+  // keep currentSlide in-range when visible slides change
+  React.useEffect(() => {
+    if (visibleSlides.length === 0) {
+      setCurrentSlide(0);
+    } else {
+      setCurrentSlide((s) => s % visibleSlides.length);
+    }
+  }, [visibleSlides.length]);
 
   const openModal = (index: number) => {
     setSelectedIndex(index);
@@ -51,11 +79,11 @@ const PageCover = () => {
   };
 
   const nextModal = () => {
-    setSelectedIndex((i) => (i === null ? 0 : (i + 1) % slides.length));
+    setSelectedIndex((i) => (i === null ? 0 : (i + 1) % Math.max(1, visibleSlides.length)));
   };
 
   const prevModal = () => {
-    setSelectedIndex((i) => (i === null ? 0 : (i - 1 + slides.length) % slides.length));
+    setSelectedIndex((i) => (i === null ? 0 : (i - 1 + Math.max(1, visibleSlides.length)) % Math.max(1, visibleSlides.length)));
   };
 
   // Keyboard navigation for modal
@@ -100,15 +128,14 @@ const PageCover = () => {
               {/* Title - Centered for desktop and tablet, left for mobile */}
               <div className="text-left  w-full">
                 <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                  Kesehatan Anda
-                  <span className="block text-orange-600 mt-2">Prioritas Utama Kami</span>
+                  {headerTitle.split(/\s+/).slice(0,3).join(' ')}
+                  <span className="block text-orange-600 mt-2">{headerTitle.split(/\s+/).slice(3).join(' ')}</span>
                 </h1>
               </div>
 
               {/* Description - Hidden on mobile */}
               <p className="hidden md:block text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl ">
-                Layanan kesehatan terpadu dengan dokter profesional & fasilitas modern 
-                untuk memberikan yang terbaik bagi Anda dan keluarga
+                {headerDescription}
               </p>
 
               {/* Search Bar - Hidden on mobile */}
@@ -146,7 +173,7 @@ const PageCover = () => {
               {/* Main Carousel - Rounded 10px */}
               <div className="relative rounded-lg overflow-hidden shadow-2xl bg-white">
                 <div className="aspect-square md:aspect-[4/3] lg:aspect-[5/4] xl:aspect-[6/5] relative">
-                  {slides.map((slide, index) => (
+                  {visibleSlides.map((slide, index) => (
                     <div
                       key={index}
                       className={`absolute inset-0 transition-opacity duration-1000 ${
@@ -155,7 +182,7 @@ const PageCover = () => {
                     >
                       <img
                         src={slide.src}
-                        alt={slide.title}
+                        alt="header-slide"
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -165,7 +192,7 @@ const PageCover = () => {
 
                 {/* Navigation Arrows */}
                 <button
-                  onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
+                  onClick={() => setCurrentSlide((prev) => (prev - 1 + Math.max(1, visibleSlides.length)) % Math.max(1, visibleSlides.length))}
                   className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200"
                   aria-label="Slide sebelumnya"
                 >
@@ -174,7 +201,7 @@ const PageCover = () => {
                   </svg>
                 </button>
                 <button
-                  onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
+                  onClick={() => setCurrentSlide((prev) => (prev + 1) % Math.max(1, visibleSlides.length))}
                   className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200"
                   aria-label="Slide berikutnya"
                 >
@@ -184,26 +211,28 @@ const PageCover = () => {
                 </button>
 
                 {/* Dots Indicator */}
-                <div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                  {slides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`rounded-full transition-all duration-300 ${
-                        index === currentSlide 
-                          ? 'w-3 h-3 bg-orange-500'   // ukuran aktif
-                          : 'w-2 h-2 bg-white/70 hover:bg-white' // ukuran non aktif
-                      }`}
-                      aria-label={`Pergi ke slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
+                {settings.showDots !== false && (
+                  <div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                    {visibleSlides.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`rounded-full transition-all duration-300 ${
+                          index === currentSlide 
+                            ? 'w-3 h-3 bg-orange-500'   // ukuran aktif
+                            : 'w-2 h-2 bg-white/70 hover:bg-white' // ukuran non aktif
+                        }`}
+                        aria-label={`Pergi ke slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
 
               </div>
 
               {/* Thumbnail Gallery - Rounded 10px */}
               <div className="flex gap-4 mt-4 md:mt-6 justify-center">
-                {slides.map((slide, index) => (
+                {visibleSlides.map((slide, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentSlide(index)}
@@ -215,7 +244,7 @@ const PageCover = () => {
                   >
                     <img
                       src={slide.src}
-                      alt={slide.title}
+                      alt="header-slide"
                       className="w-full h-full object-cover"
                     />
                   </button>
@@ -271,15 +300,15 @@ const PageCover = () => {
             {/* Image - Rounded 10px */}
             <div className="relative rounded-lg overflow-hidden bg-white">
               <img
-                src={slides[selectedIndex].src}
-                alt={slides[selectedIndex].title}
+                src={visibleSlides[selectedIndex].src}
+                alt="header-slide"
                 className="w-full h-auto max-h-[70vh] object-contain"
               />
             </div>
 
             {/* Thumbnails - Rounded 10px */}
             <div className="flex gap-3 justify-center mt-4">
-              {slides.map((slide, index) => (
+              {visibleSlides.map((slide, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedIndex(index)}
@@ -291,7 +320,7 @@ const PageCover = () => {
                 >
                   <img
                     src={slide.src}
-                    alt={slide.title}
+                    alt="header-slide"
                     className="w-full h-full object-cover"
                   />
                 </button>

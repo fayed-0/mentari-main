@@ -1,0 +1,57 @@
+{
+  "slug": "rawat-inap",
+  "title": "Layanan Rawat Inap",
+  "description": "Perawatan intensif dengan pilihan kelas kamar dan pelayanan 24 jam.",
+  "heroImage": "",
+  "rooms": [
+    {
+      "id": "suite-1",
+      "title": "Suite | Rp. 2.050.000",
+      "summary": "Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Dining Set, Kitchen Set, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC",
+      "full": "Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Dining Set, Kitchen Set, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC wkwkkwkwkkwwkkwkwkw",
+      "image": "/uploads/1763621360972-donor_darah.png"
+    },
+    {
+      "id": "vvip",
+      "title": "VVIP | Rp. 2.050.000",
+      "summary": "Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas",
+      "full": "Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas",
+      "image": ""
+    },
+    {
+      "id": "vip",
+      "title": "VIP | Rp. 1.200.000",
+      "summary": "Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas Portable",
+      "full": "Tempat Tidur Elektrik, Bed Side Cabinet, Sofa Bed / Sofa, Televisi 40\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC, Kulkas Portable",
+      "image": ""
+    },
+    {
+      "id": "kelas1",
+      "title": "Kelas 1 | Rp. 625.000",
+      "summary": "Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, 2 Televisi 30\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC",
+      "full": "Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, 2 Televisi 30\", Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC",
+      "image": ""
+    },
+    {
+      "id": "kelas2",
+      "title": "Kelas 2 | Rp. 400.000",
+      "summary": "Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30\" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC",
+      "full": "Tempat Tidur Standar (2 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30\" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC",
+      "image": ""
+    },
+    {
+      "id": "kelas3",
+      "title": "Kelas 3 | Rp. 200.000",
+      "summary": "Tempat Tidur Standar (3-4 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30\" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC",
+      "full": "Tempat Tidur Standar (3-4 Pasien per Kamar), Bed Side Cabinet, Sofa Bed / Sofa, Televisi 30\" (Sharing), Kamar Mandi (Water heater), Lemari Pakaian, Ruangan Full AC",
+      "image": ""
+    }
+  ],
+  "sections": [
+    {
+      "id": "intro",
+      "title": "1. Informasi",
+      "bodyHtml": "<p>Tersedia berbagai kelas kamar dengan fasilitas nyaman.</p>"
+    }
+  ]
+}

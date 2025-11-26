@@ -11,44 +11,45 @@ import DermatologyIcon from "./source/dermatology.svg";
 import GynecologyIcon from "./source/gynecology.svg";
 import ArrowIcon from "./source/arrow.svg";
 
-const services = [
-	{
-		id: 1,
-		title: "Pediatri",
-		desc: "Perawatan menyeluruh untuk anak, dari bayi hingga remaja.",
-		icon: BabyIcon,
-	},
-	{
-		id: 2,
-		title: "Ortopedi",
-		desc: "Perawatan untuk gangguan tulang, sendi, dan otot.",
-		icon: BoneIcon,
-	},
-	{
-		id: 3,
-		title: "Kardiologi",
-		desc: "Perawatan jantung dan pembuluh darah yang ahli untuk semua usia.",
-		icon: CardiologyIcon,
-	},
-	{
-		id: 4,
-		title: "Kedokteran Gigi",
-		desc: "Perawatan gigi dan layanan kesehatan mulut yang lengkap.",
-		icon: DentistryIcon,
-	},
-	{
-		id: 5,
-		title: "Dermatologi",
-		desc: "Perawatan kesehatan kulit dan dermatologi kosmetik.",
-		icon: DermatologyIcon,
-	},
-	{
-		id: 6,
-		title: "Kebidanan",
-		desc: "Perawatan kesehatan wanita dan reproduksi yang komprehensif.",
-		icon: GynecologyIcon,
-	},
+const staticServices = [
+  {
+    id: 1,
+    title: "Pediatri",
+    desc: "Perawatan menyeluruh untuk anak, dari bayi hingga remaja.",
+    icon: BabyIcon,
+  },
+  {
+    id: 2,
+    title: "Ortopedi",
+    desc: "Perawatan untuk gangguan tulang, sendi, dan otot.",
+    icon: BoneIcon,
+  },
+  {
+    id: 3,
+    title: "Kardiologi",
+    desc: "Perawatan jantung dan pembuluh darah yang ahli untuk semua usia.",
+    icon: CardiologyIcon,
+  },
+  {
+    id: 4,
+    title: "Kedokteran Gigi",
+    desc: "Perawatan gigi dan layanan kesehatan mulut yang lengkap.",
+    icon: DentistryIcon,
+  },
+  {
+    id: 5,
+    title: "Dermatologi",
+    desc: "Perawatan kesehatan kulit dan dermatologi kosmetik.",
+    icon: DermatologyIcon,
+  },
+  {
+    id: 6,
+    title: "Kebidanan",
+    desc: "Perawatan kesehatan wanita dan reproduksi yang komprehensif.",
+    icon: GynecologyIcon,
+  },
 ];
+
 
 type ViewMoreProps = {
 	size?: "sm" | "md" | "lg";
@@ -69,7 +70,47 @@ const ViewMore = ({ size = "md", className = "", boxed = false }: ViewMoreProps)
 	);
 };
 
+import { useEffect, useState } from 'react';
+
+type ServiceItem = {
+	id: number;
+	title: string;
+	desc?: string;
+	icon?: any;
+	subtitle?: string;
+};
+
 const HealthCare = () => {
+	const [items, setItems] = useState<ServiceItem[] | null>(null);
+
+	useEffect(() => {
+		let mounted = true;
+		(async () => {
+			try {
+				const res = await fetch('/api/healthcare');
+				if (!res.ok) throw new Error('Failed to fetch');
+				const json = await res.json();
+				// Filter out hidden entries so admin "hide" removes them from public view
+				const data: ServiceItem[] = (json.data || [])
+					.filter((d: any) => !d.is_hidden)
+					.map((d: any) => ({
+						id: d.id,
+						title: d.name,
+						subtitle: d.subtitle || '',
+						desc: d.description || '',
+						icon: d.icon || null,
+					}));
+				if (mounted) setItems(data);
+			} catch (e) {
+				// fallback to static
+				if (mounted) setItems(staticServices as any);
+			}
+		})();
+		return () => { mounted = false; };
+	}, []);
+
+	const display = (items ?? staticServices).slice(0, 6);
+
 	return (
 		<section className="w-full bg-stone-50 py-8 sm:py-20 px-4 sm:px-6 md:px-16">
 			{/* Title + View More (Mobile) */}
@@ -103,7 +144,7 @@ const HealthCare = () => {
 
 			{/* Grid Cards */}
 			<div className="max-w-[1272px] mx-auto grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-				{services.map((service) => (
+				{display.map((service: ServiceItem) => (
 					<div
 						key={service.id}
 						className="group bg-white rounded-md border border-zinc-300 p-4 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:bg-orange-500 hover:scale-105 hover:shadow-xl"
@@ -111,7 +152,7 @@ const HealthCare = () => {
 						{/* Icon */}
 						<div className="w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center rounded-md border border-zinc-300 bg-white mb-4 sm:mb-6">
 							<Image
-								src={service.icon}
+								src={service.icon || BabyIcon}
 								alt={service.title}
 								width={24}
 								height={24}
@@ -126,7 +167,7 @@ const HealthCare = () => {
 
 						{/* Description */}
 						<p className="text-xs sm:text-base font-medium text-neutral-600 group-hover:text-white flex-grow">
-							{service.desc}
+							{service.subtitle || service.desc}
 						</p>
 
 						{/* View More */}
